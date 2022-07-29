@@ -1,0 +1,25 @@
+.main-menu {
+  width: 100vw;
+  height: 100vh;
+}
+
+.sidenav {
+  padding: 5px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-nav-list {
+  min-width: 230px;
+}
+
+.mat-nav-list a.active {
+  background: #3f51b531;
+  border-radius: 5px;
+}
+
+.card-router-outlet {
+  margin: 10px;
+}
