@@ -2,3 +2,17 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Spacers and margins */
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.ml-1 {
+  margin-left: .25rem !important;
+}
+
+.ml-2 {
+  margin-left: .5rem !important;
+}
