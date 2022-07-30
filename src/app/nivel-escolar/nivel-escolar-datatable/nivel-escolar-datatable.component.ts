@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { NivelEscolar } from './nivel-escolar.model';
+import { NivelEscolar } from '../nivel-escolar.model';
 
 const ELEMENT_DATA: NivelEscolar[] = [
   { id: 1, "Nível Escolar": 'Hydrogen', created_at: new Date('2022-07-29T09:37'), updated_at: new Date('2022-07-29T09:45') },
@@ -13,11 +13,12 @@ const ELEMENT_DATA: NivelEscolar[] = [
 ];
 
 @Component({
-  selector: 'app-nivel-escolar',
-  templateUrl: './nivel-escolar.component.html',
-  styleUrls: ['./nivel-escolar.component.css']
+  selector: 'app-nivel-escolar-datatable',
+  templateUrl: './nivel-escolar-datatable.component.html',
+  styleUrls: ['./nivel-escolar-datatable.component.css']
 })
-export class NivelEscolarComponent implements AfterViewInit {
+export class NivelEscolarDatatableComponent implements AfterViewInit {
+
   displayedColumns: string[] = ['id', 'Nível Escolar', 'created_at', 'updated_at', 'actions'];
   dataSource: MatTableDataSource<NivelEscolar>;
 

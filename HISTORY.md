@@ -11,5 +11,5 @@ ng g i nivel-escolar/nivel-escolar model
 
 # Controllers & Views
 ng g c instituicao
-ng g c nivel-escolar
+ng g c nivel-escolar/nivel-escolar-datatable
 ```
