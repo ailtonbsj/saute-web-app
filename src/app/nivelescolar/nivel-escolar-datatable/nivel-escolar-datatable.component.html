@@ -12,12 +12,12 @@
   </div>
 </div>
 
-<mat-form-field appearance="standard" matSort>
+<mat-form-field appearance="standard">
   <mat-label>Filtrar por</mat-label>
   <input matInput placeholder="" #input (keyup)="applyFilter($event)">
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource">
+<table mat-table [dataSource]="dataSource" matSort>
 
   <!-- Id Column -->
   <ng-container matColumnDef="id">

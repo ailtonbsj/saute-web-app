@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InstituicaoComponent } from './instituicao/instituicao.component';
-import { NivelEscolarDatatableComponent } from './nivel-escolar/nivel-escolar-datatable/nivel-escolar-datatable.component';
+import { InstituicaoDatatableComponent } from './instituicao/instituicao-datatable/instituicao-datatable.component';
+import { NivelEscolarDatatableComponent } from './nivelescolar/nivel-escolar-datatable/nivel-escolar-datatable.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'nivel-escolar', pathMatch: 'full' },
-  { path: 'nivel-escolar', component: NivelEscolarDatatableComponent },
-  { path: 'instituicao', component: InstituicaoComponent }
+  { path: '', redirectTo: 'nivelescolar', pathMatch: 'full' },
+  { path: 'nivelescolar', component: NivelEscolarDatatableComponent },
+  { path: 'instituicao', component: InstituicaoDatatableComponent }
 ];
 
 @NgModule({

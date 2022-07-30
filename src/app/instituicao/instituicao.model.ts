@@ -1,4 +1,4 @@
-import { NivelEscolar } from "../nivel-escolar/nivel-escolar.model";
+import { NivelEscolar } from "../nivelescolar/nivel-escolar.model";
 
 export interface Instituicao {
   "Instituiçao": string;
@@ -15,3 +15,4 @@ export interface Instituicao {
   Recredenciamento: string;
   "Valor Recredenciamento": number;
 }
+
