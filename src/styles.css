@@ -16,3 +16,30 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ml-2 {
   margin-left: .5rem !important;
 }
+
+/* Flexform helpers */
+
+.flex-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+
+  --width-field: 180px;
+}
+
+.flex-form .mat-form-field {
+  padding: 5px;
+  flex: 1 1 var(--width-field);
+}
+
+.flex-form .ocupy {
+  flex-basis: calc(5 * var(--width-field));
+}
+
+.flex-form .ocupy2 {
+  flex-basis: calc(2 * var(--width-field));
+}
+
+.flex-form .ocupy3 {
+  flex-basis: calc(3 * var(--width-field));
+}
