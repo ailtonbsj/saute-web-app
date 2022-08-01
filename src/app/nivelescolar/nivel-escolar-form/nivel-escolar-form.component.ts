@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HelperService } from 'src/app/shared/helper.service';
 import { NivelEscolar } from '../nivel-escolar.model';
 import { NivelEscolarService } from '../nivel-escolar.service';
 
@@ -21,7 +22,8 @@ export class NivelEscolarFormComponent implements OnInit {
   constructor(
     private service: NivelEscolarService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private snack: HelperService) { }
 
   ngOnInit(): void {
     if (this.route.snapshot.params['id']) {
@@ -48,14 +50,14 @@ export class NivelEscolarFormComponent implements OnInit {
       if (this.entity.id === 0) {
         this.service.store(this.entity).subscribe({
           next: _ => {
-            alert('Inserido com sucesso.');
+            this.snack.alertSnack('Inserido com sucesso.');
             this.router.navigate(['nivelescolar']);
           }
         });
       } else {
         this.service.update(this.entity).subscribe({
           next: _ => {
-            alert('Atualizado com sucesso.');
+            this.snack.alertSnack('Atualizado com sucesso.');
             this.router.navigate(['nivelescolar']);
           }
         });

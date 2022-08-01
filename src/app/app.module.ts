@@ -13,12 +13,14 @@ registerLocaleData(localePT);
 
 import { NivelEscolarDatatableComponent } from './nivelescolar/nivel-escolar-datatable/nivel-escolar-datatable.component';
 import { NivelEscolarFormComponent } from './nivelescolar/nivel-escolar-form/nivel-escolar-form.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NivelEscolarDatatableComponent,
-    NivelEscolarFormComponent
+    NivelEscolarFormComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

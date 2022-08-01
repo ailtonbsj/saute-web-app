@@ -14,4 +14,8 @@ ng g c nivelescolar/nivel-escolar-datatable
 ng g c nivelescolar/nivel-escolar-form
 
 ng g c instituicao/instituicao-datatable
+
+# Shareds
+ng g c shared/confirm-dialog
+ng g s shared/helpers
 ```

@@ -17,7 +17,7 @@ export class NivelEscolarService {
 
   index(): Observable<NivelEscolar[]> {
     return of(this.cache).pipe(
-      delay(1000),
+      delay(300),
       take(1)
     );
   }

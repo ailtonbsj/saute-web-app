@@ -17,8 +17,6 @@
   <input matInput placeholder="" #input (keyup)="applyFilter($event)">
 </mat-form-field>
 
-<mat-progress-bar mode="indeterminate" *ngIf="isLoadingData"></mat-progress-bar>
-
 <table mat-table [dataSource]="dataSource" matSort>
 
   <!-- Id Column -->
@@ -61,5 +59,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoadingData"></mat-progress-bar>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

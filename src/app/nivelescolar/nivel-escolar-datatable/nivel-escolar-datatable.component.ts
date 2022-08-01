@@ -3,6 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { filter, of, switchMap } from 'rxjs';
+import { HelperService } from 'src/app/shared/helper.service';
 import { NivelEscolar } from '../nivel-escolar.model';
 import { NivelEscolarService } from '../nivel-escolar.service';
 
@@ -20,14 +22,13 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
 
-  constructor(private service: NivelEscolarService, private router: Router) {
+  constructor(private service: NivelEscolarService, private router: Router, private helper: HelperService) {
     this.loadDatatable();
   }
 
   loadDatatable() {
     this.service.index().subscribe({
       next: ent => {
-        console.log("ok");
         this.dataSource = new MatTableDataSource(ent);
         if (this.sort.sortables) this.dataSource.sort = this.sort;
         if (this.paginator.page) this.dataSource.paginator = this.paginator;
@@ -51,14 +52,17 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
   }
 
   onDelete(id: number) {
-    if (confirm('Tem certeza?')) {
-      this.service.destroy(id).subscribe({
-        next: _ => {
-          alert('Removido com sucesso!');
-          this.refreshComponent();
-        }
-      });
-    }
+    this.helper.confirmDialog().pipe(
+      filter(res => res),
+      switchMap(res => {
+        return this.service.destroy(id)
+      })
+    ).subscribe({
+      next: _ => {
+        this.helper.alertSnack('Removido com sucesso!');
+        this.refreshComponent();
+      }
+    });
   }
 
   onUpdate(id: number) {
