@@ -1,54 +1,24 @@
 <div class="form-view">
 
   <div class="header-form">
-    <span class="mat-h1">Novo Nível Escolar</span>
+    <span class="mat-h1">{{ formState }} Nível Escolar</span>
   </div>
 
-  <form class="flex-form">
+  <form [formGroup]="form" class="flex-form">
 
     <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput type="email" placeholder="you@mail.com" [formControl]="email">
-      <mat-error *ngIf="email.hasError('email')">
-        Email inválido.
-      </mat-error>
-      <mat-error *ngIf="email.hasError('required')">
-        Email é requerido.
+      <mat-label>Nível Escolar</mat-label>
+      <input matInput type="text" placeholder="Nível Escolar" formControlName="nivelEscolar">
+      <mat-error *ngIf="form.get('nivelEscolar')!.hasError('required')">
+        Campo é requerido.
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>String Input #1</mat-label>
-      <input matInput type="text">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>String Input</mat-label>
-      <input matInput type="text">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>String Input</mat-label>
-      <input matInput type="text">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Select Field</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="ocupy">
-      <mat-label>Textarea Field</mat-label>
-      <textarea matInput></textarea>
-    </mat-form-field>
   </form>
 
   <div class="bottom-form">
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button color="primary">Salvar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
   </div>
 
 </div>

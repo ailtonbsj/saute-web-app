@@ -6,8 +6,11 @@ import { NivelEscolarFormComponent } from './nivelescolar/nivel-escolar-form/niv
 
 const routes: Routes = [
   { path: '', redirectTo: 'nivelescolar', pathMatch: 'full' },
+
   { path: 'nivelescolar', component: NivelEscolarDatatableComponent },
-  { path: 'test', component: NivelEscolarFormComponent },
+  { path: 'nivelescolar/create', component: NivelEscolarFormComponent },
+  { path: 'nivelescolar/:id/edit', component: NivelEscolarFormComponent },
+
   { path: 'instituicao', component: InstituicaoDatatableComponent }
 ];
 

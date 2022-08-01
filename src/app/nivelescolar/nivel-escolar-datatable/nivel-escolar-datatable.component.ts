@@ -2,15 +2,9 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NivelEscolar } from '../nivel-escolar.model';
-
-const ELEMENT_DATA: NivelEscolar[] = [
-  { id: 1, "Nível Escolar": 'Hydrogen', created_at: new Date('2022-07-29T09:37'), updated_at: new Date('2022-07-29T09:45') },
-  { id: 2, "Nível Escolar": 'Helium', created_at: new Date('2022-07-29T09:37'), updated_at: new Date('2022-07-29T09:45') },
-  { id: 3, "Nível Escolar": 'Lithium', created_at: new Date('2022-07-29T09:37'), updated_at: new Date('2022-07-29T09:45') },
-  { id: 4, "Nível Escolar": 'Beryllium', created_at: new Date('2022-07-29T09:37'), updated_at: new Date('2022-07-29T09:45') },
-  { id: 5, "Nível Escolar": 'Boron', created_at: new Date('2022-07-29T09:37'), updated_at: new Date('2022-07-29T09:45') },
-];
+import { NivelEscolarService } from '../nivel-escolar.service';
 
 @Component({
   selector: 'app-nivel-escolar-datatable',
@@ -19,14 +13,14 @@ const ELEMENT_DATA: NivelEscolar[] = [
 })
 export class NivelEscolarDatatableComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['id', 'Nível Escolar', 'created_at', 'updated_at', 'actions'];
-  dataSource: MatTableDataSource<NivelEscolar>;
+  displayedColumns: string[] = ['id', 'nivelEscolar', 'createdAt', 'updatedAt', 'actions'];
+  dataSource: MatTableDataSource<NivelEscolar> = <MatTableDataSource<NivelEscolar>>{};
 
   @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
 
-  constructor() {
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+  constructor(private service: NivelEscolarService, private router: Router) {
+    this.loadDatatable();
   }
 
   ngAfterViewInit() {
@@ -41,6 +35,37 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  loadDatatable() {
+    this.service.index().subscribe({
+      next: ent => {
+        this.dataSource = new MatTableDataSource(ent);
+        if (this.sort.sortables) this.dataSource.sort = this.sort;
+        if (this.paginator.page) this.dataSource.paginator = this.paginator;
+      }
+    });
+  }
+
+  onDelete(id: number) {
+    if (confirm('Tem certeza?')) {
+      this.service.destroy(id).subscribe({
+        next: _ => {
+          alert('Removido com sucesso!');
+          this.refreshComponent();
+        }
+      });
+    }
+  }
+
+  onUpdate(id: number) {
+    this.router.navigate([`nivelescolar/${id}/edit`]);
+  }
+
+  refreshComponent() {
+    this.router.navigateByUrl('instituicao', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['nivelescolar']);
+    });
   }
 
 }

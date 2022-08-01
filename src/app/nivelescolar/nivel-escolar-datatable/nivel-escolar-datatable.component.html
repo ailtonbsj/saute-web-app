@@ -5,7 +5,7 @@
   <mat-divider vertical></mat-divider>
   <span class="toolbar-spacer"></span>
   <div>
-    <button mat-raised-button color="primary" routerLink="/test">Novo Registro</button>
+    <button mat-raised-button color="primary" routerLink="/nivelescolar/create">Novo Registro</button>
     <button mat-raised-button color="accent" class="ml-2">
       <mat-icon>tune</mat-icon>
     </button>
@@ -25,32 +25,32 @@
     <td mat-cell *matCellDef="let element">{{element.id}}</td>
   </ng-container>
 
-  <!-- Nível Escolar Column -->
-  <ng-container matColumnDef="Nível Escolar">
+  <!-- nivelEscolar Column -->
+  <ng-container matColumnDef="nivelEscolar">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nível Escolar</th>
-    <td mat-cell *matCellDef="let element">{{element['Nível Escolar']}}</td>
+    <td mat-cell *matCellDef="let element">{{element.nivelEscolar}}</td>
   </ng-container>
 
-  <!-- created_at Column -->
-  <ng-container matColumnDef="created_at">
+  <!-- createdAt Column -->
+  <ng-container matColumnDef="createdAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Criado em</th>
-    <td mat-cell *matCellDef="let element">{{element.created_at | date : 'short' : '' : 'pt-BR'}}</td>
+    <td mat-cell *matCellDef="let element">{{element.createdAt | date : 'short' : '' : 'pt-BR'}}</td>
   </ng-container>
 
-  <!-- updated_at Column -->
-  <ng-container matColumnDef="updated_at">
+  <!-- updatedAt Column -->
+  <ng-container matColumnDef="updatedAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Atualizado em</th>
-    <td mat-cell *matCellDef="let element">{{element.updated_at | date : 'short' : '' : 'pt-BR'}}</td>
+    <td mat-cell *matCellDef="let element">{{element.updatedAt | date : 'short' : '' : 'pt-BR'}}</td>
   </ng-container>
 
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Ações</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button color="primary">
+      <button mat-icon-button color="primary" (click)="onUpdate(element.id)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="accent">
+      <button mat-icon-button color="accent" (click)="onDelete(element.id)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -60,4 +60,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator [pageSizeOptions]="[3, 10, 25, 100]"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
