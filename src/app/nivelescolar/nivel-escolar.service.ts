@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, take } from 'rxjs';
+import { delay, Observable, of, take } from 'rxjs';
 import { NivelEscolar } from './nivel-escolar.model';
 
 @Injectable({
@@ -16,7 +16,10 @@ export class NivelEscolarService {
   constructor() { }
 
   index(): Observable<NivelEscolar[]> {
-    return of(this.cache).pipe(take(1));
+    return of(this.cache).pipe(
+      delay(1000),
+      take(1)
+    );
   }
 
   store(entity: NivelEscolar): Observable<NivelEscolar> {

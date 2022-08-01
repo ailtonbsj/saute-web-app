@@ -13,14 +13,27 @@ import { NivelEscolarService } from '../nivel-escolar.service';
 })
 export class NivelEscolarDatatableComponent implements AfterViewInit {
 
+  isLoadingData = true;
   displayedColumns: string[] = ['id', 'nivelEscolar', 'createdAt', 'updatedAt', 'actions'];
-  dataSource: MatTableDataSource<NivelEscolar> = <MatTableDataSource<NivelEscolar>>{};
+  dataSource: MatTableDataSource<NivelEscolar> = new MatTableDataSource(<NivelEscolar[]>[]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
 
   constructor(private service: NivelEscolarService, private router: Router) {
     this.loadDatatable();
+  }
+
+  loadDatatable() {
+    this.service.index().subscribe({
+      next: ent => {
+        console.log("ok");
+        this.dataSource = new MatTableDataSource(ent);
+        if (this.sort.sortables) this.dataSource.sort = this.sort;
+        if (this.paginator.page) this.dataSource.paginator = this.paginator;
+        this.isLoadingData = false;
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -35,16 +48,6 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  loadDatatable() {
-    this.service.index().subscribe({
-      next: ent => {
-        this.dataSource = new MatTableDataSource(ent);
-        if (this.sort.sortables) this.dataSource.sort = this.sort;
-        if (this.paginator.page) this.dataSource.paginator = this.paginator;
-      }
-    });
   }
 
   onDelete(id: number) {

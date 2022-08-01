@@ -17,6 +17,8 @@
   <input matInput placeholder="" #input (keyup)="applyFilter($event)">
 </mat-form-field>
 
+<mat-progress-bar mode="indeterminate" *ngIf="isLoadingData"></mat-progress-bar>
+
 <table mat-table [dataSource]="dataSource" matSort>
 
   <!-- Id Column -->
