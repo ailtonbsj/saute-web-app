@@ -8,12 +8,6 @@ import { NivelEscolar } from './nivel-escolar.model';
 })
 export class NivelEscolarService {
 
-  private cache: NivelEscolar[] = [
-    { id: 1, nivelEscolar: 'Hydrogen', createdAt: new Date('2022-07-29T09:37'), updatedAt: new Date('2022-07-29T09:45') },
-    { id: 2, nivelEscolar: 'Helium', createdAt: new Date('2022-07-29T09:37'), updatedAt: new Date('2022-07-29T09:45') },
-    { id: 3, nivelEscolar: 'Lithium', createdAt: new Date('2022-07-29T09:37'), updatedAt: new Date('2022-07-29T09:45') },
-  ];
-
   constructor() {
     db.open();
   }
