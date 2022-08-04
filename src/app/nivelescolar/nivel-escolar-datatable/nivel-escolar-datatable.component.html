@@ -6,14 +6,21 @@
   <span class="toolbar-spacer"></span>
   <div>
     <button mat-raised-button color="primary" routerLink="/nivelescolar/create">Novo Registro</button>
-    <button mat-raised-button color="accent" class="ml-2">
+    <button mat-raised-button color="accent" class="ml-2" [matMenuTriggerFor]="optMenu">
       <mat-icon>tune</mat-icon>
     </button>
+    <mat-menu #optMenu="matMenu">
+      <button mat-menu-item (click)="isEnabledFilter = !isEnabledFilter">
+        <mat-icon>filter_alt</mat-icon>
+        <span>Filtros</span>
+      </button>
+    </mat-menu>
   </div>
 </div>
 
-<mat-form-field appearance="standard">
+<mat-form-field appearance="standard" *ngIf="isEnabledFilter">
   <mat-label>Filtrar por</mat-label>
+  <mat-icon matSuffix>filter_alt</mat-icon>
   <input matInput placeholder="" #input (keyup)="applyFilter($event)">
 </mat-form-field>
 

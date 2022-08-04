@@ -1,7 +1,7 @@
 <div class="form-view">
 
   <div class="header-form">
-    <span class="mat-h1">{{ formState }} Nível Escolar</span>
+    <span class="mat-h1">{{ formMode === 0 ? 'Novo' : 'Editar' }} Nível Escolar</span>
   </div>
 
   <form [formGroup]="form" class="flex-form">
@@ -19,6 +19,7 @@
   <div class="bottom-form">
     <span class="toolbar-spacer"></span>
     <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button (click)="navigateToTable()" class="ml-2">Cancelar</button>
   </div>
 
 </div>

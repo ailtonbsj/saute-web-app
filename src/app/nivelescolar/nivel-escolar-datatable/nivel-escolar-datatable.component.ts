@@ -16,6 +16,7 @@ import { NivelEscolarService } from '../nivel-escolar.service';
 export class NivelEscolarDatatableComponent implements AfterViewInit {
 
   isLoadingData = true;
+  isEnabledFilter = false;
   displayedColumns: string[] = ['id', 'nivelEscolar', 'createdAt', 'updatedAt', 'actions'];
   dataSource: MatTableDataSource<NivelEscolar> = new MatTableDataSource(<NivelEscolar[]>[]);
 
