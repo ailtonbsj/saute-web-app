@@ -1,18 +1,21 @@
 import { NivelEscolar } from "../nivel-escolar/nivel-escolar.model";
 
 export interface Instituicao {
-  "Instituiçao": string;
-  "Nível": NivelEscolar;
-  Endereço: string;
-  "Nº": number;
-  Bairro: string;
-  "Município": string;
-  Email: string;
-  "Dependência": string;
-  Entidade: string;
-  Credenciamento: string;
-  "Valor Credenciamento": number;
-  Recredenciamento: string;
-  "Valor Recredenciamento": number;
+  id?: number
+  instituicao: string
+  nivelEscolar: NivelEscolar
+  endereço: string
+  numero: number
+  bairro: string
+  municipio: string
+  email: string
+  dependencia: string
+  entidade: string
+  credenciamento: string
+  valorCredenciamento: number
+  recredenciamento: string
+  valorRecredenciamento: number
+  createdAt: Date
+  updatedAt: Date
 }
 

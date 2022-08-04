@@ -14,7 +14,6 @@ import { NivelEscolarService } from '../nivel-escolar.service';
 export class NivelEscolarFormComponent implements OnInit {
 
   formMode: FormMode = FormMode.INSERT;
-
   entity: NivelEscolar = <NivelEscolar>{ id: 0 };
 
   form = new FormGroup({

@@ -8,7 +8,10 @@ const routes: Routes = [
     path: 'nivelescolar',
     loadChildren: () => import('./nivel-escolar/nivel-escolar.module').then(m => m.NivelEscolarModule),
   },
-  { path: 'instituicao', component: InstituicaoDatatableComponent },
+  {
+    path: 'instituicao',
+    loadChildren: () => import('./instituicao/instituicao.module').then(m => m.InstituicaoModule)
+  },
   { path: '**', redirectTo: 'instituicao' }
 ];
 

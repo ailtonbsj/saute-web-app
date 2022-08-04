@@ -11,11 +11,11 @@ ng g i nivelescolar/nivel-escolar model
 ng g c nivelescolar/nivel-escolar-datatable
 ng g c nivelescolar/nivel-escolar-form
 
-# Models
+# Module Instituicao
+ng g m instituicao --routing
 ng g i instituicao/instituicao model
-
-# Controllers & Views
 ng g c instituicao/instituicao-datatable
+ng g c instituicao/instituicao-form
 
 # Shareds
 ng g c shared/confirm-dialog

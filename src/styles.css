@@ -43,3 +43,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .flex-form .ocupy3 {
   flex-basis: calc(3 * var(--width-field));
 }
+
+/* Common styles */
+
+.header-form {
+  padding: 5px;
+}
+
+.bottom-form {
+  display: flex;
+  padding: 5px;
+}
