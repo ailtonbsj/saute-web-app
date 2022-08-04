@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InstituicaoDatatableComponent } from './instituicao/instituicao-datatable/instituicao-datatable.component';
-import { NivelEscolarDatatableComponent } from './nivelescolar/nivel-escolar-datatable/nivel-escolar-datatable.component';
-import { NivelEscolarFormComponent } from './nivelescolar/nivel-escolar-form/nivel-escolar-form.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'nivelescolar', pathMatch: 'full' },
-
-  { path: 'nivelescolar', component: NivelEscolarDatatableComponent },
-  { path: 'nivelescolar/create', component: NivelEscolarFormComponent },
-  { path: 'nivelescolar/:id/edit', component: NivelEscolarFormComponent },
-
-  { path: 'instituicao', component: InstituicaoDatatableComponent }
+  { path: '', redirectTo: 'instituicao', pathMatch: 'full' },
+  {
+    path: 'nivelescolar',
+    loadChildren: () => import('./nivel-escolar/nivel-escolar.module').then(m => m.NivelEscolarModule),
+  },
+  { path: 'instituicao', component: InstituicaoDatatableComponent },
+  { path: '**', redirectTo: 'instituicao' }
 ];
 
 @NgModule({

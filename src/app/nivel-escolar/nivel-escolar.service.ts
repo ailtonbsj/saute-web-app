@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, from, Observable, of, take } from 'rxjs';
 import { db } from '../db';
-import { NivelEscolar } from './nivel-escolar.model';
+import { NivelEscolar } from '../nivel-escolar/nivel-escolar.model';
 
 @Injectable({
   providedIn: 'root'

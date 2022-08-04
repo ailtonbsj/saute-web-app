@@ -1,5 +1,5 @@
 import Dexie, { Table } from "dexie";
-import { NivelEscolar } from "./nivelescolar/nivel-escolar.model";
+import { NivelEscolar } from "./nivel-escolar/nivel-escolar.model";
 
 export class AppDB extends Dexie {
   nivelEscolar!: Table<NivelEscolar, number>;
