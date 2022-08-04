@@ -1,5 +1,5 @@
 export interface NivelEscolar {
-  id: number;
+  id?: number;
   nivelEscolar: string;
   createdAt: Date,
   updatedAt: Date

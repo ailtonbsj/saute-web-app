@@ -29,7 +29,7 @@ export class NivelEscolarFormComponent implements OnInit {
     if (this.route.snapshot.params['id']) {
       this.formState = "Editar";
       this.entity.id = this.route.snapshot.params['id'];
-      this.service.show(this.entity.id).subscribe({
+      this.service.show(this.route.snapshot.params['id']).subscribe({
         next: ent => {
           this.entity = ent
           this.form.patchValue(ent);

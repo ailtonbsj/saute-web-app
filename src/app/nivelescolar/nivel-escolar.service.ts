@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of, take } from 'rxjs';
+import { db } from '../db';
 import { NivelEscolar } from './nivel-escolar.model';
 
 @Injectable({
@@ -13,7 +14,9 @@ export class NivelEscolarService {
     { id: 3, nivelEscolar: 'Lithium', createdAt: new Date('2022-07-29T09:37'), updatedAt: new Date('2022-07-29T09:45') },
   ];
 
-  constructor() { }
+  constructor() {
+    db.open();
+  }
 
   index(): Observable<NivelEscolar[]> {
     return of(this.cache).pipe(
@@ -30,13 +33,35 @@ export class NivelEscolarService {
     return of(entity).pipe(take(1));
   }
 
+  // async storeIDB (entity: NivelEscolar) {
+  //   let res;
+  //   try {
+  //     res = await db.nivelEscolar.add(entity);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+
+  //   console.log(res);
+  //   return res;
+  // }
+
+  // store(entity: NivelEscolar): Observable<NivelEscolar> {
+  //   entity.createdAt = new Date();
+  //   entity.updatedAt = new Date();
+  //   this.storeIDB(<NivelEscolar>{
+  //     ...entity,
+  //   });
+  //   return of(entity).pipe(take(1));
+  // }
+
   show(id: number): Observable<NivelEscolar> {
     return of(<NivelEscolar>this.cache.find(ent => ent.id == id)).pipe(take(1));
   }
 
   update(entity: NivelEscolar): Observable<NivelEscolar> {
     entity.updatedAt = new Date();
-    this.destroy(entity.id);
+    if(entity.id) this.destroy(entity.id);
+    else throw Error('Entity without id');
     this.cache.push(entity);
     return of(entity).pipe(take(1));
   }
