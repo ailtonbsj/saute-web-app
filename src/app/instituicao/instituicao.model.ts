@@ -3,8 +3,9 @@ import { NivelEscolar } from "../nivel-escolar/nivel-escolar.model";
 export interface Instituicao {
   id?: number
   instituicao: string
-  nivelEscolar: NivelEscolar
-  endereço: string
+  nivelEscolar?: NivelEscolar
+  nivelEscolarId: number
+  endereco: string
   numero: number
   bairro: string
   municipio: string

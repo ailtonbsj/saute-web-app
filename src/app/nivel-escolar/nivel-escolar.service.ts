@@ -85,8 +85,10 @@ export class NivelEscolarService {
   filter(query: string): Observable<NivelEscolar[]> {
     const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
     // db.nivelEscolar.where('nivelEscolar').startsWithIgnoreCase(text).limit(10).toArray();
-    const queryPromise = db.nivelEscolar.filter(x => new RegExp(text).test(x.nivelEscolar.toLowerCase())).toArray();
-    return from(queryPromise).pipe(delay(500), take(1));
+    const queryPromise = db.nivelEscolar.limit(5).filter(
+      x => new RegExp(text).test(x.nivelEscolar.toLowerCase())
+    ).toArray();
+    return from(queryPromise).pipe(delay(1), take(1));
   }
 
 }

@@ -51,14 +51,14 @@ export class NivelEscolarFormComponent implements OnInit {
         ...this.form.value
       };
       if (this.formMode === FormMode.INSERT) {
-        this.service.store(this.entity).subscribe({
+        this.service.store({ ...this.entity }).subscribe({
           next: _ => {
             this.snack.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
           }
         });
       } else {
-        this.service.update(this.entity).subscribe({
+        this.service.update({ ...this.entity }).subscribe({
           next: _ => {
             this.snack.alertSnack('Atualizado com sucesso.');
             this.navigateToTable();

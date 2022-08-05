@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EMPTY, merge, filter, map, Observable, of, startWith, Subject, switchMap, tap } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
 import { NivelEscolarService } from 'src/app/nivel-escolar/nivel-escolar.service';
 import { FormMode } from 'src/app/shared/form-mode';
+import { HelperService } from 'src/app/shared/helper.service';
 import { Instituicao } from '../instituicao.model';
+import { InstituicaoService } from '../instituicao.service';
 
 @Component({
   selector: 'app-instituicao-form',
@@ -35,9 +38,14 @@ export class InstituicaoFormComponent implements OnInit {
     valorRecredenciamento: new FormControl('', [Validators.required]),
   })
 
-  constructor(private nivelEscolarService: NivelEscolarService) { }
+  constructor(
+    private nivelEscolarService: NivelEscolarService,
+    private instituicaoService: InstituicaoService,
+    private snack: HelperService,
+    private router: Router) { }
 
   ngOnInit(): void {
+    /* Autocomplete NivelEscolar BEGIN */
     const autoComplete = new Subject<NivelEscolar[]>();
     const autoComplete$ = autoComplete.asObservable();
     this.nivelEscolar$ = merge(autoComplete$, this.form.controls.nivelEscolar.valueChanges.pipe(
@@ -47,17 +55,8 @@ export class InstituicaoFormComponent implements OnInit {
       switchMap(val => this.nivelEscolarService.filter(val)),
       tap(() => this.nivelEscolarIsBusy = false)
     ));
-    // this.nivelEscolar$ = merge(
-    //   autoComplete$, this.form.controls.nivelEscolar.valueChanges.pipe(
-    //     tap(val => console.log('val', val.nivelEscolar)),
-    //     filter(val => !this.nivelEscolarIsBusy),
-    //     switchMap(val => {
-    //       this.nivelEscolarIsBusy = true;
-    //       return this.nivelEscolarService.filter(val || '');
-    //     }),
-    //     tap(val => this.nivelEscolarIsBusy = false)
-    //   ));
     this.nivelEscolarService.filter('').subscribe(arr => autoComplete.next(arr));
+    /* Autocomplete NivelEscolar END */
   }
 
   displayFn(data: NivelEscolar): string {
@@ -74,31 +73,33 @@ export class InstituicaoFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.entity);
     if (this.form.valid) {
-      // this.entity = <NivelEscolar>{
-      //   ...this.entity,
-      //   ...this.form.value
-      // };
-      // if (this.formMode === FormMode.INSERT) {
-      //   this.service.store(this.entity).subscribe({
-      //     next: _ => {
-      //       this.snack.alertSnack('Inserido com sucesso.');
-      //       this.navigateToTable();
-      //     }
-      //   });
-      // } else {
-      //   this.service.update(this.entity).subscribe({
-      //     next: _ => {
-      //       this.snack.alertSnack('Atualizado com sucesso.');
-      //       this.navigateToTable();
-      //     }
-      //   });
-      // }
+      this.entity = <Instituicao>{
+        ...this.entity,
+        ...this.form.value,
+      };
+      this.entity.nivelEscolarId = this.entity.nivelEscolar?.id || 0
+      if (this.formMode === FormMode.INSERT) {
+        this.instituicaoService.store({ ...this.entity }).subscribe({
+          next: _ => {
+            this.snack.alertSnack('Inserido com sucesso.');
+            this.navigateToTable();
+          }
+        });
+      } else {
+        // this.service.update(this.entity).subscribe({
+        //   next: _ => {
+        //     this.snack.alertSnack('Atualizado com sucesso.');
+        //     this.navigateToTable();
+        //   }
+        // });
+      }
     } else this.form.markAllAsTouched();
 
   }
 
-  navigateToTable() { }
+  navigateToTable() {
+    this.router.navigate(['instituicao']);
+  }
 
 }
