@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { EMPTY, map, Observable, startWith, tap } from 'rxjs';
+import { EMPTY, merge, filter, map, Observable, of, startWith, Subject, switchMap, tap } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
 import { NivelEscolarService } from 'src/app/nivel-escolar/nivel-escolar.service';
 import { FormMode } from 'src/app/shared/form-mode';
@@ -15,12 +15,13 @@ export class InstituicaoFormComponent implements OnInit {
 
   formMode: FormMode = FormMode.INSERT;
   entity: Instituicao = <Instituicao>{};
-  nivelEscolar: NivelEscolar[] = [];
-  nivelEscolar$: Observable<any> = EMPTY;
+
+  nivelEscolarIsBusy = false;
+  nivelEscolar$: Observable<NivelEscolar[]> = EMPTY;
 
   form = new FormGroup({
     instituicao: new FormControl('', [Validators.required]),
-    nivelEscolar: new FormControl('', [this.autocompleteObjectValidator(), Validators.required]),
+    nivelEscolar: new FormControl('', [Validators.required, this.autocompleteValidator()]),
     endereco: new FormControl('', [Validators.required]),
     numero: new FormControl('', [Validators.required]),
     bairro: new FormControl('', [Validators.required]),
@@ -37,41 +38,64 @@ export class InstituicaoFormComponent implements OnInit {
   constructor(private nivelEscolarService: NivelEscolarService) { }
 
   ngOnInit(): void {
-    this.nivelEscolarService.index().subscribe({
-      next: data => {
-        this.nivelEscolar = data;
-        this.nivelEscolar$ = this.form.get('nivelEscolar')!.valueChanges.pipe(
-          startWith(''),
-          map((value: any) => {
-            const name = typeof value === 'string' ? value : value.nivelEscolar;
-            return name ? this._filter(name as string) : this.nivelEscolar.slice();
-          })
-        );
-      }
-    });
+    const autoComplete = new Subject<NivelEscolar[]>();
+    const autoComplete$ = autoComplete.asObservable();
+    this.nivelEscolar$ = merge(autoComplete$, this.form.controls.nivelEscolar.valueChanges.pipe(
+      filter((value: any) => !value.nivelEscolar),
+      filter(() => !this.nivelEscolarIsBusy),
+      tap(() => this.nivelEscolarIsBusy = true),
+      switchMap(val => this.nivelEscolarService.filter(val)),
+      tap(() => this.nivelEscolarIsBusy = false)
+    ));
+    // this.nivelEscolar$ = merge(
+    //   autoComplete$, this.form.controls.nivelEscolar.valueChanges.pipe(
+    //     tap(val => console.log('val', val.nivelEscolar)),
+    //     filter(val => !this.nivelEscolarIsBusy),
+    //     switchMap(val => {
+    //       this.nivelEscolarIsBusy = true;
+    //       return this.nivelEscolarService.filter(val || '');
+    //     }),
+    //     tap(val => this.nivelEscolarIsBusy = false)
+    //   ));
+    this.nivelEscolarService.filter('').subscribe(arr => autoComplete.next(arr));
   }
 
-  private _filter(name: string): NivelEscolar[] {
-    const filterValue = name.toLowerCase();
-
-    return this.nivelEscolar.filter(option => option.nivelEscolar.toLowerCase().includes(filterValue));
+  displayFn(data: NivelEscolar): string {
+    return data && data.nivelEscolar ? data.nivelEscolar : '';
   }
 
-  displayFn(user: NivelEscolar): string {
-    return user && user.nivelEscolar ? user.nivelEscolar : '';
-  }
-
-  autocompleteObjectValidator(): ValidatorFn {
+  autocompleteValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (typeof control.value === 'string') {
-        return { 'invalidAutocompleteObject': { value: control.value } }
+        return { 'invalidAutocomplete': { value: control.value } }
       }
       return null  /* valid option selected */
     }
   }
 
   onSubmit() {
-    console.log(this.form);
+    console.log(this.entity);
+    if (this.form.valid) {
+      // this.entity = <NivelEscolar>{
+      //   ...this.entity,
+      //   ...this.form.value
+      // };
+      // if (this.formMode === FormMode.INSERT) {
+      //   this.service.store(this.entity).subscribe({
+      //     next: _ => {
+      //       this.snack.alertSnack('Inserido com sucesso.');
+      //       this.navigateToTable();
+      //     }
+      //   });
+      // } else {
+      //   this.service.update(this.entity).subscribe({
+      //     next: _ => {
+      //       this.snack.alertSnack('Atualizado com sucesso.');
+      //       this.navigateToTable();
+      //     }
+      //   });
+      // }
+    } else this.form.markAllAsTouched();
 
   }
 

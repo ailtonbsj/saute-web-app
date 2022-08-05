@@ -47,7 +47,7 @@ export class NivelEscolarService {
   show(id: number): Observable<NivelEscolar> {
     return from(
       db.nivelEscolar.get(parseInt('' + id)).then(ent => {
-        return ent ? ent: <NivelEscolar>{};
+        return ent ? ent : <NivelEscolar>{};
       })
     ).pipe(take(1));
   }
@@ -80,6 +80,13 @@ export class NivelEscolarService {
 
   destroy(id: number): Observable<void> {
     return from(db.nivelEscolar.delete(id)).pipe(take(1));
+  }
+
+  filter(query: string): Observable<NivelEscolar[]> {
+    const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
+    // db.nivelEscolar.where('nivelEscolar').startsWithIgnoreCase(text).limit(10).toArray();
+    const queryPromise = db.nivelEscolar.filter(x => new RegExp(text).test(x.nivelEscolar.toLowerCase())).toArray();
+    return from(queryPromise).pipe(delay(500), take(1));
   }
 
 }

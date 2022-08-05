@@ -16,19 +16,20 @@
 
     <mat-form-field>
       <mat-label>Nível Escolar</mat-label>
-      <input matInput type="text" placeholder="Nível Escolar" formControlName="nivelEscolar" [matAutocomplete]="nivelEscolar">
-      <mat-autocomplete autoActiveFirstOption #nivelEscolar="matAutocomplete" [displayWith]="displayFn">
+      <input type="text" placeholder="Nível Escolar" matInput formControlName="nivelEscolar" [matAutocomplete]="autoComplete">
+
+      <mat-autocomplete autoActiveFirstOption #autoComplete="matAutocomplete" [displayWith]="displayFn">
         <mat-option *ngFor="let option of nivelEscolar$ | async" [value]="option">
-          {{option.nivelEscolar }}
+          {{ option.nivelEscolar }}
         </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="form.get('nivelEscolar')!.hasError('required')">
+
+      <mat-error *ngIf="form.controls.nivelEscolar.hasError('required')">
         Campo é requerido.
       </mat-error>
-      <mat-error *ngIf="!form.get('nivelEscolar')!.hasError('required') && form.get('nivelEscolar')!.hasError('invalidAutocompleteObject')">
+      <mat-error *ngIf="!form.controls.nivelEscolar.hasError('required') && form.controls.nivelEscolar.hasError('invalidAutocomplete')">
         Valor selecionado é inválido.
       </mat-error>
-
     </mat-form-field>
 
     <mat-form-field class="ocupy2">
