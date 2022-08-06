@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EMPTY, merge, filter, map, Observable, of, startWith, Subject, switchMap, tap } from 'rxjs';
+import { EMPTY, merge, filter, Observable, Subject, switchMap, tap, of } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
 import { NivelEscolarService } from 'src/app/nivel-escolar/nivel-escolar.service';
+import { BrazilCity, BrazilState } from 'src/app/shared/brazil-info';
+import { BrazilInfoService } from 'src/app/shared/brazil-info.service';
+import { CustomValidators } from 'src/app/shared/custom-validators';
 import { FormMode } from 'src/app/shared/form-mode';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Instituicao } from '../instituicao.model';
@@ -19,19 +22,22 @@ export class InstituicaoFormComponent implements OnInit {
   formMode: FormMode = FormMode.INSERT;
   entity: Instituicao = <Instituicao>{};
 
+  displayAuto = HelperService.displayAuto;
   nivelEscolarIsBusy = false;
   nivelEscolar$: Observable<NivelEscolar[]> = EMPTY;
+  ufs$: Observable<BrazilState[]> = EMPTY;
+  municipios$: Observable<BrazilCity[]> = EMPTY;
 
   form = this.fb.group({
     instituicao: ['', Validators.required],
-    nivelEscolar: ['', [Validators.required, this.autocompleteValidator()]], //['', Validators.required, this.autocompleteValidator()]
+    nivelEscolar: ['', [Validators.required, CustomValidators.autocompleteValidator()]],
     endereco: this.fb.group({
       cep: [''],
       rua: ['', Validators.required],
       numero: [''],
       bairro: ['', Validators.required],
-      municipio: ['', Validators.required],
-      uf: ['', Validators.required],
+      municipio: ['', [Validators.required, CustomValidators.autocompleteValidator()]],
+      uf: ['', [Validators.required, CustomValidators.autocompleteValidator()]],
     }),
     email: ['', [Validators.required, Validators.email]],
     dependencia: ['', Validators.required],
@@ -46,11 +52,11 @@ export class InstituicaoFormComponent implements OnInit {
     private fb: FormBuilder,
     private nivelEscolarService: NivelEscolarService,
     private instituicaoService: InstituicaoService,
-    private snack: HelperService,
-    private router: Router) { }
+    private helper: HelperService,
+    private router: Router,
+    private brInfo: BrazilInfoService) { }
 
   ngOnInit(): void {
-    /* Autocomplete NivelEscolar BEGIN */
     const autoComplete = new Subject<NivelEscolar[]>();
     const autoComplete$ = autoComplete.asObservable();
     this.nivelEscolar$ = merge(autoComplete$, this.form.controls.nivelEscolar.valueChanges.pipe(
@@ -61,23 +67,22 @@ export class InstituicaoFormComponent implements OnInit {
       tap(() => this.nivelEscolarIsBusy = false)
     ));
     this.nivelEscolarService.filter('').subscribe(arr => autoComplete.next(arr));
-    /* Autocomplete NivelEscolar END */
-  }
 
-  displayFn(data: NivelEscolar): string {
-    return data && data.nivelEscolar ? data.nivelEscolar : '';
-  }
+    this.ufs$ = this.brInfo.getStates();
 
-  autocompleteValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      if (typeof control.value === 'string') {
-        return { 'invalidAutocomplete': { value: control.value } }
-      }
-      return null  /* valid option selected */
-    }
+    this.municipios$ = this.form.controls.endereco.controls.municipio.valueChanges.pipe(
+      filter((value: any) => !value.nome),
+      switchMap(val => {
+        const municipio = <BrazilCity | null>this.form.controls.endereco.controls.uf.value;
+        const municipioId = municipio ? '' + municipio.id : undefined;
+        return this.brInfo.filterCities(val, municipioId);
+      }),
+    );
   }
 
   onSubmit() {
+    console.log(this.form.value);
+
     if (this.form.valid) {
       this.entity = <Instituicao>{
         ...this.entity,
@@ -87,7 +92,7 @@ export class InstituicaoFormComponent implements OnInit {
       if (this.formMode === FormMode.INSERT) {
         this.instituicaoService.store({ ...this.entity }).subscribe({
           next: _ => {
-            this.snack.alertSnack('Inserido com sucesso.');
+            this.helper.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
           }
         });

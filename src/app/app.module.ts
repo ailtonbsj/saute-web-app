@@ -12,6 +12,7 @@ registerLocaleData(localePT);
 
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 import { MaterialModule } from './material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MaterialModule } from './material.module';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

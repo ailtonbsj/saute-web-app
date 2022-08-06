@@ -19,7 +19,8 @@
       <input type="text" placeholder="Nível Escolar" matInput formControlName="nivelEscolar"
         [matAutocomplete]="autoComplete">
 
-      <mat-autocomplete autoActiveFirstOption #autoComplete="matAutocomplete" [displayWith]="displayFn">
+      <mat-autocomplete autoActiveFirstOption #autoComplete="matAutocomplete"
+        [displayWith]="displayAuto('nivelEscolar')">
         <mat-option *ngFor="let option of nivelEscolar$ | async" [value]="option">
           {{ option.nivelEscolar }}
         </mat-option>
@@ -63,18 +64,40 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Município</mat-label>
-        <input matInput type="text" placeholder="Município" formControlName="municipio">
-        <mat-error *ngIf="form.controls.endereco.controls.municipio.hasError('required')">
+        <mat-label>Estado</mat-label>
+
+        <input matInput type="text" placeholder="Estado" formControlName="uf" [matAutocomplete]="autoUf">
+        <mat-autocomplete autoActiveFirstOption #autoUf="matAutocomplete" [displayWith]="displayAuto('nome')">
+          <mat-option *ngFor="let option of ufs$ | async" [value]="option">
+            {{ option.nome }}
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-error *ngIf="form.controls.endereco.controls.uf.hasError('required')">
           Campo é requerido.
+        </mat-error>
+        <mat-error
+          *ngIf="!form.controls.endereco.controls.uf.hasError('required') && form.controls.endereco.controls.uf.hasError('invalidAutocomplete')">
+          Valor selecionado é inválido.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Estado</mat-label>
-        <input matInput type="text" placeholder="Estado" formControlName="uf">
-        <mat-error *ngIf="form.controls.endereco.controls.uf.hasError('required')">
+        <mat-label>Município</mat-label>
+        <input matInput type="text" placeholder="Município" formControlName="municipio"
+          [matAutocomplete]="autoMunicipio">
+        <mat-autocomplete autoActiveFirstOption #autoMunicipio="matAutocomplete" [displayWith]="displayAuto('nome')">
+          <mat-option *ngFor="let option of municipios$ | async" [value]="option">
+            {{ option.nome }}
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-error *ngIf="form.controls.endereco.controls.municipio.hasError('required')">
           Campo é requerido.
+        </mat-error>
+        <mat-error
+          *ngIf="!form.controls.endereco.controls.municipio.hasError('required') && form.controls.endereco.controls.municipio.hasError('invalidAutocomplete')">
+          Valor selecionado é inválido.
         </mat-error>
       </mat-form-field>
 

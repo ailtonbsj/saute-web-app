@@ -33,4 +33,9 @@ export class HelperService {
     // });
   }
 
+  /* Helpers for <mat-autocomplete> */
+  static displayAuto(property: string) {
+    return (data: any) => data && data[property] ? data[property] : '';
+  }
+
 }
