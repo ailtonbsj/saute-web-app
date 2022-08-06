@@ -9,14 +9,15 @@
     <mat-form-field class="ocupy3">
       <mat-label>Instituição</mat-label>
       <input matInput type="text" placeholder="Instituição" formControlName="instituicao">
-      <mat-error *ngIf="form.get('instituicao')!.hasError('required')">
+      <mat-error *ngIf="form.controls.instituicao.hasError('required')">
         Campo é requerido.
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Nível Escolar</mat-label>
-      <input type="text" placeholder="Nível Escolar" matInput formControlName="nivelEscolar" [matAutocomplete]="autoComplete">
+      <input type="text" placeholder="Nível Escolar" matInput formControlName="nivelEscolar"
+        [matAutocomplete]="autoComplete">
 
       <mat-autocomplete autoActiveFirstOption #autoComplete="matAutocomplete" [displayWith]="displayFn">
         <mat-option *ngFor="let option of nivelEscolar$ | async" [value]="option">
@@ -27,42 +28,57 @@
       <mat-error *ngIf="form.controls.nivelEscolar.hasError('required')">
         Campo é requerido.
       </mat-error>
-      <mat-error *ngIf="!form.controls.nivelEscolar.hasError('required') && form.controls.nivelEscolar.hasError('invalidAutocomplete')">
+      <mat-error
+        *ngIf="!form.controls.nivelEscolar.hasError('required') && form.controls.nivelEscolar.hasError('invalidAutocomplete')">
         Valor selecionado é inválido.
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="ocupy2">
-      <mat-label>Endereço</mat-label>
-      <input matInput type="text" placeholder="Endereço" formControlName="endereco">
-      <mat-error *ngIf="form.get('endereco')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+    <fieldset class="ocupy flex-form" formGroupName="endereco">
 
-    <mat-form-field>
-      <mat-label>Número</mat-label>
-      <input matInput type="number" placeholder="Número" formControlName="numero">
-      <mat-error *ngIf="form.get('numero')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>CEP</mat-label>
+        <input matInput type="number" placeholder="CEP" formControlName="cep">
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Bairro</mat-label>
-      <input matInput type="text" placeholder="Bairro" formControlName="bairro">
-      <mat-error *ngIf="form.get('bairro')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field class="ocupy3">
+        <mat-label>Rua</mat-label>
+        <input matInput type="text" placeholder="Rua, avenida, logradouro, etc." formControlName="rua">
+        <mat-error *ngIf="form.controls.endereco.controls.rua.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Município</mat-label>
-      <input matInput type="text" placeholder="Município" formControlName="municipio">
-      <mat-error *ngIf="form.get('municipio')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Número</mat-label>
+        <input matInput type="number" placeholder="Número" formControlName="numero">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Bairro</mat-label>
+        <input matInput type="text" placeholder="Bairro" formControlName="bairro">
+        <mat-error *ngIf="form.controls.endereco.controls.bairro.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Município</mat-label>
+        <input matInput type="text" placeholder="Município" formControlName="municipio">
+        <mat-error *ngIf="form.controls.endereco.controls.municipio.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Estado</mat-label>
+        <input matInput type="text" placeholder="Estado" formControlName="uf">
+        <mat-error *ngIf="form.controls.endereco.controls.uf.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
+
+    </fieldset>
 
     <mat-form-field class="ocupy2">
       <mat-label>E-mail</mat-label>
@@ -91,37 +107,41 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Credenciamento</mat-label>
-      <input matInput type="text" placeholder="Credenciamento" formControlName="credenciamento">
-      <mat-error *ngIf="form.get('credenciamento')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+    <fieldset class="ocupy flex-form">
 
-    <mat-form-field>
-      <mat-label>Valor Credenciamento</mat-label>
-      <input matInput type="number" placeholder="Valor Credenciamento" formControlName="valorCredenciamento">
-      <mat-error *ngIf="form.get('valorCredenciamento')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Credenciamento</mat-label>
+        <input matInput type="text" placeholder="Credenciamento" formControlName="credenciamento">
+        <mat-error *ngIf="form.get('credenciamento')!.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Recredenciamento</mat-label>
-      <input matInput type="text" placeholder="Recredenciamento" formControlName="recredenciamento">
-      <mat-error *ngIf="form.get('recredenciamento')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Valor Credenciamento</mat-label>
+        <input matInput type="number" placeholder="Valor Credenciamento" formControlName="valorCredenciamento">
+        <mat-error *ngIf="form.get('valorCredenciamento')!.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Valor Recredenciamento</mat-label>
-      <input matInput type="number" placeholder="Valor Recredenciamento" formControlName="valorRecredenciamento">
-      <mat-error *ngIf="form.get('valorRecredenciamento')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Recredenciamento</mat-label>
+        <input matInput type="text" placeholder="Recredenciamento" formControlName="recredenciamento">
+        <mat-error *ngIf="form.get('recredenciamento')!.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Valor Recredenciamento</mat-label>
+        <input matInput type="number" placeholder="Valor Recredenciamento" formControlName="valorRecredenciamento">
+        <mat-error *ngIf="form.get('valorRecredenciamento')!.hasError('required')">
+          Campo é requerido.
+        </mat-error>
+      </mat-form-field>
+
+    </fieldset>
 
   </form>
 

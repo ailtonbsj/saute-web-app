@@ -2,20 +2,13 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+fieldset { margin: 0; padding: 0; border: 0; }
 
 /* Spacers and margins */
 
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-.ml-1 {
-  margin-left: .25rem !important;
-}
-
-.ml-2 {
-  margin-left: .5rem !important;
-}
+.toolbar-spacer { flex: 1 1 auto; }
+.ml-1 { margin-left: .25rem !important; }
+.ml-2 { margin-left: .5rem !important; }
 
 /* Flexform helpers */
 
@@ -27,7 +20,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --width-field: 180px;
 }
 
-.flex-form .mat-form-field {
+.flex-form .mat-form-field, .flex-form fieldset {
   padding: 5px;
   flex: 1 1 var(--width-field);
 }

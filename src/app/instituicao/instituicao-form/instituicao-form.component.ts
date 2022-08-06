@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EMPTY, merge, filter, map, Observable, of, startWith, Subject, switchMap, tap } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
@@ -22,23 +22,28 @@ export class InstituicaoFormComponent implements OnInit {
   nivelEscolarIsBusy = false;
   nivelEscolar$: Observable<NivelEscolar[]> = EMPTY;
 
-  form = new FormGroup({
-    instituicao: new FormControl('', [Validators.required]),
-    nivelEscolar: new FormControl('', [Validators.required, this.autocompleteValidator()]),
-    endereco: new FormControl('', [Validators.required]),
-    numero: new FormControl('', [Validators.required]),
-    bairro: new FormControl('', [Validators.required]),
-    municipio: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    dependencia: new FormControl('', [Validators.required]),
-    entidade: new FormControl('', [Validators.required]),
-    credenciamento: new FormControl('', [Validators.required]),
-    valorCredenciamento: new FormControl('', [Validators.required]),
-    recredenciamento: new FormControl('', [Validators.required]),
-    valorRecredenciamento: new FormControl('', [Validators.required]),
+  form = this.fb.group({
+    instituicao: ['', Validators.required],
+    nivelEscolar: ['', [Validators.required, this.autocompleteValidator()]], //['', Validators.required, this.autocompleteValidator()]
+    endereco: this.fb.group({
+      cep: [''],
+      rua: ['', Validators.required],
+      numero: [''],
+      bairro: ['', Validators.required],
+      municipio: ['', Validators.required],
+      uf: ['', Validators.required],
+    }),
+    email: ['', [Validators.required, Validators.email]],
+    dependencia: ['', Validators.required],
+    entidade: ['', Validators.required],
+    credenciamento: ['', Validators.required],
+    valorCredenciamento: ['', Validators.required],
+    recredenciamento: ['', Validators.required],
+    valorRecredenciamento: ['', Validators.required],
   })
 
   constructor(
+    private fb: FormBuilder,
     private nivelEscolarService: NivelEscolarService,
     private instituicaoService: InstituicaoService,
     private snack: HelperService,

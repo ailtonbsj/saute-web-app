@@ -5,10 +5,14 @@ export interface Instituicao {
   instituicao: string
   nivelEscolar?: NivelEscolar
   nivelEscolarId: number
-  endereco: string
-  numero: number
-  bairro: string
-  municipio: string
+  endereco: {
+    rua: string
+    numero?: number
+    bairro: string
+    municipio: string
+    uf: string
+    cep: number
+  }
   email: string
   dependencia: string
   entidade: string
