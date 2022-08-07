@@ -14,31 +14,27 @@ export class InstituicaoService {
   }
 
   index(): Observable<Instituicao[]> {
-    /* Promises vs Observables */
+    /* With Promise */
     // let instituicoes: Instituicao[];
     // const promise = db.instituicao.toArray()
-    //   .then(val => {
-    //     instituicoes = val;
-    //     return val.map(i => i.nivelEscolarId);
-    //   })
+    //   .then(arr => { instituicoes = arr; return arr })
+    //   .then(arr => arr.map(i => i.nivelEscolarId))
     //   .then(keys => db.nivelEscolar.bulkGet(keys))
-    //   .then(nivelEscolares => instituicoes.map(i => {
-    //     i.nivelEscolar = nivelEscolares.find(v => v?.id === i.nivelEscolarId);
-    //     return i
-    //   }));
+    //   .then(niveis => instituicoes.map(
+    //     i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
+    //   ))
     // return from(promise).pipe(delay(1), take(1));
 
+    /* With Observable */
     let instituicoes: Instituicao[];
-    let niveis: NivelEscolar[];
     return from(db.instituicao.toArray()).pipe(
       tap(arr => instituicoes = arr),
       map(arr => arr.map(i => i.nivelEscolarId)),
       switchMap(keys => from(db.nivelEscolar.bulkGet(keys))),
-      tap(arr => niveis = <NivelEscolar[]>arr),
-      switchMap(_ => from(instituicoes)),
-      map(i => ({ ...i, nivelEscolar: niveis.find(v => v?.id === i.nivelEscolarId) })),
-      reduce((acc: Instituicao[], one: Instituicao) => acc.concat([one]), []),
-      take(1)
+      map(niveis => instituicoes.map(
+        i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
+      )),
+      delay(1), take(1)
     );
   }
 
