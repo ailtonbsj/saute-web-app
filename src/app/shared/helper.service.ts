@@ -28,14 +28,16 @@ export class HelperService {
       data: dialogData
     });
     return dialogRef.afterClosed()
-    // dialogRef.afterClosed().subscribe(dialogResult => {
-    //   this.result = dialogResult;
-    // });
   }
 
-  /* Helpers for <mat-autocomplete> */
+  /* Helpers for <mat-autocomplete> (Use in [DisplayWith]) */
   static displayAuto(property: string) {
     return (data: any) => data && data[property] ? data[property] : '';
+  }
+
+  /* Helpers for MatTableDataSource (Use in sortingDataAccessor property) */
+  static nestedSortingDataAccessor(i: any, p: any) {
+    return p.split('.').reduce((o: any, p: any) => o && o[p], i);
   }
 
 }

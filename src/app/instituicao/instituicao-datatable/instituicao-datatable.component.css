@@ -1,0 +1,17 @@
+.header-view {
+  display: flex;
+  align-items: center;
+}
+
+.header-view .mat-divider[vertical] {
+  height: 45px;
+  margin: 0 10px;
+}
+
+table[mat-table] {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}

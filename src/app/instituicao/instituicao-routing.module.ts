@@ -5,7 +5,7 @@ import { InstituicaoDatatableComponent } from './instituicao-datatable/instituic
 import { InstituicaoFormComponent } from './instituicao-form/instituicao-form.component';
 
 const routes: Routes = [
-  { path: '', component: InstituicaoFormComponent },
+  { path: '', component: InstituicaoDatatableComponent },
   { path: 'create', component: InstituicaoFormComponent },
   { path: ':id/edit', component: InstituicaoFormComponent },
 ];

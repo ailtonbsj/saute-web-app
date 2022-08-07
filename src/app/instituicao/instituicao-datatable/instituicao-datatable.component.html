@@ -1,3 +1,155 @@
-<p>
-  instituicao-datatable works!
-</p>
+<div class="header-view">
+  <div>
+    <span class="mat-h1">Instituição</span>
+  </div>
+  <mat-divider vertical></mat-divider>
+  <span class="toolbar-spacer"></span>
+  <div>
+    <button mat-raised-button color="primary" routerLink="/instituicao/create">Novo Registro</button>
+    <button mat-raised-button color="accent" class="ml-2" [matMenuTriggerFor]="optMenu">
+      <mat-icon>tune</mat-icon>
+    </button>
+    <mat-menu #optMenu="matMenu">
+      <button mat-menu-item (click)="isEnabledFilter = !isEnabledFilter">
+        <mat-icon>filter_alt</mat-icon>
+        <span>Filtros</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
+
+<mat-form-field appearance="standard" *ngIf="isEnabledFilter">
+  <mat-label>Filtrar por</mat-label>
+  <mat-icon matSuffix>filter_alt</mat-icon>
+  <input matInput placeholder="" #input (keyup)="applyFilter($event)">
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort>
+
+  <!-- Id Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+    <td mat-cell *matCellDef="let element">{{element.id}}</td>
+  </ng-container>
+
+  <!-- instituicao Column -->
+  <ng-container matColumnDef="instituicao">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Instituição</th>
+    <td mat-cell *matCellDef="let element">{{element.instituicao}}</td>
+  </ng-container>
+
+  <!-- nivelEscolar Column -->
+  <ng-container matColumnDef="nivelEscolar.nivelEscolar">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nível Escolar</th>
+    <td mat-cell *matCellDef="let element">{{element.nivelEscolar.nivelEscolar}}</td>
+  </ng-container>
+
+  <!-- rua Column -->
+  <ng-container matColumnDef="endereco.rua">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rua</th>
+    <td mat-cell *matCellDef="let element">{{element.endereco.rua}}</td>
+  </ng-container>
+
+  <!-- numero Column -->
+  <ng-container matColumnDef="endereco.numero">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Número</th>
+    <td mat-cell *matCellDef="let element">{{element.endereco.numero}}</td>
+  </ng-container>
+
+  <!-- bairro Column -->
+  <ng-container matColumnDef="endereco.bairro">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bairro</th>
+    <td mat-cell *matCellDef="let element">{{element.endereco.bairro}}</td>
+  </ng-container>
+
+  <!-- uf Column -->
+  <ng-container matColumnDef="endereco.uf">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+    <td mat-cell *matCellDef="let element">{{element.endereco.uf}}</td>
+  </ng-container>
+
+  <!-- municipio Column -->
+  <ng-container matColumnDef="endereco.municipio">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Município</th>
+    <td mat-cell *matCellDef="let element">{{element.endereco.municipio}}</td>
+  </ng-container>
+
+  <!-- cep Column -->
+  <ng-container matColumnDef="endereco.cep">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>CEP</th>
+    <td mat-cell *matCellDef="let element">{{element.endereco.cep}}</td>
+  </ng-container>
+
+  <!-- email Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>E-mail</th>
+    <td mat-cell *matCellDef="let element">{{element.email}}</td>
+  </ng-container>
+
+  <!-- dependencia Column -->
+  <ng-container matColumnDef="dependencia">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Dependência</th>
+    <td mat-cell *matCellDef="let element">{{element.dependencia}}</td>
+  </ng-container>
+
+  <!-- entidade Column -->
+  <ng-container matColumnDef="entidade">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Entidade</th>
+    <td mat-cell *matCellDef="let element">{{element.entidade}}</td>
+  </ng-container>
+
+  <!-- credenciamento Column -->
+  <ng-container matColumnDef="credenciamento">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Credenciamento</th>
+    <td mat-cell *matCellDef="let element">{{element.credenciamento}}</td>
+  </ng-container>
+
+  <!-- valorCredenciamento Column -->
+  <ng-container matColumnDef="valorCredenciamento">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor credenciamento</th>
+    <td mat-cell *matCellDef="let element">{{element.valorCredenciamento}}</td>
+  </ng-container>
+
+  <!-- recredenciamento Column -->
+  <ng-container matColumnDef="recredenciamento">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Recredenciamento</th>
+    <td mat-cell *matCellDef="let element">{{element.recredenciamento}}</td>
+  </ng-container>
+
+  <!-- valorRecredenciamento Column -->
+  <ng-container matColumnDef="valorRecredenciamento">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor recredenciamento</th>
+    <td mat-cell *matCellDef="let element">{{element.valorRecredenciamento}}</td>
+  </ng-container>
+
+  <!-- createdAt Column -->
+  <ng-container matColumnDef="createdAt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Criado em</th>
+    <td mat-cell *matCellDef="let element">{{element.createdAt | date : 'short' : '' : 'pt-BR'}}</td>
+  </ng-container>
+
+  <!-- updatedAt Column -->
+  <ng-container matColumnDef="updatedAt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Atualizado em</th>
+    <td mat-cell *matCellDef="let element">{{element.updatedAt | date : 'short' : '' : 'pt-BR'}}</td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Ações</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" (click)="onUpdate(element.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="onDelete(element.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoadingData"></mat-progress-bar>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10"></mat-paginator>

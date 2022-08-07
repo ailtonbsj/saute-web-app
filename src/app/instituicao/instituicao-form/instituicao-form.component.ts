@@ -81,14 +81,12 @@ export class InstituicaoFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value);
-
     if (this.form.valid) {
       this.entity = <Instituicao>{
         ...this.entity,
         ...this.form.value,
       };
-      this.entity.nivelEscolarId = this.entity.nivelEscolar?.id || 0
+      this.entity.nivelEscolarId = this.entity.nivelEscolar?.id || 0;
       if (this.formMode === FormMode.INSERT) {
         this.instituicaoService.store({ ...this.entity }).subscribe({
           next: _ => {

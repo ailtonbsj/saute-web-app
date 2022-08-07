@@ -5,11 +5,12 @@ import { InstituicaoRoutingModule } from './instituicao-routing.module';
 import { InstituicaoFormComponent } from './instituicao-form/instituicao-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
+import { InstituicaoDatatableComponent } from './instituicao-datatable/instituicao-datatable.component';
 
 
 @NgModule({
   declarations: [
-    InstituicaoFormComponent
+    InstituicaoFormComponent, InstituicaoDatatableComponent
   ],
   imports: [
     CommonModule,
