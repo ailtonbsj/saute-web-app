@@ -30,14 +30,52 @@ export class HelperService {
     return dialogRef.afterClosed()
   }
 
-  /* Helpers for <mat-autocomplete> (Use in [DisplayWith]) */
+  /*
+   * Helpers for <mat-autocomplete>
+   */
+
+  /*
+   * USAGE:
+   * [DisplayWith]="nestedSortingDataAccessor('')"
+   */
   static displayAuto(property: string) {
     return (data: any) => data && data[property] ? data[property] : '';
   }
 
-  /* Helpers for MatTableDataSource (Use in sortingDataAccessor property) */
+  /*
+   * Helpers for MatTableDataSource
+   */
+
+  /*
+   * USAGE:
+   * this.ds = new MatTableDataSource(ent);
+   * this.ds.sortingDataAccessor = HelperService.nestedSortingDataAccessor;
+   * this.ds.filterPredicate = HelperService.nestedFilterPredicate;
+   */
   static nestedSortingDataAccessor(i: any, p: any) {
     return p.split('.').reduce((o: any, p: any) => o && o[p], i);
   }
+
+  static nestedFilterCheck(search: any, data: any, key: any) {
+    if (typeof data[key] === 'object') {
+      for (const k in data[key]) {
+        if (data[key][k] !== null) {
+          search = this.nestedFilterCheck(search, data[key], k);
+        }
+      }
+    } else {
+      search += data[key];
+    }
+    return search;
+  }
+
+  static nestedFilterPredicate(data: any, filter: string) {
+    const accumulator = (curr: any, key: any) => {
+      return HelperService.nestedFilterCheck(curr, data, key);
+    };
+    const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+    const transformedFilter = filter.trim().toLowerCase();
+    return dataStr.indexOf(transformedFilter) !== -1;
+  };
 
 }

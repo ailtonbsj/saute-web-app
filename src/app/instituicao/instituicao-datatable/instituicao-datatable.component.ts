@@ -33,6 +33,8 @@ export class InstituicaoDatatableComponent {
       next: ent => {
         this.dataSource = new MatTableDataSource(ent);
         this.dataSource.sortingDataAccessor = HelperService.nestedSortingDataAccessor;
+        this.dataSource.filterPredicate = HelperService.nestedFilterPredicate;
+
         if (this.sort.sortables) this.dataSource.sort = this.sort;
         if (this.paginator.page) this.dataSource.paginator = this.paginator;
         this.isLoadingData = false;

@@ -13,7 +13,19 @@ export class InstituicaoService {
     db.open();
   }
 
+  private async indexAsync() {
+    const instituicoes = await db.instituicao.toArray();
+    const keys = instituicoes.map(i => i.nivelEscolarId);
+    const niveis = await db.nivelEscolar.bulkGet(keys);
+    return instituicoes.map(
+      i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
+    )
+  }
+
   index(): Observable<Instituicao[]> {
+    /* With Async Await */
+    return from(this.indexAsync()).pipe(delay(1), take(1));
+
     /* With Promise */
     // let instituicoes: Instituicao[];
     // const promise = db.instituicao.toArray()
@@ -26,16 +38,16 @@ export class InstituicaoService {
     // return from(promise).pipe(delay(1), take(1));
 
     /* With Observable */
-    let instituicoes: Instituicao[];
-    return from(db.instituicao.toArray()).pipe(
-      tap(arr => instituicoes = arr),
-      map(arr => arr.map(i => i.nivelEscolarId)),
-      switchMap(keys => from(db.nivelEscolar.bulkGet(keys))),
-      map(niveis => instituicoes.map(
-        i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
-      )),
-      delay(1), take(1)
-    );
+    // let instituicoes: Instituicao[];
+    // return from(db.instituicao.toArray()).pipe(
+    //   tap(arr => instituicoes = arr),
+    //   map(arr => arr.map(i => i.nivelEscolarId)),
+    //   switchMap(keys => from(db.nivelEscolar.bulkGet(keys))),
+    //   map(niveis => instituicoes.map(
+    //     i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
+    //   )),
+    //   delay(1), take(1)
+    // );
   }
 
   store(entity: Instituicao): Observable<number> {
