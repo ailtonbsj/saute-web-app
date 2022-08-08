@@ -50,13 +50,34 @@ export class InstituicaoService {
     // );
   }
 
-  store(entity: Instituicao): Observable<number> {
-    entity.createdAt = new Date();
+  show(id: number): Observable<Instituicao> {
+    let instituicao: Instituicao;
+    return from(db.instituicao.get(parseInt(`${id}`))).pipe(
+      filter(inst => inst !== undefined),
+      map(inst => instituicao = <Instituicao>inst),
+      switchMap(inst => from(db.nivelEscolar.get(inst.nivelEscolarId))),
+      map(nivel => { instituicao.nivelEscolar = nivel; return instituicao }),
+      take(1)
+    );
+  }
+
+  private transformToSave(entity: Instituicao): Instituicao {
     entity.updatedAt = new Date();
     delete entity.nivelEscolar;
     entity.endereco.uf = (<any>entity.endereco.uf).nome;
     entity.endereco.municipio = (<any>entity.endereco.municipio).nome;
+    return entity;
+  }
+
+  store(entity: Instituicao): Observable<number> {
+    entity = this.transformToSave(entity);
+    entity.createdAt = new Date();
     return from(db.instituicao.add(entity)).pipe(take(1));
+  }
+
+  update(entity: Instituicao): Observable<number> {
+    entity = this.transformToSave(entity);
+    return from(db.instituicao.put(entity)).pipe(take(1));
   }
 
   destroy(id: number): Observable<void> {

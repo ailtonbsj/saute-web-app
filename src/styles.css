@@ -26,7 +26,7 @@ fieldset { margin: 0; padding: 0; border: 0; }
 }
 
 .flex-form .ocupy {
-  flex-basis: calc(6 * var(--width-field));
+  flex-basis: calc(12 * var(--width-field));
 }
 
 .flex-form .ocupy2 {
@@ -35,6 +35,10 @@ fieldset { margin: 0; padding: 0; border: 0; }
 
 .flex-form .ocupy3 {
   flex-basis: calc(3 * var(--width-field));
+}
+
+.flex-form .ocupy4 {
+  flex-basis: calc(4 * var(--width-field));
 }
 
 /* Common styles */

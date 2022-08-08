@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, merge, filter, Observable, Subject, switchMap, tap, of } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
 import { NivelEscolarService } from 'src/app/nivel-escolar/nivel-escolar.service';
@@ -21,6 +22,8 @@ export class InstituicaoFormComponent implements OnInit {
 
   formMode: FormMode = FormMode.INSERT;
   entity: Instituicao = <Instituicao>{};
+
+  @ViewChild('autoUf') _autoUf: MatAutocomplete = <MatAutocomplete>{};
 
   displayAuto = HelperService.displayAuto;
   nivelEscolarIsBusy = false;
@@ -54,19 +57,21 @@ export class InstituicaoFormComponent implements OnInit {
     private instituicaoService: InstituicaoService,
     private helper: HelperService,
     private router: Router,
+    private route: ActivatedRoute,
     private brInfo: BrazilInfoService) { }
 
   ngOnInit(): void {
-    const autoComplete = new Subject<NivelEscolar[]>();
-    const autoComplete$ = autoComplete.asObservable();
-    this.nivelEscolar$ = merge(autoComplete$, this.form.controls.nivelEscolar.valueChanges.pipe(
+    /* Initialize FormControls */
+    const autoNivelEscolar = new Subject<NivelEscolar[]>();
+    const autoNivelEscolar$ = autoNivelEscolar.asObservable();
+    this.nivelEscolar$ = merge(autoNivelEscolar$, this.form.controls.nivelEscolar.valueChanges.pipe(
       filter((value: any) => !value.nivelEscolar),
       filter(() => !this.nivelEscolarIsBusy),
       tap(() => this.nivelEscolarIsBusy = true),
       switchMap(val => this.nivelEscolarService.filter(val)),
       tap(() => this.nivelEscolarIsBusy = false)
     ));
-    this.nivelEscolarService.filter('').subscribe(arr => autoComplete.next(arr));
+    this.nivelEscolarService.filter('').subscribe(arr => autoNivelEscolar.next(arr));
 
     this.ufs$ = this.brInfo.getStates();
 
@@ -78,6 +83,37 @@ export class InstituicaoFormComponent implements OnInit {
         return this.brInfo.filterCities(val, municipioId);
       }),
     );
+
+    /* Update loading */
+    if (this.route.snapshot.params['id']) {
+      this.formMode = FormMode.UPDATE;
+      // this.entity.id = this.route.snapshot.params['id'];
+      this.instituicaoService.show(this.route.snapshot.params['id']).subscribe({
+        next: entity => {
+          if (entity.id) {
+            this.entity = { ...entity };
+            // set autocomplete's
+            this.form.controls.nivelEscolar.setValue(<any>entity.nivelEscolar);
+            this.form.controls.endereco.controls.uf.setValue(
+              this._autoUf.options.find(v => v.value.nome === entity.endereco.uf)?.value
+            );
+            this.brInfo.getCityByName(entity.endereco.municipio).subscribe(m => {
+              this.form.controls.endereco.controls.municipio.setValue(<any>m)
+            });
+            // set inputs
+            const patch: any = { ...entity };
+            delete patch.nivelEscolar;
+            delete patch.endereco.uf;
+            delete patch.endereco.municipio;
+            this.form.patchValue(patch);
+          } else this.navigateToTable();
+        }
+      });
+    }
+    else {
+      this.formMode = FormMode.INSERT;
+      this.entity = <Instituicao>{};
+    }
   }
 
   onSubmit() {
@@ -95,15 +131,14 @@ export class InstituicaoFormComponent implements OnInit {
           }
         });
       } else {
-        // this.service.update(this.entity).subscribe({
-        //   next: _ => {
-        //     this.snack.alertSnack('Atualizado com sucesso.');
-        //     this.navigateToTable();
-        //   }
-        // });
+        this.instituicaoService.update(this.entity).subscribe({
+          next: _ => {
+            this.helper.alertSnack('Atualizado com sucesso.');
+            this.navigateToTable();
+          }
+        });
       }
     } else this.form.markAllAsTouched();
-
   }
 
   navigateToTable() {

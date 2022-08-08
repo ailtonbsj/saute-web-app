@@ -17,9 +17,9 @@
     <mat-form-field>
       <mat-label>Nível Escolar</mat-label>
       <input type="text" placeholder="Nível Escolar" matInput formControlName="nivelEscolar"
-        [matAutocomplete]="autoComplete">
+        [matAutocomplete]="autoNivelEscolar">
 
-      <mat-autocomplete autoActiveFirstOption #autoComplete="matAutocomplete"
+      <mat-autocomplete autoActiveFirstOption #autoNivelEscolar="matAutocomplete"
         [displayWith]="displayAuto('nivelEscolar')">
         <mat-option *ngFor="let option of nivelEscolar$ | async" [value]="option">
           {{ option.nivelEscolar }}

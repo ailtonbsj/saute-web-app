@@ -14,20 +14,27 @@ export class BrazilInfoService {
     return this.http.get<BrazilState[]>('assets/brazil/states.json').pipe(take(1));
   }
 
+  getCityByName(query: string) {
+    return this.http.get<BrazilCity[]>('assets/brazil/cities.json').pipe(
+      map(list => list.find(i => i.nome.toLowerCase() === query.toLowerCase())),
+      take(1)
+    );
+  }
+
   filterCities(query: string, uf?: string, limit?: number) {
     const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
     let limitMax = 10;
-    if(limit) limitMax = limit;
+    if (limit) limitMax = limit;
 
     return this.http.get<BrazilCity[]>('assets/brazil/cities.json').pipe(
       map(list => {
         const filter = [];
-        for(let item of list){
-          if(uf && item.estado !== uf) continue;
+        for (let item of list) {
+          if (uf && item.estado !== uf) continue;
           const test = new RegExp(text).test(item.nome.toLowerCase());
-          if(!test) continue;
+          if (!test) continue;
           filter.push(item);
-          if(--limitMax === 0) break;
+          if (--limitMax === 0) break;
         }
         return filter
       }),

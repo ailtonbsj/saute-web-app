@@ -54,7 +54,9 @@ export class InstituicaoDatatableComponent {
     }
   }
 
-  onUpdate(id: number) { }
+  onUpdate(id: number) {
+    this.router.navigate([`instituicao/${id}/edit`]);
+  }
 
   onDelete(id: number) {
     this.helper.confirmDialog().pipe(
