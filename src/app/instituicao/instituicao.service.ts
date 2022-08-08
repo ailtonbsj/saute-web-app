@@ -59,4 +59,8 @@ export class InstituicaoService {
     return from(db.instituicao.add(entity)).pipe(take(1));
   }
 
+  destroy(id: number): Observable<void> {
+    return from(db.instituicao.delete(id)).pipe(take(1));
+  }
+
 }

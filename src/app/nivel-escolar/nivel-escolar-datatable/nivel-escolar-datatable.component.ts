@@ -23,7 +23,8 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
 
-  constructor(private service: NivelEscolarService, private router: Router, private helper: HelperService) {
+  constructor(private service: NivelEscolarService, private router: Router,
+    private helper: HelperService) {
     this.loadDatatable();
   }
 
