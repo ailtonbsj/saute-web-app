@@ -53,9 +53,8 @@ export class InstituicaoService {
   show(id: number): Observable<Instituicao> {
     let instituicao: Instituicao;
     return from(db.instituicao.get(parseInt(`${id}`))).pipe(
-      filter(inst => inst !== undefined),
-      map(inst => instituicao = <Instituicao>inst),
-      switchMap(inst => from(db.nivelEscolar.get(inst.nivelEscolarId))),
+      map(inst => instituicao = inst ? <Instituicao>inst : <Instituicao>{}),
+      switchMap(inst => inst.nivelEscolarId ? from(db.nivelEscolar.get(inst.nivelEscolarId)) : of(<NivelEscolar>{})),
       map(nivel => { instituicao.nivelEscolar = nivel; return instituicao }),
       take(1)
     );
