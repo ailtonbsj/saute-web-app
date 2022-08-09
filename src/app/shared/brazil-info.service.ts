@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, map, take, tap } from 'rxjs';
+import { delay, map, of, take } from 'rxjs';
 import { BrazilCity, BrazilState } from './brazil-info';
 
 @Injectable({
@@ -40,6 +40,15 @@ export class BrazilInfoService {
       }),
       delay(1), take(1)
     );
+  }
+
+  searchByCEP(cep: string) {
+    if (cep != '') {
+      if (/^[0-9]{8}$/.test(cep)) {
+        return this.http.get(`//viacep.com.br/ws/${cep}/json/`).pipe(take(1));
+      }
+    }
+    return of({}).pipe(take(1));
   }
 
 }

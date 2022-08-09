@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, merge, filter, Observable, Subject, switchMap, tap, of } from 'rxjs';
+import { EMPTY, merge, filter, Observable, Subject, switchMap, tap, of, map } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
 import { NivelEscolarService } from 'src/app/nivel-escolar/nivel-escolar.service';
 import { BrazilCity, BrazilState } from 'src/app/shared/brazil-info';
@@ -23,13 +23,14 @@ export class InstituicaoFormComponent implements OnInit {
   formMode: FormMode = FormMode.INSERT;
   entity: Instituicao = <Instituicao>{};
 
-  @ViewChild('autoUf') _autoUf: MatAutocomplete = <MatAutocomplete>{};
-
   displayAuto = HelperService.displayAuto;
   nivelEscolarIsBusy = false;
   nivelEscolar$: Observable<NivelEscolar[]> = EMPTY;
   ufs$: Observable<BrazilState[]> = EMPTY;
   municipios$: Observable<BrazilCity[]> = EMPTY;
+
+  @ViewChild('autoUf') _autoUf: MatAutocomplete = <MatAutocomplete>{};
+  @ViewChild('cep') _cep: ElementRef = <ElementRef>{};
 
   form = this.fb.group({
     instituicao: ['', Validators.required],
@@ -49,7 +50,7 @@ export class InstituicaoFormComponent implements OnInit {
     valorCredenciamento: ['', Validators.required],
     recredenciamento: ['', Validators.required],
     valorRecredenciamento: ['', Validators.required],
-  })
+  });
 
   constructor(
     private fb: FormBuilder,
@@ -58,10 +59,18 @@ export class InstituicaoFormComponent implements OnInit {
     private helper: HelperService,
     private router: Router,
     private route: ActivatedRoute,
-    private brInfo: BrazilInfoService) { }
+    private brInfo: BrazilInfoService
+  ) { }
 
   ngOnInit(): void {
-    /* Initialize FormControls */
+    this.initNivelEscolar();
+    this.initCEP();
+    this.ufs$ = this.brInfo.getStates(); // init UF
+    this.initMunicipio();
+    this.loadFormData();
+  }
+
+  private initNivelEscolar(): void {
     const autoNivelEscolar = new Subject<NivelEscolar[]>();
     const autoNivelEscolar$ = autoNivelEscolar.asObservable();
     this.nivelEscolar$ = merge(autoNivelEscolar$, this.form.controls.nivelEscolar.valueChanges.pipe(
@@ -72,9 +81,34 @@ export class InstituicaoFormComponent implements OnInit {
       tap(() => this.nivelEscolarIsBusy = false)
     ));
     this.nivelEscolarService.filter('').subscribe(arr => autoNivelEscolar.next(arr));
+  }
 
-    this.ufs$ = this.brInfo.getStates();
+  private initCEP(): void {
+    this.form.controls.endereco.controls.cep.valueChanges.pipe(
+      map(() => (<HTMLInputElement>this._cep.nativeElement).value),
+      filter(val => val.length === 8),
+      switchMap(val => this.brInfo.searchByCEP('' + val)),
+      filter((val: any) => val && !val.erro)
+    ).subscribe(val => {
+      const address = this.form.controls.endereco.controls;
+      const street = address.rua;
+      const district = address.bairro;
+      const state = address.uf;
+      const city = address.municipio;
+      if (street.value === '') street.setValue(val.logradouro);
+      if (district.value === '') district.setValue(val.bairro);
+      if (state.value === '') state.setValue(
+        this._autoUf.options.find(v => v.value.sigla === val.uf)?.value
+      );
+      if (city.value === '') {
+        this.brInfo.getCityByName(val.localidade).subscribe(m => {
+          this.form.controls.endereco.controls.municipio.setValue(<any>m)
+        });
+      }
+    });
+  }
 
+  private initMunicipio(): void {
     this.municipios$ = this.form.controls.endereco.controls.municipio.valueChanges.pipe(
       filter((value: any) => !value.nome),
       switchMap(val => {
@@ -83,11 +117,11 @@ export class InstituicaoFormComponent implements OnInit {
         return this.brInfo.filterCities(val, municipioId);
       }),
     );
+  }
 
-    /* Update loading */
+  private loadFormData(): void {
     if (this.route.snapshot.params['id']) {
       this.formMode = FormMode.UPDATE;
-      // this.entity.id = this.route.snapshot.params['id'];
       this.instituicaoService.show(this.route.snapshot.params['id']).subscribe({
         next: entity => {
           if (entity.id) {
