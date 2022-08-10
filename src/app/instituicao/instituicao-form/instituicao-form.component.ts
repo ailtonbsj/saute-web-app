@@ -112,9 +112,9 @@ export class InstituicaoFormComponent implements OnInit {
     this.municipios$ = this.form.controls.endereco.controls.municipio.valueChanges.pipe(
       filter((value: any) => !value.nome),
       switchMap(val => {
-        const municipio = <BrazilCity | null>this.form.controls.endereco.controls.uf.value;
-        const municipioId = municipio ? '' + municipio.id : undefined;
-        return this.brInfo.filterCities(val, municipioId);
+        const uf = <BrazilState | null>this.form.controls.endereco.controls.uf.value;
+        const ufId = uf ? '' + uf.id : undefined;
+        return this.brInfo.filterCities(val, ufId);
       }),
     );
   }

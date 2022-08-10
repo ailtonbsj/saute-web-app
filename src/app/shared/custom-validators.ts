@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn } from "@angular/forms"
+import { AbstractControl, ValidatorFn, Validators } from "@angular/forms"
 
 export class CustomValidators {
 
@@ -11,4 +11,15 @@ export class CustomValidators {
     }
   }
 
+  static date(): ValidatorFn {
+    return Validators.pattern("^[1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]$");
+  }
+
+  static number() : ValidatorFn {
+    return Validators.pattern("^[0-9]*$");
+  }
+
 }
+
+1500
+

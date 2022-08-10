@@ -4,6 +4,16 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 fieldset { margin: 0; padding: 0; border: 0; }
 
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    display: none;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
 /* Spacers and margins */
 
 .toolbar-spacer { flex: 1 1 auto; }
@@ -50,4 +60,9 @@ fieldset { margin: 0; padding: 0; border: 0; }
 .bottom-form {
   display: flex;
   padding: 5px;
+}
+
+.select-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
 }

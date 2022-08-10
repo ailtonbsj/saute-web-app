@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, map, of, take } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { delay, filter, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { BrazilCity, BrazilState } from './brazil-info';
 
 @Injectable({
@@ -49,6 +50,17 @@ export class BrazilInfoService {
       }
     }
     return of({}).pipe(take(1));
+  }
+
+  initCityAutocomplete(cityCtl: FormControl, ufCtl?: FormControl): Observable<BrazilCity[]> {
+    return cityCtl.valueChanges.pipe(
+      filter((value: any) => !value.nome),
+      switchMap(val => {
+        let ufId: any;
+        if (ufCtl) ufId = (<BrazilCity>ufCtl.value).id;
+        return this.filterCities(val, ufId);
+      }),
+    );
   }
 
 }

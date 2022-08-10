@@ -17,8 +17,8 @@ export interface Professor {
   telefone?: string
   celular: string
   email: string
-  pai: string
-  mae: string
+  pai?: string
+  mae?: string
   habilitacao?: string
   grau?: string
   foto?: string
