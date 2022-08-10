@@ -28,6 +28,9 @@ export class ProfessorFormComponent implements OnInit {
   @ViewChild('cep') _cep: ElementRef = <ElementRef>{};
 
   categoriasCNH: string[] = ['A', 'B', 'C', 'D', 'E'];
+  foto: File = <File>{};
+
+  imageBuf: any;
 
   form = this.fb.group({
     nome: ['', Validators.required],
@@ -56,7 +59,8 @@ export class ProfessorFormComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
-    private brInfo: BrazilInfoService) { }
+    private brInfo: BrazilInfoService,
+    private helper: HelperService) { }
 
   ngOnInit(): void {
     this.initCEP();
@@ -91,6 +95,17 @@ export class ProfessorFormComponent implements OnInit {
         });
       }
     });
+  }
+
+
+
+  onChooseFile(ev: Event) {
+    const file = (<HTMLInputElement>ev.target).files?.item(0);
+    if (file) {
+      this.helper.fileReader(file)
+        .then(blob => this.helper.image(blob))
+        .then(image => this.imageBuf = this.helper.resizePicute(image, 250));
+    }
   }
 
   onSubmit() {

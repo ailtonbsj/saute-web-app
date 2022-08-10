@@ -30,7 +30,7 @@ input[type=number] {
   --width-field: 180px;
 }
 
-.flex-form .mat-form-field, .flex-form fieldset {
+.flex-form .mat-form-field, .flex-form fieldset, .flex-form .flex-upload {
   padding: 5px;
   flex: 1 1 var(--width-field);
 }
@@ -49,6 +49,11 @@ input[type=number] {
 
 .flex-form .ocupy4 {
   flex-basis: calc(4 * var(--width-field));
+}
+
+.flex-upload {
+  display: flex;
+  align-items: center;
 }
 
 /* Common styles */

@@ -78,4 +78,70 @@ export class HelperService {
     return dataStr.indexOf(transformedFilter) !== -1;
   };
 
+  /*
+   * Helpers for Upload of Images
+   */
+
+  /*
+   * Promisify FileReader and Image for Uploads
+   */
+  fileReader(file: File) {
+    return new Promise((res: (value: string) => void, rej) => {
+      const reader = new FileReader();
+
+      reader.onload = ev => {
+        res(<string>ev.target?.result);
+      }
+
+      reader.onerror = ev => {
+        rej(ev);
+      }
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  image(blob: string) {
+    return new Promise((res: (value: HTMLImageElement) => void, rej) => {
+      const pic = new Image();
+
+      pic.onload = ev => {
+        res(pic);
+      }
+
+      pic.onerror = ev => {
+        rej(ev);
+      }
+
+      pic.src = blob;
+    });
+  }
+
+  resizePicute(img: HTMLImageElement, maxWidth: number) {
+    const canvas = document.createElement('canvas');
+    const maxHeight = maxWidth;
+    let width = img.width;
+    let height = img.height;
+
+    if (width > height) {
+      if (width > maxWidth) {
+        //height *= maxWidth / width;
+        height = Math.round(height *= maxWidth / width);
+        width = maxWidth;
+      }
+    } else {
+      if (height > maxHeight) {
+        //width *= maxHeight / height;
+        width = Math.round(width *= maxHeight / height);
+        height = maxHeight;
+      }
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx?.drawImage(img, 0, 0, width, height);
+    return canvas.toDataURL("image/jpeg", 0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
+  }
+
 }
