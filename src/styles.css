@@ -56,6 +56,17 @@ input[type=number] {
   align-items: center;
 }
 
+.pic-preview {
+  width: 200px;
+  border-radius: 10px;
+}
+
+/* Flex Helpers */
+
+.flex {
+  display: flex;
+}
+
 /* Common styles */
 
 .header-form {

@@ -19,8 +19,8 @@ export interface Professor {
   email: string
   pai?: string
   mae?: string
-  habilitacao?: string
-  grau?: string
+  numeroCNH?: string
+  categoriaCNH?: string
   foto?: string
   createdAt: Date
   updatedAt: Date

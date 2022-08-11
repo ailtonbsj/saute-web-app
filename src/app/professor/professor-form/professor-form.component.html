@@ -195,27 +195,19 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="flex-upload">
-      <mat-form-field>
-        <mat-label>Foto</mat-label>
-        <input matInput type="text" placeholder="Foto" disabled [value]="photo.files?.item(0)?.name">
-      </mat-form-field>
-      <button type="button" mat-flat-button color="primary" (click)="photo.click()">
-        <mat-icon>attach_file</mat-icon>Anexar
-      </button>
-      <input hidden type="file" accept="image/*" #photo (change)="onChooseFile($event)">
+    <div class="ocupy flex">
+      <img class="pic-preview" src="{{ imageBlob }}">
+      <div class="flex-upload">
+        <mat-form-field>
+          <mat-label>Foto</mat-label>
+          <input matInput type="text" placeholder="Foto" disabled [value]="photo.files?.item(0)?.name">
+        </mat-form-field>
+        <button type="button" mat-flat-button color="primary" (click)="photo.click()">
+          <mat-icon>attach_file</mat-icon>Anexar
+        </button>
+        <input hidden type="file" accept="image/*" #photo (change)="onChooseFile($event)">
+      </div>
     </div>
-
-    <div class="ocupy">
-      <img src="{{ imageBuf }}">
-    </div>
-
-
-    <!-- <div class="mat-form-field">
-      <mat-label>Foto</mat-label>
-      <button type="button" md-button >Add a photo</button>
-      <input hidden type="file" #imgFileInput (change)="choosedFile($event)"/>
-    </div> -->
 
   </form>
 

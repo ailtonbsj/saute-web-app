@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, filter, map, Observable, switchMap } from 'rxjs';
 import { BrazilCity, BrazilState } from 'src/app/shared/brazil-info';
 import { BrazilInfoService } from 'src/app/shared/brazil-info.service';
@@ -8,6 +9,7 @@ import { CustomValidators } from 'src/app/shared/custom-validators';
 import { FormMode } from 'src/app/shared/form-mode';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Professor } from '../professor.model';
+import { ProfessorService } from '../professor.service';
 
 @Component({
   selector: 'app-professor-form',
@@ -30,7 +32,7 @@ export class ProfessorFormComponent implements OnInit {
   categoriasCNH: string[] = ['A', 'B', 'C', 'D', 'E'];
   foto: File = <File>{};
 
-  imageBuf: any;
+  imageBlob: string = '/assets/user.png';
 
   form = this.fb.group({
     nome: ['', Validators.required],
@@ -54,13 +56,17 @@ export class ProfessorFormComponent implements OnInit {
     mae: [''],
     numeroCNH: ['', CustomValidators.number()],
     categoriaCNH: [''],
-    foto: ['', Validators.required],
     // nivelEscolar: ['', [Validators.required, CustomValidators.autocompleteValidator()]],
   });
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private brInfo: BrazilInfoService,
-    private helper: HelperService) { }
+    private helper: HelperService,
+    private professorService: ProfessorService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.initCEP();
@@ -70,6 +76,7 @@ export class ProfessorFormComponent implements OnInit {
       this.form.controls.endereco.controls.uf
     );
     this.naturalidade$ = this.brInfo.initCityAutocomplete(this.form.controls.naturalidade);
+    this.loadFormData();
   }
 
   private initCEP(): void {
@@ -97,24 +104,80 @@ export class ProfessorFormComponent implements OnInit {
     });
   }
 
-
+  private loadFormData(): void {
+    if (this.route.snapshot.params['id']) {
+      this.formMode = FormMode.UPDATE;
+      this.professorService.show(this.route.snapshot.params['id']).subscribe({
+        next: entity => {
+          if (entity.id) {
+              this.entity = { ...entity };
+            //         // set autocomplete's
+            //         this.form.controls.nivelEscolar.setValue(<any>entity.nivelEscolar);
+            //         this.form.controls.endereco.controls.uf.setValue(
+            //           this._autoUf.options.find(v => v.value.nome === entity.endereco.uf)?.value
+            //         );
+            //         this.brInfo.getCityByName(entity.endereco.municipio).subscribe(m => {
+            //           this.form.controls.endereco.controls.municipio.setValue(<any>m)
+            //         });
+            //         // set inputs
+            //         const patch: any = { ...entity };
+            //         delete patch.nivelEscolar;
+            //         delete patch.endereco.uf;
+            //         delete patch.endereco.municipio;
+            //         this.form.patchValue(patch);
+            if(this.entity.foto) this.imageBlob = this.entity.foto;
+          } else this.navigateToTable();
+        }
+      });
+    }
+    else {
+      this.formMode = FormMode.INSERT;
+      this.entity = <Professor>{};
+    }
+  }
 
   onChooseFile(ev: Event) {
     const file = (<HTMLInputElement>ev.target).files?.item(0);
     if (file) {
       this.helper.fileReader(file)
         .then(blob => this.helper.image(blob))
-        .then(image => this.imageBuf = this.helper.resizePicute(image, 250));
+        .then(image => this.imageBlob = this.helper.resizePicute(image, 512));
     }
   }
 
   onSubmit() {
-    console.log(this.form.value);
-    if (this.form.valid) {
+    console.log(this.form.valid);
+    console.log(this.form);
 
+
+    if (this.form.valid) {
+      this.entity = <Professor>{
+        ...this.entity,
+        ...this.form.value
+      };
+      this.entity.categoriaCNH = (<string[]>(this.entity.categoriaCNH || [])).join('');
+      if (this.imageBlob !== '/assets/user.png') this.entity.foto = this.imageBlob;
+
+      if (this.formMode === FormMode.INSERT) {
+        this.professorService.store({ ...this.entity }).subscribe({
+          next: _ => {
+            this.helper.alertSnack('Inserido com sucesso.');
+            this.navigateToTable();
+          }
+        });
+      } else {
+        // this.instituicaoService.update(this.entity).subscribe({
+        //   next: _ => {
+        //     this.helper.alertSnack('Atualizado com sucesso.');
+        //     this.navigateToTable();
+        //   }
+        // });
+      }
     } else this.form.markAllAsTouched();
   }
 
-  navigateToTable() { }
+  navigateToTable() {
+    this.router.navigate(['instituicao']);
+  }
 
 }
