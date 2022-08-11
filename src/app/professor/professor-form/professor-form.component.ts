@@ -110,22 +110,26 @@ export class ProfessorFormComponent implements OnInit {
       this.professorService.show(this.route.snapshot.params['id']).subscribe({
         next: entity => {
           if (entity.id) {
-              this.entity = { ...entity };
-            //         // set autocomplete's
-            //         this.form.controls.nivelEscolar.setValue(<any>entity.nivelEscolar);
-            //         this.form.controls.endereco.controls.uf.setValue(
-            //           this._autoUf.options.find(v => v.value.nome === entity.endereco.uf)?.value
-            //         );
-            //         this.brInfo.getCityByName(entity.endereco.municipio).subscribe(m => {
-            //           this.form.controls.endereco.controls.municipio.setValue(<any>m)
-            //         });
-            //         // set inputs
-            //         const patch: any = { ...entity };
-            //         delete patch.nivelEscolar;
-            //         delete patch.endereco.uf;
-            //         delete patch.endereco.municipio;
-            //         this.form.patchValue(patch);
-            if(this.entity.foto) this.imageBlob = this.entity.foto;
+            this.entity = { ...entity };
+            // set autocomplete's
+            this.brInfo.getCityByName(entity.naturalidade).subscribe(m => {
+              this.form.controls.naturalidade.setValue(<any>m);
+            });
+            this.form.controls.endereco.controls.uf.setValue(
+              this._autoUf.options.find(v => v.value.nome === entity.endereco.uf)?.value
+            );
+            this.brInfo.getCityByName(entity.endereco.municipio).subscribe(m => {
+              this.form.controls.endereco.controls.municipio.setValue(<any>m)
+            });
+            // set inputs
+            const patch: any = {
+              ...entity,
+              categoriaCNH: entity.categoriaCNH?.split('')
+             };
+            delete patch.endereco.uf;
+            delete patch.endereco.municipio;
+            this.form.patchValue(patch);
+            if (this.entity.foto) this.imageBlob = this.entity.foto;
           } else this.navigateToTable();
         }
       });

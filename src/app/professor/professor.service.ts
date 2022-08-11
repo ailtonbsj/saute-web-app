@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, map, Observable, take } from 'rxjs';
+import { delay, from, map, Observable, take } from 'rxjs';
 import { db } from '../db';
 import { Professor } from './professor.model';
 
@@ -9,6 +9,10 @@ import { Professor } from './professor.model';
 export class ProfessorService {
 
   constructor() { }
+
+  index(): Observable<Professor[]> {
+    return from(db.professor.toArray()).pipe(delay(1), take(1));
+  }
 
   show(id: number): Observable<Professor> {
     return from(db.professor.get(parseInt(`${id}`))).pipe(

@@ -82,3 +82,24 @@ input[type=number] {
   opacity: 0.75;
   font-size: 0.75em;
 }
+
+/* Common styles DATATABLE */
+
+.header-view {
+  display: flex;
+  align-items: center;
+}
+
+.header-view .mat-divider[vertical] {
+  height: 45px;
+  margin: 0 10px;
+}
+
+table[mat-table] {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+

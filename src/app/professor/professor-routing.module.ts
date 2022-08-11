@@ -4,7 +4,7 @@ import { ProfessorDatatableComponent } from './professor-datatable/professor-dat
 import { ProfessorFormComponent } from './professor-form/professor-form.component';
 
 const routes: Routes = [
-  { path: '', component: ProfessorFormComponent },
+  { path: '', component: ProfessorDatatableComponent },
   { path: 'create', component: ProfessorFormComponent },
   { path: ':id/edit', component: ProfessorFormComponent },
 ];
