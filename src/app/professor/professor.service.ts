@@ -34,4 +34,8 @@ export class ProfessorService {
     entity.createdAt = new Date();
     return from(db.professor.add(entity)).pipe(take(1));
   }
+
+  destroy(id: number): Observable<void> {
+    return from(db.professor.delete(id)).pipe(take(1));
+  }
 }

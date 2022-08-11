@@ -181,7 +181,7 @@ export class ProfessorFormComponent implements OnInit {
   }
 
   navigateToTable() {
-    this.router.navigate(['instituicao']);
+    this.router.navigate(['professor']);
   }
 
 }

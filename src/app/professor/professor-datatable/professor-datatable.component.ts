@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { filter, switchMap } from 'rxjs';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Professor } from '../professor.model';
 import { ProfessorService } from '../professor.service';
@@ -24,7 +26,10 @@ export class ProfessorDatatableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = <MatPaginator>{};
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
 
-  constructor(private service: ProfessorService) {
+  constructor(
+    private service: ProfessorService,
+    private router: Router,
+    private helper: HelperService) {
     this.loadDatatable();
   }
 
@@ -55,21 +60,27 @@ export class ProfessorDatatableComponent implements OnInit {
   }
 
   onUpdate(id: number) {
-    //this.router.navigate([`instituicao/${id}/edit`]);
+    this.router.navigate([`professor/${id}/edit`]);
   }
 
   onDelete(id: number) {
-    // this.helper.confirmDialog().pipe(
-    //   filter(res => res),
-    //   switchMap(res => {
-    //     return this.service.destroy(id)
-    //   })
-    // ).subscribe({
-    //   next: _ => {
-    //     this.helper.alertSnack('Removido com sucesso!');
-    //     this.refreshComponent();
-    //   }
-    // });
+    this.helper.confirmDialog().pipe(
+      filter(res => res),
+      switchMap(res => {
+        return this.service.destroy(id)
+      })
+    ).subscribe({
+      next: _ => {
+        this.helper.alertSnack('Removido com sucesso!');
+        this.refreshComponent();
+      }
+    });
+  }
+
+  refreshComponent() {
+    this.router.navigateByUrl('nivelescolar', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['professor']);
+    });
   }
 
 }
