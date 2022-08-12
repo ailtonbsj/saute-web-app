@@ -35,6 +35,11 @@ export class ProfessorService {
     return from(db.professor.add(entity)).pipe(take(1));
   }
 
+  update(entity: Professor): Observable<number> {
+    entity = this.transformToSave(entity);
+    return from(db.professor.put(entity)).pipe(take(1));
+  }
+
   destroy(id: number): Observable<void> {
     return from(db.professor.delete(id)).pipe(take(1));
   }

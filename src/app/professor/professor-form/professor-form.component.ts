@@ -150,10 +150,6 @@ export class ProfessorFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.valid);
-    console.log(this.form);
-
-
     if (this.form.valid) {
       this.entity = <Professor>{
         ...this.entity,
@@ -164,18 +160,18 @@ export class ProfessorFormComponent implements OnInit {
 
       if (this.formMode === FormMode.INSERT) {
         this.professorService.store({ ...this.entity }).subscribe({
-          next: _ => {
+          next: () => {
             this.helper.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
           }
         });
       } else {
-        // this.instituicaoService.update(this.entity).subscribe({
-        //   next: _ => {
-        //     this.helper.alertSnack('Atualizado com sucesso.');
-        //     this.navigateToTable();
-        //   }
-        // });
+        this.professorService.update(this.entity).subscribe({
+          next: () => {
+            this.helper.alertSnack('Atualizado com sucesso.');
+            this.navigateToTable();
+          }
+        });
       }
     } else this.form.markAllAsTouched();
   }

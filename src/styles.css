@@ -103,3 +103,20 @@ table[mat-table] {
   width: 100%;
 }
 
+.datatable-panel {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.datatable-panel::-webkit-scrollbar-thumb {
+  background-color: #673ab7;
+  border-radius: 6px;
+}
+
+.datatable-panel::-webkit-scrollbar {
+  height: 6px;
+}
+
+td.mat-cell, th.mat-header-cell {
+  padding: 0 5px !important;
+}
