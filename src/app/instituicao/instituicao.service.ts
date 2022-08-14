@@ -26,17 +26,6 @@ export class InstituicaoService {
     /* With Async Await */
     return from(this.indexAsync()).pipe(delay(1), take(1));
 
-    /* With Promise */
-    // let instituicoes: Instituicao[];
-    // const promise = db.instituicao.toArray()
-    //   .then(arr => { instituicoes = arr; return arr })
-    //   .then(arr => arr.map(i => i.nivelEscolarId))
-    //   .then(keys => db.nivelEscolar.bulkGet(keys))
-    //   .then(niveis => instituicoes.map(
-    //     i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
-    //   ))
-    // return from(promise).pipe(delay(1), take(1));
-
     /* With Observable */
     // let instituicoes: Instituicao[];
     // return from(db.instituicao.toArray()).pipe(
@@ -81,6 +70,15 @@ export class InstituicaoService {
 
   destroy(id: number): Observable<void> {
     return from(db.instituicao.delete(id)).pipe(take(1));
+  }
+
+  filter(query: string): Observable<Instituicao[]> {
+    const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
+    // db.nivelEscolar.where('instituicao').startsWithIgnoreCase(text).limit(10).toArray();
+    const queryPromise = db.instituicao.limit(5).filter(
+      x => new RegExp(text).test(x.instituicao.toLowerCase())
+    ).toArray();
+    return from(queryPromise).pipe(delay(1), take(1));
   }
 
 }

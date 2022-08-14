@@ -56,7 +56,6 @@ export class ProfessorFormComponent implements OnInit {
     mae: [''],
     numeroCNH: ['', CustomValidators.number()],
     categoriaCNH: [''],
-    // nivelEscolar: ['', [Validators.required, CustomValidators.autocompleteValidator()]],
   });
 
   constructor(

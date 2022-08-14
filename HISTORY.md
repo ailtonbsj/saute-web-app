@@ -30,4 +30,11 @@ ng g i professor/professor model
 ng g c professor/professor-datatable
 ng g c professor/professor-form
 ng g s professor/professor
+
+# Module Processo
+ng g m processo --routing
+ng g i processo/processo model
+ng g c processo/processo-datatable
+ng g c processo/processo-form
+ng g s processo/processo
 ```

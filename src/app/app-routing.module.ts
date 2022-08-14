@@ -1,9 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InstituicaoDatatableComponent } from './instituicao/instituicao-datatable/instituicao-datatable.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'professor', pathMatch: 'full' },
+  { path: '', redirectTo: 'processo', pathMatch: 'full' },
+  {
+    path: 'autorizacao',
+    loadChildren: () => import('./autorizacao/autorizacao.module').then(m => m.AutorizacaoModule),
+  },
+  {
+    path: 'processo',
+    loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule)
+  },
   {
     path: 'instituicao',
     loadChildren: () => import('./instituicao/instituicao.module').then(m => m.InstituicaoModule)

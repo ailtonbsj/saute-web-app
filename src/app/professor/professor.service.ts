@@ -43,4 +43,12 @@ export class ProfessorService {
   destroy(id: number): Observable<void> {
     return from(db.professor.delete(id)).pipe(take(1));
   }
+
+  filter(query: string): Observable<Professor[]> {
+    const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
+    const queryPromise = db.professor.limit(5).filter(
+      x => new RegExp(text).test(x.nome.toLowerCase())
+    ).toArray();
+    return from(queryPromise).pipe(delay(1), take(1));
+  }
 }

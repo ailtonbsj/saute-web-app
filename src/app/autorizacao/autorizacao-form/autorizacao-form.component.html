@@ -1,0 +1,73 @@
+<div class="form-view">
+
+  <div class="header-form">
+    <span class="mat-h1">{{ formMode === 0 ? 'Novo' : 'Editar' }} Autorização</span>
+  </div>
+
+  <form [formGroup]="form" class="flex-form">
+
+    <mat-form-field class="">
+      <mat-label>Número</mat-label>
+      <input matInput type="number" placeholder="Número" formControlName="numero">
+      <mat-error *ngIf="form.controls.numero.hasError('required')">
+        Campo é requerido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="">
+      <mat-label>Professor</mat-label>
+      <input matInput type="text" placeholder="Professor" formControlName="professor" [matAutocomplete]="autoProfessor">
+      <mat-autocomplete autoActiveFirstOption #autoProfessor="matAutocomplete"
+        [displayWith]="displayAuto('nome')">
+        <mat-option *ngFor="let option of professor$ | async" [value]="option">
+          {{ option.nome }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error
+        *ngIf="!form.controls.professor.hasError('required') && form.controls.professor.hasError('invalidAutocomplete')">
+        Valor selecionado é inválido.
+      </mat-error>
+
+      <mat-error *ngIf="form.controls.professor.hasError('required')">
+        Campo é requerido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="">
+      <mat-label>Processo</mat-label>
+      <input matInput type="text" placeholder="Processo" formControlName="processo" [matAutocomplete]="autoProcesso">
+      <mat-autocomplete autoActiveFirstOption #autoProcesso="matAutocomplete"
+        [displayWith]="displayAuto('numero')">
+        <mat-option *ngFor="let option of processo$ | async" [value]="option">
+          {{ option.numero }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error
+        *ngIf="!form.controls.processo.hasError('required') && form.controls.processo.hasError('invalidAutocomplete')">
+        Valor selecionado é inválido.
+      </mat-error>
+
+      <mat-error *ngIf="form.controls.processo.hasError('required')">
+        Campo é requerido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="ocupy">
+      <mat-label>Referendum</mat-label>
+      <input matInput type="text" placeholder="Referendum" formControlName="referendum">
+      <mat-error *ngIf="form.controls.referendum.hasError('required')">
+        Campo é requerido.
+      </mat-error>
+    </mat-form-field>
+
+
+
+  </form>
+
+  <div class="bottom-form">
+    <span class="toolbar-spacer"></span>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button (click)="navigateToTable()" class="ml-2">Cancelar</button>
+  </div>
+
+</div>
