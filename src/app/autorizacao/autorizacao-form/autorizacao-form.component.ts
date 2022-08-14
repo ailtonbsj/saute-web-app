@@ -48,6 +48,7 @@ export class AutorizacaoFormComponent implements OnInit {
   ngOnInit(): void {
     this.initProfessor();
     this.initProcesso();
+    this.loadFormData();
   }
 
   private initProfessor(): void {
@@ -74,6 +75,34 @@ export class AutorizacaoFormComponent implements OnInit {
       tap(() => this.processoIsBusy = false)
     ));
     this.processoService.filter('').subscribe(arr => autoProcesso.next(arr));
+  }
+
+  private loadFormData(): void {
+    if (this.route.snapshot.params['id']) {
+      this.formMode = FormMode.UPDATE;
+      this.autorizacaoService.show(this.route.snapshot.params['id']).subscribe({
+        next: entity => {
+
+          if (entity.id) {
+            this.entity = { ...entity };
+            // set autocomplete's
+            this.form.controls.professor.setValue(<any>entity.professor);
+            this.form.controls.processo.setValue(<any>entity.processo);
+            // set inputs
+            const patch: any = {
+              ...entity,
+            };
+            this.form.patchValue(patch);
+          } else this.navigateToTable();
+
+        }
+      });
+
+    }
+    else {
+      this.formMode = FormMode.INSERT;
+      this.entity = <Autorizacao>{};
+    }
   }
 
   onSubmit() {

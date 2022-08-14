@@ -1,7 +1,7 @@
 <div class="form-view">
 
   <div class="header-form">
-    <span class="mat-h1">{{ formMode === 0 ? 'Novo' : 'Editar' }} Autorização</span>
+    <span class="mat-h1">{{ formMode === 0 ? 'Nova' : 'Editar' }} Autorização</span>
   </div>
 
   <form [formGroup]="form" class="flex-form">
@@ -54,7 +54,7 @@
 
     <mat-form-field class="ocupy">
       <mat-label>Referendum</mat-label>
-      <input matInput type="text" placeholder="Referendum" formControlName="referendum">
+      <textarea matInput placeholder="Referendum" formControlName="referendum" rows="8"></textarea>
       <mat-error *ngIf="form.controls.referendum.hasError('required')">
         Campo é requerido.
       </mat-error>

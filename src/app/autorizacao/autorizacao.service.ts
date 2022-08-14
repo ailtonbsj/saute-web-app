@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Table } from 'dexie';
-import { delay, from, map, Observable, take } from 'rxjs';
+import { delay, from, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { db } from '../db';
+import { Processo } from '../processo/processo.model';
+import { Professor } from '../professor/professor.model';
 import { Autorizacao } from './autorizacao.model';
 
 @Injectable({
@@ -14,12 +16,31 @@ export class AutorizacaoService {
   constructor() { }
 
   index(): Observable<Autorizacao[]> {
-    return from(this.table.toArray()).pipe(delay(1), take(1));
+    /* With Observable */
+    let autorizacoes: Autorizacao[];
+    return from(this.table.toArray()).pipe(
+      tap(arr => autorizacoes = arr),
+      map(arr => arr.map(i => i.professorId)),
+      switchMap(keys => from(db.professor.bulkGet(keys))),
+      map(profs => autorizacoes.map(
+        i => { i.professor = profs.find(v => v?.id === i.professorId); return i.processoId }
+      )),
+      switchMap(keys => from(db.processo.bulkGet(keys))),
+      map(procs => autorizacoes.map(
+        i => { i.processo = procs.find(v => v?.id === i.processoId); return i }
+      )),
+      delay(1), take(1)
+    );
   }
 
   show(id: number): Observable<Autorizacao> {
+    let autorizacao: Autorizacao;
     return from(this.table.get(parseInt(`${id}`))).pipe(
-      map(ent => ent ? <Autorizacao>ent : <Autorizacao>{}),
+      map(ent => autorizacao = ent ? <Autorizacao>ent : <Autorizacao>{}),
+      switchMap(ent => ent.professorId ? from(db.professor.get(ent.professorId)) : of(<Professor>{})),
+      map(prof => { autorizacao.professor = prof; return autorizacao }),
+      switchMap(ent => ent.processoId ? from(db.processo.get(ent.processoId)) : of(<Processo>{})),
+      map(proc => { autorizacao.processo = proc; return autorizacao }),
       take(1)
     );
   }

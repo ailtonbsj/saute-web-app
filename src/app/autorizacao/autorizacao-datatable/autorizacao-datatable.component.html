@@ -41,15 +41,15 @@
 
     <!-- professorId Column -->
     <ng-container matColumnDef="professorId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ProfessorId</th>
-      <td mat-cell *matCellDef="let element">{{element.professorId}}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Professor</th>
+      <td mat-cell *matCellDef="let element">{{element.professor.nome}}</td>
     </ng-container>
 
 
     <!-- processoId Column -->
     <ng-container matColumnDef="processoId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ProcessoId</th>
-      <td mat-cell *matCellDef="let element">{{element.processoId}}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Processo</th>
+      <td mat-cell *matCellDef="let element">{{element.processo.numero}}</td>
     </ng-container>
 
     <!-- referendum Column -->

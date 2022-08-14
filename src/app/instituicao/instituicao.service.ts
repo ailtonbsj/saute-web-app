@@ -25,18 +25,6 @@ export class InstituicaoService {
   index(): Observable<Instituicao[]> {
     /* With Async Await */
     return from(this.indexAsync()).pipe(delay(1), take(1));
-
-    /* With Observable */
-    // let instituicoes: Instituicao[];
-    // return from(db.instituicao.toArray()).pipe(
-    //   tap(arr => instituicoes = arr),
-    //   map(arr => arr.map(i => i.nivelEscolarId)),
-    //   switchMap(keys => from(db.nivelEscolar.bulkGet(keys))),
-    //   map(niveis => instituicoes.map(
-    //     i => { i.nivelEscolar = niveis.find(v => v?.id === i.nivelEscolarId); return i }
-    //   )),
-    //   delay(1), take(1)
-    // );
   }
 
   show(id: number): Observable<Instituicao> {
