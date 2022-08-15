@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, from, Observable, of, take } from 'rxjs';
+import { delay, from, map, Observable, of, switchMap, take } from 'rxjs';
 import { db } from '../db';
 import { NivelEscolar } from '../nivel-escolar/nivel-escolar.model';
 
@@ -79,7 +79,14 @@ export class NivelEscolarService {
   // }
 
   destroy(id: number): Observable<void> {
-    return from(db.nivelEscolar.delete(id)).pipe(take(1));
+    const promise = db.instituicao.toArray()
+      .then(insts => insts.map(inst => inst.nivelEscolarId))
+      .then(arr => arr.includes(id));
+    return from(promise).pipe(
+      map(constraint => { if (constraint) throw new Error('Cannot remove.') }),
+      switchMap(() => from(db.nivelEscolar.delete(id))),
+      take(1)
+    );
   }
 
   filter(query: string): Observable<NivelEscolar[]> {

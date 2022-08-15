@@ -57,7 +57,16 @@ export class InstituicaoService {
   }
 
   destroy(id: number): Observable<void> {
-    return from(db.instituicao.delete(id)).pipe(take(1));
+
+    const promise = db.processo.toArray()
+      .then(procs => procs.map(proc => proc.instituicaoId))
+      .then(arr => arr.includes(id))
+    return from(promise).pipe(
+      map(constraint => { if (constraint) throw new Error('Cannot remove.') }),
+      switchMap(() => from(db.instituicao.delete(id))),
+      take(1)
+    );
+
   }
 
   filter(query: string): Observable<Instituicao[]> {

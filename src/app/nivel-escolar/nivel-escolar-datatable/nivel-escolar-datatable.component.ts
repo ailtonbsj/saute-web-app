@@ -63,6 +63,9 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
       next: _ => {
         this.helper.alertSnack('Removido com sucesso!');
         this.refreshComponent();
+      },
+      error: e => {
+        this.helper.alertSnack(e);
       }
     });
   }

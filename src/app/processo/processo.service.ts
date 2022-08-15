@@ -55,13 +55,22 @@ export class ProcessoService {
   }
 
   destroy(id: number): Observable<void> {
-    return from(this.table.delete(id)).pipe(take(1));
+
+    const promise = db.autorizacao.toArray()
+      .then(auts => auts.map(aut => aut.processoId))
+      .then(arr => arr.includes(id))
+    return from(promise).pipe(
+      map(constraint => { if (constraint) throw new Error('Cannot remove.') }),
+      switchMap(() => from(this.table.delete(id))),
+      take(1)
+    );
+
   }
 
   filter(query: string): Observable<Processo[]> {
     const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
     const queryPromise = this.table.limit(5).filter(
-      x => new RegExp(text).test((''+x.numero).toLowerCase())
+      x => new RegExp(text).test(('' + x.numero).toLowerCase())
     ).toArray();
     return from(queryPromise).pipe(delay(1), take(1));
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, from, map, Observable, take } from 'rxjs';
+import { delay, from, map, Observable, of, switchMap, take } from 'rxjs';
 import { db } from '../db';
 import { Professor } from './professor.model';
 
@@ -41,7 +41,14 @@ export class ProfessorService {
   }
 
   destroy(id: number): Observable<void> {
-    return from(db.professor.delete(id)).pipe(take(1));
+    const promise = db.autorizacao.toArray()
+      .then(auts => auts.map(aut => aut.professorId))
+      .then(arr => arr.includes(id))
+    return from(promise).pipe(
+      map(constraint => { if (constraint) throw new Error('Cannot remove.') }),
+      switchMap(() => from(db.professor.delete(id))),
+      take(1)
+    );
   }
 
   filter(query: string): Observable<Professor[]> {
