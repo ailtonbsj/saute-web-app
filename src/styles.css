@@ -19,6 +19,8 @@ input[type=number] {
 .toolbar-spacer { flex: 1 1 auto; }
 .ml-1 { margin-left: .25rem !important; }
 .ml-2 { margin-left: .5rem !important; }
+.mb-1 { margin-bottom: .25rem !important; }
+.mb-2 { margin-bottom: .5rem !important; }
 
 /* Flexform helpers */
 

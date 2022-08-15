@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'processo', pathMatch: 'full' },
+  { path: '', redirectTo: 'autorizacao', pathMatch: 'full' },
   {
     path: 'autorizacao',
     loadChildren: () => import('./autorizacao/autorizacao.module').then(m => m.AutorizacaoModule),
@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'nivelescolar',
     loadChildren: () => import('./nivel-escolar/nivel-escolar.module').then(m => m.NivelEscolarModule),
+  },
+  {
+    path: 'configuracoes',
+    loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
   },
   { path: '**', redirectTo: 'instituicao' }
 ];

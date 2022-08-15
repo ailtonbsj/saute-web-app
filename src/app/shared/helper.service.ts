@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ConfirmDialogComponent, ConfirmDialogModel } from './confirm-dialog/confirm-dialog.component';
 
+export enum FileReaderFormat { ARRAY_BUFFER, BINARY_STRING, DATA_URL, TEXT };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -85,7 +87,8 @@ export class HelperService {
   /*
    * Promisify FileReader and Image for Uploads
    */
-  fileReader(file: File) {
+
+  fileReader(file: File, format: FileReaderFormat = FileReaderFormat.DATA_URL) {
     return new Promise((res: (value: string) => void, rej) => {
       const reader = new FileReader();
 
@@ -97,7 +100,20 @@ export class HelperService {
         rej(ev);
       }
 
-      reader.readAsDataURL(file);
+      switch (format) {
+        case FileReaderFormat.DATA_URL:
+          reader.readAsDataURL(file);
+          break;
+        case FileReaderFormat.TEXT:
+          reader.readAsText(file);
+          break;
+        case FileReaderFormat.BINARY_STRING:
+          reader.readAsBinaryString(file);
+          break;
+        case FileReaderFormat.ARRAY_BUFFER:
+          reader.readAsArrayBuffer(file);
+          break;
+      }
     });
   }
 

@@ -125,7 +125,7 @@ export class AutorizacaoDatatableComponent implements OnInit {
           renderingMode: 'fill'
         });
 
-        const txt = 'A Coordenadora da 17ª Coordenadoria Regional de Desenvolvimento da Educação (CREDE 17 - Icó), no uso das atribuições que lhe são conferidas pelo Art. 20 da resolução 372/2022 e Parecer 0658/2003 do Conselho de Educação do Ceará, conforme requerimento do(s) professor(es) relacionado(s) neste processo, com suas respectivas disciplinas e níveis, RESOLVE: Conceder Autorização Temporária para lecionar(em) na instituição abaixo identificada, com VALIDADE ATÉ O FINAL DESTE ANO LETIVO.';
+        const txt = 'A Coordenadora da Instituição SAUTE, no uso das atribuições que lhe são conferidas pelo Art. 20 da resolução 372/2022 e Parecer 0658/2003 do Conselho, conforme requerimento do(s) professor(es) relacionado(s) neste processo, com suas respectivas disciplinas e níveis, RESOLVE: Conceder Autorização Temporária para lecionar(em) na instituição abaixo identificada, com VALIDADE ATÉ O FINAL DESTE ANO LETIVO.';
         doc.setFont('times', 'normal');
         doc.setFontSize(12);
         doc.text(txt, margLeft, bodyTop + 22, {
@@ -192,13 +192,13 @@ export class AutorizacaoDatatableComponent implements OnInit {
           doc.addImage(foto, 'png', margLeft + 100, bodyTop + 96, 52, height);
         }
 
-        doc.text('________________________________Orientador(a) da CECOM - CREDE17',
+        doc.text('________________________________Orientador(a) da SETOR - SAUTE',
           centerWidth - 50, contentHeight - 10, {
           maxWidth: 70,
           align: 'center'
         });
 
-        doc.text('________________________________Coordenador(a) Regional da CREDE17',
+        doc.text('________________________________Coordenador(a) Regional da SAUTE',
           centerWidth + 50, contentHeight - 10, {
           maxWidth: 70,
           align: 'center'

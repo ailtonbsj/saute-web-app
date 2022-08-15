@@ -1,0 +1,57 @@
+<!-- <div class="header-view">
+  <div>
+    <span class="mat-h1">Configurações</span>
+  </div> -->
+<!-- <mat-divider vertical></mat-divider>
+  <span class="toolbar-spacer"></span>
+  <div>
+    <button mat-raised-button color="primary" routerLink="/instituicao/create">Novo Registro</button>
+    <button mat-raised-button color="accent" class="ml-2" [matMenuTriggerFor]="optMenu">
+      <mat-icon>tune</mat-icon>
+    </button>
+    <mat-menu #optMenu="matMenu">
+      <button mat-menu-item (click)="isEnabledFilter = !isEnabledFilter">
+        <mat-icon>filter_alt</mat-icon>
+        <span>Filtros</span>
+      </button>
+    </mat-menu>
+  </div> -->
+<!-- </div>
+
+<mat-form-field>
+  <mat-label>Realizar Backup</mat-label>
+  <input matInput type="text" placeholder="Instituição" formControlName="instituicao">
+  <mat-error>
+    Campo é requerido.
+  </mat-error>
+</mat-form-field> -->
+
+<div class="mb-2">
+  <span class="mat-h1">Backup e Restore</span>
+</div>
+
+<div class="mb-2">
+  <span class="mat-h2">Backup</span>
+</div>
+<button mat-raised-button color="primary" class="mb-2" (click)="onBackup()">Clique para realizar o backup</button>
+
+<div class="mb-2">
+  <span class="mat-h2">Limpar Banco de dados</span>
+</div>
+<button mat-raised-button color="warn" class="mb-2" (click)="onClear()">Clique para LIMPAR o banco
+  completamente</button>
+
+<div class="mb-2">
+  <span class="mat-h2">Restauração</span>
+</div>
+<!-- <input type="file" name="" id="">
+<button mat-raised-button color="accent">Restaurar</button> -->
+
+<div>
+  <mat-form-field style="width: 200px;">
+    <mat-label>Arquivo</mat-label>
+    <input matInput type="text" placeholder="Arquivo" readonly [value]="file.files?.item(0)?.name" (click)="file.click()">
+  </mat-form-field>
+  <button type="button" mat-flat-button color="accent" class="ml-2" (click)="onRestore()">Restaurar</button>
+  <input hidden type="file" accept="application/JSON" #file (change)="onChooseFile($event)">
+</div>

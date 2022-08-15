@@ -14,14 +14,12 @@ export class AppDB extends Dexie {
 
   constructor() {
     super('saute-web');
-    this.version(6).stores({
-      nivelEscolar: '++id, nivelEscolar, createdAt, updatedAt',
-      instituicao: ['++id', 'instituicao', 'nivelEscolarId', 'endereco', 'numero', 'bairro',
-        'municipio', 'email', 'dependencia', 'entidade', 'credenciamento', 'valorCredenciamento',
-        'recredenciamento', 'valorRecredenciamento', 'createdAt', 'updatedAt'].join(','),
+    this.version(1).stores({
+      nivelEscolar: '++id',
+      instituicao: ['++id', 'nivelEscolarId'].join(','),
       professor: '++id',
-      processo: '++id, instituicao',
-      autorizacao: '++id, professor, processo'
+      processo: '++id, instituicaoId',
+      autorizacao: '++id, professorId, processoId'
     });
   }
 }
