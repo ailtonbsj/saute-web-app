@@ -144,4 +144,11 @@ export class HelperService {
     return canvas.toDataURL("image/jpeg", 0.7); // get the data from canvas as 70% JPG (can be also PNG, etc.)
   }
 
+  async fetchToBlob(url: string, type: string) {
+    const res = await fetch(url);
+    const buf = await res.arrayBuffer();
+    const file = new File([buf], url.split('/').pop() || url, { type });
+    return this.fileReader(file);
+  }
+
 }

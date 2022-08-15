@@ -37,4 +37,6 @@ ng g i processo/processo model
 ng g c processo/processo-datatable
 ng g c processo/processo-form
 ng g s processo/processo
+
+npm install jspdf --save
 ```
