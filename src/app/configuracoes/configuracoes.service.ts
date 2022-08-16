@@ -16,7 +16,8 @@ export class ConfiguracoesService {
       const instituiccoes = await db.instituicao.toArray();
       const processos = await db.processo.toArray();
       const autorizacoes = await db.autorizacao.toArray();
-      return JSON.stringify({ nivelEscolares, professores, instituiccoes, processos, autorizacoes });
+      const configuracoes = await db.configuracao.toArray();
+      return JSON.stringify({ nivelEscolares, professores, instituiccoes, processos, autorizacoes, configuracoes });
     }
     return from(backup()).pipe(take(1));
   }
@@ -29,8 +30,32 @@ export class ConfiguracoesService {
     return from(clear()).pipe(take(1));
   }
 
-  restore(data: string): Observable<any> {
-    console.log(data);
-    return of(data).pipe(take(1));
+  restore(data: any): Observable<any> {
+    db.nivelEscolar.bulkAdd(data.nivelEscolares);
+    db.professor.bulkAdd(data.professores);
+    db.instituicao.bulkAdd(data.instituiccoes);
+    db.processo.bulkAdd(data.processos);
+    db.autorizacao.bulkAdd(data.autorizacoes);
+    db.configuracao.bulkAdd(data.configuracoes);
+    return of({status: 'success'}).pipe(take(1));
+  }
+
+  private async saveDataReportAsync(data: any) {
+    const count = await db.configuracao.count();
+    if(count === 0) {
+      db.configuracao.add({id: 0, ...data });
+    } else {
+      db.configuracao.put({id: 0, ...data });
+    }
+    return 'success';
+  }
+
+  saveDataReport(data: any) {
+    const promise = this.saveDataReportAsync(data);
+    return from(promise).pipe(take(1));
+  }
+
+  getDataReport(): Observable<any> {
+    return from(db.configuracao.get(0)).pipe(take(1));
   }
 }

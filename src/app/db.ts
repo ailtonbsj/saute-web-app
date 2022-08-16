@@ -11,6 +11,7 @@ export class AppDB extends Dexie {
   professor!: Table<Professor, number>;
   processo!: Table<Processo, number>;
   autorizacao!: Table<Autorizacao, number>;
+  configuracao!: Table<any, number>;
 
   constructor() {
     super('saute-web');
@@ -19,7 +20,8 @@ export class AppDB extends Dexie {
       instituicao: ['++id', 'nivelEscolarId'].join(','),
       professor: '++id',
       processo: '++id, instituicaoId',
-      autorizacao: '++id, professorId, processoId'
+      autorizacao: '++id, professorId, processoId',
+      configuracao: 'id'
     });
   }
 }

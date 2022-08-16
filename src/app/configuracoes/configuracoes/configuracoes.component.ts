@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { filter, switchMap } from 'rxjs';
 import { FileReaderFormat, HelperService } from 'src/app/shared/helper.service';
 import { ConfiguracoesService } from '../configuracoes.service';
@@ -12,9 +13,33 @@ export class ConfiguracoesComponent implements OnInit {
 
   fileBackup: any;
 
-  constructor(private service: ConfiguracoesService, private helper: HelperService) { }
+  form = this.fb.group({
+    text: [''],
+    sign1: [''],
+    sign2: ['']
+  });
+  logo1: File = <File>{};
+  logo2: File = <File>{};
+
+  logo1Blob: string = '/assets/logo1.png';
+  logo2Blob: string = '/assets/logo2.png';
+
+  constructor(
+    private service: ConfiguracoesService,
+    private helper: HelperService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.service.getDataReport().subscribe({
+      next: confs => {
+        if (confs) {
+          this.form.patchValue(confs);
+          if (confs.logo1) this.logo1Blob = confs.logo1;
+          if (confs.logo2) this.logo2Blob = confs.logo2;
+        }
+      }
+    });
   }
 
   onBackup() {
@@ -66,6 +91,35 @@ export class ConfiguracoesComponent implements OnInit {
 
   onChooseFile(ev: Event) {
     this.fileBackup = (<HTMLInputElement>ev.target).files?.item(0);
+  }
+
+  chooseLogo1(ev: Event) {
+    const file = (<HTMLInputElement>ev.target).files?.item(0);
+    if (file) {
+      this.helper.fileReader(file)
+        .then(blob => this.helper.image(blob))
+        .then(image => this.logo1Blob = this.helper.resizePicute(image, 500));
+    }
+  }
+
+  chooseLogo2(ev: Event) {
+    const file = (<HTMLInputElement>ev.target).files?.item(0);
+    if (file) {
+      this.helper.fileReader(file)
+        .then(blob => this.helper.image(blob))
+        .then(image => this.logo2Blob = this.helper.resizePicute(image, 500));
+    }
+  }
+
+  saveDataReport() {
+    const data: any = {
+      ...this.form.value
+    };
+    if (this.logo1Blob !== '/assets/logo1.png') data.logo1 = this.logo1Blob;
+    if (this.logo2Blob !== '/assets/logo2.png') data.logo2 = this.logo2Blob;
+    this.service.saveDataReport(data).subscribe({
+      next: () => this.helper.alertSnack('Configurações salvas!')
+    });
   }
 
 }

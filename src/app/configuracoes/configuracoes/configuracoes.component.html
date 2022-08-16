@@ -1,31 +1,3 @@
-<!-- <div class="header-view">
-  <div>
-    <span class="mat-h1">Configurações</span>
-  </div> -->
-<!-- <mat-divider vertical></mat-divider>
-  <span class="toolbar-spacer"></span>
-  <div>
-    <button mat-raised-button color="primary" routerLink="/instituicao/create">Novo Registro</button>
-    <button mat-raised-button color="accent" class="ml-2" [matMenuTriggerFor]="optMenu">
-      <mat-icon>tune</mat-icon>
-    </button>
-    <mat-menu #optMenu="matMenu">
-      <button mat-menu-item (click)="isEnabledFilter = !isEnabledFilter">
-        <mat-icon>filter_alt</mat-icon>
-        <span>Filtros</span>
-      </button>
-    </mat-menu>
-  </div> -->
-<!-- </div>
-
-<mat-form-field>
-  <mat-label>Realizar Backup</mat-label>
-  <input matInput type="text" placeholder="Instituição" formControlName="instituicao">
-  <mat-error>
-    Campo é requerido.
-  </mat-error>
-</mat-form-field> -->
-
 <div class="mb-2">
   <span class="mat-h1">Backup e Restore</span>
 </div>
@@ -44,8 +16,6 @@
 <div class="mb-2">
   <span class="mat-h2">Restauração</span>
 </div>
-<!-- <input type="file" name="" id="">
-<button mat-raised-button color="accent">Restaurar</button> -->
 
 <div>
   <mat-form-field style="width: 200px;">
@@ -54,4 +24,60 @@
   </mat-form-field>
   <button type="button" mat-flat-button color="accent" class="ml-2" (click)="onRestore()">Restaurar</button>
   <input hidden type="file" accept="application/JSON" #file (change)="onChooseFile($event)">
+</div>
+
+<div class="mb-2">
+  <span class="mat-h1">Relatório</span>
+</div>
+
+<form [formGroup]="form" class="flex-form">
+
+  <div class="ocupy flex">
+    <img class="pic-preview" src="{{ logo1Blob }}">
+    <div class="flex-upload">
+      <mat-form-field>
+        <mat-label>Logo 1</mat-label>
+        <input matInput type="text" placeholder="Logo 1" disabled [value]="logo1.files?.item(0)?.name">
+      </mat-form-field>
+      <button type="button" mat-flat-button color="primary" (click)="logo1.click()">
+        <mat-icon>attach_file</mat-icon>Anexar
+      </button>
+      <input hidden type="file" accept="image/*" #logo1 (change)="chooseLogo1($event)">
+    </div>
+  </div>
+
+  <div class="ocupy flex">
+    <img class="pic-preview" src="{{ logo2Blob }}">
+    <div class="flex-upload">
+      <mat-form-field>
+        <mat-label>Logo 2</mat-label>
+        <input matInput type="text" placeholder="Logo 2" disabled [value]="logo2.files?.item(0)?.name">
+      </mat-form-field>
+      <button type="button" mat-flat-button color="primary" (click)="logo2.click()">
+        <mat-icon>attach_file</mat-icon>Anexar
+      </button>
+      <input hidden type="file" accept="image/*" #logo2 (change)="chooseLogo2($event)">
+    </div>
+  </div>
+
+  <mat-form-field class="ocupy">
+    <mat-label>Texto principal</mat-label>
+    <textarea matInput placeholder="Texto principal" formControlName="text" rows="5"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="">
+    <mat-label>Assinatura 1</mat-label>
+    <input matInput type="text" placeholder="Assinatura 1" formControlName="sign1">
+  </mat-form-field>
+
+  <mat-form-field class="">
+    <mat-label>Assinatura 2</mat-label>
+    <input matInput type="text" placeholder="Assinatura 2" formControlName="sign2">
+  </mat-form-field>
+
+</form>
+
+<div class="bottom-form">
+  <span class="toolbar-spacer"></span>
+  <button mat-raised-button color="primary" (click)="saveDataReport()">Salvar</button>
 </div>

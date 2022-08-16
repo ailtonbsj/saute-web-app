@@ -10,6 +10,7 @@ import { AutorizacaoService } from '../autorizacao.service';
 import { jsPDF } from 'jspdf';
 import { InstituicaoService } from 'src/app/instituicao/instituicao.service';
 import { Instituicao } from 'src/app/instituicao/instituicao.model';
+import { ConfiguracoesService } from 'src/app/configuracoes/configuracoes.service';
 
 @Component({
   selector: 'app-autorizacao-datatable',
@@ -31,7 +32,8 @@ export class AutorizacaoDatatableComponent implements OnInit {
     private service: AutorizacaoService,
     private instituicaoService: InstituicaoService,
     private router: Router,
-    private helper: HelperService) {
+    private helper: HelperService,
+    private confService: ConfiguracoesService) {
     this.loadDatatable();
   }
 
@@ -95,18 +97,32 @@ export class AutorizacaoDatatableComponent implements OnInit {
     let logo1Blob: string;
     let logo2Blob: string;
     let doc: jsPDF;
+
+    let sign1 = 'Orientador(a) da SETOR - SAUTE';
+    let sign2 = 'Coordenador(a) Regional da SAUTE';
+    let text = 'A Coordenadora da Instituição SAUTE, no uso das atribuições que lhe são conferidas pelo Art. 20 da resolução 372/2022 e Parecer 0658/2003 do Conselho, conforme requerimento do(s) professor(es) relacionado(s) neste processo, com suas respectivas disciplinas e níveis, RESOLVE: Conceder Autorização Temporária para lecionar(em) na instituição abaixo identificada, com VALIDADE ATÉ O FINAL DESTE ANO LETIVO.';
     this.service.show(id).pipe(
       map(auth => { autorizacao = auth; return auth.processo?.instituicaoId }),
       switchMap(id => this.instituicaoService.show(<number>id)),
       tap(inst => instituicao = inst),
+      switchMap(() => this.confService.getDataReport()),
+      tap(data => {
+        if (data) {
+          if (data.sign1) sign1 = data.sign1;
+          if (data.sign2) sign2 = data.sign2;
+          if (data.text) text = data.text;
+          if (data.logo1) logo1Blob = data.logo1;
+          if (data.logo2) logo2Blob = data.logo2;
+        }
+      }),
       switchMap(() => this.helper.fetchToBlob('/assets/logo1.png', 'image/png')),
-      tap(blob => logo1Blob = blob),
+      tap(blob => { if (!logo1Blob) { logo1Blob = blob } }),
       switchMap(() => this.helper.fetchToBlob('/assets/logo2.png', 'image/png')),
-      tap(blob => logo2Blob = blob),
+      tap(blob => { if (!logo2Blob) { logo2Blob = blob } }),
       switchMap(() => autorizacao.professor?.foto ?
         this.helper.image(<string>autorizacao.professor?.foto) : of(undefined))
     ).subscribe({
-      next: foto => {
+      next: (foto: any) => {
 
         doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
         doc.addImage(logo1Blob, 'png', margLeft, margTop, 70, headerHeight);
@@ -125,10 +141,9 @@ export class AutorizacaoDatatableComponent implements OnInit {
           renderingMode: 'fill'
         });
 
-        const txt = 'A Coordenadora da Instituição SAUTE, no uso das atribuições que lhe são conferidas pelo Art. 20 da resolução 372/2022 e Parecer 0658/2003 do Conselho, conforme requerimento do(s) professor(es) relacionado(s) neste processo, com suas respectivas disciplinas e níveis, RESOLVE: Conceder Autorização Temporária para lecionar(em) na instituição abaixo identificada, com VALIDADE ATÉ O FINAL DESTE ANO LETIVO.';
         doc.setFont('times', 'normal');
         doc.setFontSize(12);
-        doc.text(txt, margLeft, bodyTop + 22, {
+        doc.text(text, margLeft, bodyTop + 22, {
           align: 'justify',
           maxWidth: contentWidth - 1
         });
@@ -192,13 +207,13 @@ export class AutorizacaoDatatableComponent implements OnInit {
           doc.addImage(foto, 'png', margLeft + 100, bodyTop + 96, 52, height);
         }
 
-        doc.text('________________________________Orientador(a) da SETOR - SAUTE',
+        doc.text('________________________________' + sign1,
           centerWidth - 50, contentHeight - 10, {
           maxWidth: 70,
           align: 'center'
         });
 
-        doc.text('________________________________Coordenador(a) Regional da SAUTE',
+        doc.text('________________________________' + sign2,
           centerWidth + 50, contentHeight - 10, {
           maxWidth: 70,
           align: 'center'
