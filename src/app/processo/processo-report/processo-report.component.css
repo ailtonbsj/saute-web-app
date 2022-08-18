@@ -1,0 +1,117 @@
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.page * {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.page header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.page header img {
+    width: 120px;
+}
+
+.page h1,
+.page h2 {
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.page h2 {
+    border-width: 1px 0;
+    border-style: dotted;
+    margin: 3px 0;
+}
+
+.page p {
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
+.page .instituicao {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.page .instituicao div {
+    font-weight: bold;
+    margin: 1px 0;
+    flex-grow: 1;
+}
+
+.page .instituicao div span {
+    font-weight: normal;
+    margin: 0 50px 0 10px;
+}
+
+.page .autorizacoes section {
+    border-width: 1px 0 0 0;
+    border-style: dotted;
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page .autorizacoes section .campos {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    min-width: 300px;
+}
+
+.page .autorizacoes section .campos div {
+    font-weight: bold;
+}
+
+.page .autorizacoes section .campos div span {
+    font-weight: normal;
+    margin: 0 10px 0 20px;
+}
+
+.page .autorizacoes section .referendum {
+    margin-right: 20px;
+    flex-grow: 1;
+}
+
+.page .autorizacoes section .referendum div {
+    font-weight: bold;
+}
+
+.page .autorizacoes section div img {
+    width: 100px;
+}
+
+.page footer {
+    margin-top: 10px;
+    border-width: 1px 0 0 0;
+    border-style: dotted;
+}
+
+.page footer .assinaturas {
+    display: flex;
+    justify-content: space-around;
+}
+
+.page footer .assinaturas div p {
+    text-align: center;
+    margin: 0;
+}
+
+@media print {
+
+    .header-view {
+        display: none !important;
+    }
+  
+  }

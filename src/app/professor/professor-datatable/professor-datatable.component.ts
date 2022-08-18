@@ -19,7 +19,7 @@ export class ProfessorDatatableComponent implements OnInit {
   isEnabledFilter = false;
   displayedColumns: string[] = ['id', 'nome', 'nascimento', 'naturalidade', 'cpf', 'rg', 'orgaoEmissor',
     'endereco.cep', 'endereco.rua', 'endereco.numero', 'endereco.bairro', 'endereco.uf', 'endereco.municipio',
-    'telefone', 'celular', 'email', 'pai', 'mae', 'numeroCNH', 'categoriaCNH', 'foto', 'createdAt', 'updatedAt', 'actions'];
+    'telefone', 'celular', 'email', 'pai', 'mae', 'habilitacao', 'categoriaCNH', 'foto', 'createdAt', 'updatedAt', 'actions'];
 
   dataSource: MatTableDataSource<Professor> = new MatTableDataSource(<Professor[]>[]);
 

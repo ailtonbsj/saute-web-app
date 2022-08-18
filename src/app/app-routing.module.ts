@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'autorizacao', pathMatch: 'full' },
+  { path: '', redirectTo: 'processo', pathMatch: 'full' },
   {
     path: 'autorizacao',
     loadChildren: () => import('./autorizacao/autorizacao.module').then(m => m.AutorizacaoModule),
@@ -27,7 +27,7 @@ const routes: Routes = [
     path: 'configuracoes',
     loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
   },
-  { path: '**', redirectTo: 'autorizacao' }
+  { path: '**', redirectTo: 'processo' }
 ];
 
 @NgModule({

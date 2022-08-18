@@ -122,3 +122,23 @@ table[mat-table] {
 td.mat-cell, th.mat-header-cell {
   padding: 0 5px !important;
 }
+
+@media print {
+
+  .mat-drawer, .mat-toolbar, .footer {
+      display: none !important;
+  }
+
+  .mat-drawer-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .mat-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+}

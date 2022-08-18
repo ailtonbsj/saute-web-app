@@ -79,7 +79,7 @@ export class ProcessoDatatableComponent implements OnInit {
   }
 
   onReport(id: number) {
-    
+    this.router.navigate([`processo/${id}/report`]);
   }
 
   refreshComponent() {

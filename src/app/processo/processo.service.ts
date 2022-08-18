@@ -29,9 +29,12 @@ export class ProcessoService {
 
   show(id: number): Observable<Processo> {
     let processo: Processo;
+    let instituicao: Instituicao;
     return from(this.table.get(parseInt(`${id}`))).pipe(
       map(ent => processo = ent ? <Processo>ent : <Processo>{}),
       switchMap(ent => ent.instituicaoId ? from(db.instituicao.get(ent.instituicaoId)) : of(<Instituicao>{})),
+      switchMap(inst => { instituicao = <Instituicao>inst; return from(db.nivelEscolar.get(inst?.nivelEscolarId || 0)) }),
+      map(nivel => { instituicao.nivelEscolar = nivel; return instituicao }),
       map(inst => { processo.instituicao = inst; return processo }),
       take(1)
     );

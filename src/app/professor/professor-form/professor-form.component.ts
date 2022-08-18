@@ -54,7 +54,7 @@ export class ProfessorFormComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     pai: [''],
     mae: [''],
-    numeroCNH: ['', CustomValidators.number()],
+    habilitacao: ['', [Validators.required]],
     categoriaCNH: [''],
   });
 
@@ -124,7 +124,7 @@ export class ProfessorFormComponent implements OnInit {
             const patch: any = {
               ...entity,
               categoriaCNH: entity.categoriaCNH?.split('')
-             };
+            };
             delete patch.endereco.uf;
             delete patch.endereco.municipio;
             this.form.patchValue(patch);

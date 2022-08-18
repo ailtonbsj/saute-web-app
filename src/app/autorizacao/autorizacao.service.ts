@@ -67,4 +67,16 @@ export class AutorizacaoService {
     return from(this.table.delete(id)).pipe(take(1));
   }
 
+  private async fillAutorizacaoWithProfessor(auth: Autorizacao) {
+    auth.professor = await db.professor.get(auth.professorId);
+    return auth;
+  }
+
+  getByProcess(id: number) {
+    const promise = this.table.filter(auth => auth.processoId === id).toArray()
+      .then(auths => auths.map(this.fillAutorizacaoWithProfessor))
+      .then(auths => Promise.all(auths));
+    return from(promise);
+  }
+
 }

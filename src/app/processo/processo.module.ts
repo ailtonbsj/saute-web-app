@@ -6,12 +6,14 @@ import { ProcessoDatatableComponent } from './processo-datatable/processo-datata
 import { ProcessoFormComponent } from './processo-form/processo-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
+import { ProcessoReportComponent } from './processo-report/processo-report.component';
 
 
 @NgModule({
   declarations: [
     ProcessoDatatableComponent,
-    ProcessoFormComponent
+    ProcessoFormComponent,
+    ProcessoReportComponent
   ],
   imports: [
     CommonModule,
