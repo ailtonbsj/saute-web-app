@@ -78,6 +78,10 @@ export class ProcessoDatatableComponent implements OnInit {
     });
   }
 
+  onReport(id: number) {
+    
+  }
+
   refreshComponent() {
     this.router.navigateByUrl('nivelescolar', { skipLocationChange: true }).then(() => {
       this.router.navigate(['processo']);

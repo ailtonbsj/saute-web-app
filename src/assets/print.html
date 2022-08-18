@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Printer</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <style>
+        @media print {
+
+            body {
+                margin: 0;
+                color: #000;
+                background-color: #fff;
+            }
+
+        }
+
+        .page {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page * {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .page header img {
+            width: 120px;
+        }
+
+        .page h1,
+        .page h2 {
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .page h2 {
+            border-width: 1px 0;
+            border-style: dotted;
+            margin: 3px 0;
+        }
+
+        .page p {
+            text-align: justify;
+            margin-bottom: 10px;
+        }
+
+        .page .instituicao {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .page .instituicao div {
+            font-weight: bold;
+            margin: 1px 0;
+            flex-grow: 1;
+        }
+
+        .page .instituicao div span {
+            font-weight: normal;
+            margin: 0 50px 0 10px;
+        }
+
+        .page .autorizacoes section {
+            border-width: 1px 0 0 0;
+            border-style: dotted;
+            padding: 10px 0;
+            display: flex;
+        }
+
+        .page .autorizacoes section .campos {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+            min-width: 300px;
+        }
+
+        .page .autorizacoes section .campos div {
+            font-weight: bold;
+        }
+
+        .page .autorizacoes section .campos div span {
+            font-weight: normal;
+            margin: 0 10px 0 20px;
+        }
+
+        .page .autorizacoes section .referendum {
+            margin-right: 20px;
+        }
+
+        .page .autorizacoes section .referendum div {
+            font-weight: bold;
+        }
+
+        .page .autorizacoes section div img {
+            width: 100px;
+        }
+
+        .page footer {
+            margin-top: 10px;
+            border-width: 1px 0 0 0;
+            border-style: dotted;
+        }
+
+        .page footer .assinaturas {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .page footer .assinaturas div p {
+            text-align: center;
+            margin: 0;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"
+        integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body class="page">
+    <header>
+        <img src="logo1.png">
+        <img src="logo2.png">
+    </header>
+    <h1>Sistema de Autorização Temporária - SAUTE</h1>
+    <h2>Processo Nº 021/2022-1</h2>
+    <p>A Coordenadora da Instituição SAUTE, no uso das atribuições que lhe são conferidas pelo Art. 20 da resolução
+        372/2022 e Parecer 0658/2003 do Conselho, conforme requerimento do(s) professor(es) relacionado(s) neste
+        processo, com suas respectivas disciplinas e níveis, RESOLVE: Conceder Autorização Temporária para lecionar(em)
+        na instituição abaixo identificada, com VALIDADE ATÉ O FINAL DESTE ANO LETIVO.</p>
+    <article class="instituicao">
+        <div>
+            Instituição
+            <span>EEIEF Rufina Magalhães de Farias</span>
+        </div>
+        <div>
+            Nível
+            <span>Fundamental</span>
+        </div>
+        <div>
+            Endereço
+            <span>Imbé</span>
+        </div>
+        <div>Número
+            <span>&nbsp;</span>
+        </div>
+        <div>Bairro
+            <span>Zona Rural</span>
+        </div>
+        <div>Município
+            <span>Acaraú</span>
+        </div>
+        <div>CEP
+            <span>62580-000</span>
+        </div>
+        <div>E-mail
+            <span>email@gmail.com</span>
+        </div>
+        <div>Dependência
+            <span>Municipal</span>
+        </div>
+        <div>
+            Entidade
+            <span>Prefeitura Municipal de Acaraú</span>
+        </div>
+        <div>Credenciamento
+            <span>&nbsp;</span>
+        </div>
+        <div>Validade do Credenciamento
+            <span>&nbsp;</span>
+        </div>
+        <div>Recredenciamento
+            <span>&nbsp;</span>
+        </div>
+        <div>Validade do Recredenciamento
+            <span>&nbsp;</span>
+        </div>
+    </article>
+    <article class="autorizacoes">
+        <section>
+            <div class="campos">
+                <div>Autorização Nº <span>0151/22</span></div>
+                <div>Francisca Sandra Vasconcelos</div>
+                <div>CPF <span>000.000.000-00</span></div>
+                <div>RG <span>43434345 SSP-CE</span></div>
+                <div>Telefone <span>&nbsp;</span></div>
+                <div>Celular <span>(88) 992626362</span></div>
+                <div>Habilitação <span>Lincenciatura em Pedagogia</span></div>
+            </div>
+            <div class="referendum">
+                <div>Referendum</div>
+                <p>O(A) Professor(a) está autorizado(a) a lecionas as disciplinas de EDUCAÇÃO FÍSICA no ensino
+                    fundamental.</p>
+            </div>
+            <div>
+                <img src="user.png">
+            </div>
+        </section>
+        <section>
+            <div class="campos">
+                <div>Autorização Nº <span>0151/22</span></div>
+                <div>Francisca Sandra Vasconcelos</div>
+                <div>CPF <span>000.000.000-00</span></div>
+                <div>RG <span>43434345 SSP-CE</span></div>
+                <div>Telefone <span>&nbsp;</span></div>
+                <div>Celular <span>(88) 992626362</span></div>
+                <div>Habilitação <span>Lincenciatura em Pedagogia</span></div>
+            </div>
+            <div class="referendum">
+                <div>Referendum</div>
+                <p>O(A) Professor(a) está autorizado(a) a lecionas as disciplinas de EDUCAÇÃO FÍSICA no ensino
+                    fundamental.</p>
+            </div>
+            <div>
+                <img src="user.png">
+            </div>
+        </section>
+        <section>
+            <div class="campos">
+                <div>Autorização Nº <span>0151/22</span></div>
+                <div>Francisca Sandra Vasconcelos</div>
+                <div>CPF <span>000.000.000-00</span></div>
+                <div>RG <span>43434345 SSP-CE</span></div>
+                <div>Telefone <span>&nbsp;</span></div>
+                <div>Celular <span>(88) 992626362</span></div>
+                <div>Habilitação <span>Lincenciatura em Pedagogia</span></div>
+            </div>
+            <div class="referendum">
+                <div>Referendum</div>
+                <p>O(A) Professor(a) está autorizado(a) a lecionas as disciplinas de EDUCAÇÃO FÍSICA no ensino
+                    fundamental.</p>
+            </div>
+            <div>
+                <img src="user.png">
+            </div>
+        </section>
+        <section>
+            <div class="campos">
+                <div>Autorização Nº <span>0151/22</span></div>
+                <div>Francisca Sandra Vasconcelos</div>
+                <div>CPF <span>000.000.000-00</span></div>
+                <div>RG <span>43434345 SSP-CE</span></div>
+                <div>Telefone <span>&nbsp;</span></div>
+                <div>Celular <span>(88) 992626362</span></div>
+                <div>Habilitação <span>Lincenciatura em Pedagogia</span></div>
+            </div>
+            <div class="referendum">
+                <div>Referendum</div>
+                <p>O(A) Professor(a) está autorizado(a) a lecionas as disciplinas de EDUCAÇÃO FÍSICA no ensino
+                    fundamental.</p>
+            </div>
+            <div>
+                <img src="user.png">
+            </div>
+        </section>
+    </article>
+    <footer>
+        <div>Sexta-feira, 23 de agosto de 2022.</div>
+        <div class="assinaturas">
+            <div>
+                <p>________________________________</p>
+                <p>Katia Regina Carvalho</p>
+                <p>Orientadora CECOM</p>
+            </div>
+            <div>
+                <p>________________________________</p>
+                <p>Katia Regina Carvalho</p>
+                <p>Orientadora CECOM</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    var element = document.querySelector('.page');
+    var opt = {
+        margin: 1,
+        filename: 'myfile.pdf',
+        image: { type: 'png', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // New Promise-based usage:
+    html2pdf().set(opt).from(element).save();
+</script>
+
+</html>

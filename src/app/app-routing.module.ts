@@ -27,7 +27,7 @@ const routes: Routes = [
     path: 'configuracoes',
     loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
   },
-  { path: '**', redirectTo: 'instituicao' }
+  { path: '**', redirectTo: 'autorizacao' }
 ];
 
 @NgModule({
