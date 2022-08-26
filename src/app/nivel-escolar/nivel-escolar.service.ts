@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, from, map, Observable, of, switchMap, take } from 'rxjs';
 import { db } from '../db';
@@ -8,22 +9,31 @@ import { NivelEscolar } from '../nivel-escolar/nivel-escolar.model';
 })
 export class NivelEscolarService {
 
-  constructor() {
+  api = 'local';
+  apiEnabled = false;
+
+  constructor(private http: HttpClient) {
     db.open();
+    db.configuracao.get(0).then(confs => {
+      if (confs && confs.api) {
+        this.api = confs.api + '/nivelescolar';
+        this.apiEnabled = true;
+      } else {
+        this.api = 'local';
+        this.apiEnabled = false;
+      }
+    });
   }
 
-  // index(): Observable<NivelEscolar[]> {
-  //   return of(this.cache).pipe(
-  //     delay(300),
-  //     take(1)
-  //   );
-  // }
-
   index(): Observable<NivelEscolar[]> {
-    return from(db.nivelEscolar.toArray()).pipe(
-      delay(300),
-      take(1)
-    );
+    if (this.apiEnabled) {
+      return this.http.get<NivelEscolar[]>(`${this.api}`);
+    } else {
+      return from(db.nivelEscolar.toArray()).pipe(
+        delay(300),
+        take(1)
+      );
+    }
   }
 
   // store(entity: NivelEscolar): Observable<NivelEscolar> {

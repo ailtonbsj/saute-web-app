@@ -16,7 +16,8 @@ export class ConfiguracoesComponent implements OnInit {
   form = this.fb.group({
     text: [''],
     sign1: [''],
-    sign2: ['']
+    sign2: [''],
+    api: ['']
   });
   logo1: File = <File>{};
   logo2: File = <File>{};
