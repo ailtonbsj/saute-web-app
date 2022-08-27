@@ -32,6 +32,7 @@ export class ConfiguracoesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.form.controls.api.setValue(localStorage.getItem('api') || '');
     this.service.getDataReport().subscribe({
       next: confs => {
         if (confs) {
@@ -113,11 +114,15 @@ export class ConfiguracoesComponent implements OnInit {
   }
 
   saveDataReport() {
+    if (this.form.value.api !== '')
+      localStorage.setItem('api', <string>this.form.value.api);
     const data: any = {
       ...this.form.value
     };
+    delete data.api;
     if (this.logo1Blob !== '/assets/logo1.png') data.logo1 = this.logo1Blob;
     if (this.logo2Blob !== '/assets/logo2.png') data.logo2 = this.logo2Blob;
+
     this.service.saveDataReport(data).subscribe({
       next: () => this.helper.alertSnack('Configurações salvas!')
     });
