@@ -19,7 +19,7 @@ export class InstituicaoDatatableComponent {
   isEnabledFilter = false;
   displayedColumns: string[] = ['instituicao', 'nivelEscolar.nivelEscolar', 'endereco.rua', 'endereco.numero',
     'endereco.bairro', 'endereco.uf', 'endereco.municipio', 'email', 'dependencia', 'entidade', 'credenciamento',
-    'valorCredenciamento', 'actions'];
+    'validadeCredenciamento', 'actions'];
 
   dataSource: MatTableDataSource<Instituicao> = new MatTableDataSource(<Instituicao[]>[]);
 

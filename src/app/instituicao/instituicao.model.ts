@@ -18,8 +18,8 @@ export interface Instituicao {
   entidade: string
   credenciamento: string
   valorCredenciamento: number
-  recredenciamento: string
-  valorRecredenciamento: number
+  recredenciamento?: string
+  valorRecredenciamento?: number
   createdAt: Date
   updatedAt: Date
 }

@@ -47,9 +47,9 @@ export class InstituicaoFormComponent implements OnInit {
     dependencia: ['', Validators.required],
     entidade: ['', Validators.required],
     credenciamento: ['', Validators.required],
-    valorCredenciamento: ['', Validators.required],
-    recredenciamento: ['', Validators.required],
-    valorRecredenciamento: ['', Validators.required],
+    validadeCredenciamento: ['', [Validators.required, CustomValidators.date()]],
+    recredenciamento: [''],
+    validadeRecredenciamento: ['', [CustomValidators.date()]],
   });
 
   constructor(

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, filter, from, map, Observable, of, reduce, switchMap, take, tap } from 'rxjs';
 import { db } from '../db';
@@ -9,8 +10,13 @@ import { Instituicao } from './instituicao.model';
 })
 export class InstituicaoService {
 
-  constructor() {
-    db.open();
+  api = localStorage.getItem('api') || 'local';
+  apiEnabled = false;
+
+  constructor(private http: HttpClient) {
+    //db.open();
+    this.apiEnabled = this.api !== 'local';
+    if (this.apiEnabled) this.api += '/instituicao';
   }
 
   private async indexAsync() {
@@ -23,8 +29,12 @@ export class InstituicaoService {
   }
 
   index(): Observable<Instituicao[]> {
-    /* With Async Await */
-    return from(this.indexAsync()).pipe(delay(1), take(1));
+    if (this.apiEnabled) {
+      return this.http.get<Instituicao[]>(`${this.api}`);
+    } else {
+      /* With Async Await */
+      return from(this.indexAsync()).pipe(delay(1), take(1));
+    }
   }
 
   show(id: number): Observable<Instituicao> {
@@ -38,8 +48,6 @@ export class InstituicaoService {
   }
 
   private transformToSave(entity: Instituicao): Instituicao {
-    entity.updatedAt = new Date();
-    delete entity.nivelEscolar;
     entity.endereco.uf = (<any>entity.endereco.uf).nome;
     entity.endereco.municipio = (<any>entity.endereco.municipio).nome;
     return entity;
@@ -47,12 +55,21 @@ export class InstituicaoService {
 
   store(entity: Instituicao): Observable<number> {
     entity = this.transformToSave(entity);
-    entity.createdAt = new Date();
-    return from(db.instituicao.add(entity)).pipe(take(1));
+    if (this.apiEnabled) {
+      console.log(entity);
+      return this.http.post<number>(`${this.api}`, entity);
+    } else {
+      delete entity.nivelEscolar;
+      entity.updatedAt = new Date();
+      entity.createdAt = new Date();
+      return from(db.instituicao.add(entity)).pipe(take(1));
+    }
   }
 
   update(entity: Instituicao): Observable<number> {
     entity = this.transformToSave(entity);
+    delete entity.nivelEscolar;
+    entity.updatedAt = new Date();
     return from(db.instituicao.put(entity)).pipe(take(1));
   }
 

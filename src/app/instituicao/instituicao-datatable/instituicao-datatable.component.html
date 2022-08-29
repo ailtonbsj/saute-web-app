@@ -106,10 +106,10 @@
       <td mat-cell *matCellDef="let element">{{element.credenciamento}}</td>
     </ng-container>
 
-    <!-- valorCredenciamento Column -->
-    <ng-container matColumnDef="valorCredenciamento">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor cred.:</th>
-      <td mat-cell *matCellDef="let element">{{element.valorCredenciamento}}</td>
+    <!-- validadeCredenciamento Column -->
+    <ng-container matColumnDef="validadeCredenciamento">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Val. cred.:</th>
+      <td mat-cell *matCellDef="let element">{{element.validadeCredenciamento | date : 'shortDate' : '' : 'pt-BR'}}</td>
     </ng-container>
 
     <!-- recredenciamento Column -->
@@ -118,10 +118,11 @@
       <td mat-cell *matCellDef="let element">{{element.recredenciamento}}</td>
     </ng-container>
 
-    <!-- valorRecredenciamento Column -->
-    <ng-container matColumnDef="valorRecredenciamento">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor recr.:</th>
-      <td mat-cell *matCellDef="let element">{{element.valorRecredenciamento}}</td>
+    <!-- validadeRecredenciamento Column -->
+    <ng-container matColumnDef="validadeRecredenciamento">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Val. recr.:</th>
+      <td mat-cell *matCellDef="let element">{{element.validadeRecredenciamento | date : 'shortDate' : '' : 'pt-BR'}}
+      </td>
     </ng-container>
 
     <!-- createdAt Column -->
