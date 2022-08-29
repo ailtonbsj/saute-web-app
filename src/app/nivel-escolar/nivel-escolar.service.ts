@@ -13,7 +13,7 @@ export class NivelEscolarService {
   apiEnabled = false;
 
   constructor(private http: HttpClient) {
-    db.open();
+    // db.open();
     this.apiEnabled = this.api !== 'local';
     if (this.apiEnabled) this.api += '/nivelescolar';
   }

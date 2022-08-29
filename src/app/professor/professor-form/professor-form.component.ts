@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, filter, map, Observable, switchMap } from 'rxjs';
+import { delay, EMPTY, filter, forkJoin, map, Observable, switchMap, take, tap } from 'rxjs';
 import { BrazilCity, BrazilState } from 'src/app/shared/brazil-info';
 import { BrazilInfoService } from 'src/app/shared/brazil-info.service';
 import { CustomValidators } from 'src/app/shared/custom-validators';
@@ -22,9 +22,10 @@ export class ProfessorFormComponent implements OnInit {
   entity: Professor = <Professor>{};
 
   displayAuto = HelperService.displayAuto;
+  naturalidade$: Observable<BrazilCity[]> = EMPTY;
   ufs$: Observable<BrazilState[]> = EMPTY;
   municipios$: Observable<BrazilCity[]> = EMPTY;
-  naturalidade$: Observable<BrazilCity[]> = EMPTY;
+  fieldsLoader$: Observable<any>[] = [];
 
   @ViewChild('autoUf') _autoUf: MatAutocomplete = <MatAutocomplete>{};
   @ViewChild('cep') _cep: ElementRef = <ElementRef>{};
@@ -69,13 +70,14 @@ export class ProfessorFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCEP();
-    this.ufs$ = this.brInfo.getStates(); // init UF
+    this.naturalidade$ = this.brInfo.initCityAutocomplete(this.form.controls.naturalidade);
     this.municipios$ = this.brInfo.initCityAutocomplete(
       this.form.controls.endereco.controls.municipio,
       this.form.controls.endereco.controls.uf
     );
-    this.naturalidade$ = this.brInfo.initCityAutocomplete(this.form.controls.naturalidade);
-    this.loadFormData();
+    this.ufs$ = this.brInfo.getStates().pipe(
+      tap(() => this.loadFormData())
+    );
   }
 
   private initCEP(): void {
@@ -130,7 +132,7 @@ export class ProfessorFormComponent implements OnInit {
             this.form.patchValue(patch);
             if (this.entity.foto) this.imageBlob = this.entity.foto;
           } else this.navigateToTable();
-        }
+        },
       });
     }
     else {
