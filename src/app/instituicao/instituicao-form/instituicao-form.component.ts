@@ -65,9 +65,10 @@ export class InstituicaoFormComponent implements OnInit {
   ngOnInit(): void {
     this.initNivelEscolar();
     this.initCEP();
-    this.ufs$ = this.brInfo.getStates(); // init UF
+    this.ufs$ = this.brInfo.getStates().pipe(
+      tap(() => this.loadFormData())
+    );
     this.initMunicipio();
-    this.loadFormData();
   }
 
   private initNivelEscolar(): void {

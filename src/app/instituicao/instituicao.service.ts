@@ -38,13 +38,17 @@ export class InstituicaoService {
   }
 
   show(id: number): Observable<Instituicao> {
-    let instituicao: Instituicao;
-    return from(db.instituicao.get(parseInt(`${id}`))).pipe(
-      map(inst => instituicao = inst ? <Instituicao>inst : <Instituicao>{}),
-      switchMap(inst => inst.nivelEscolarId ? from(db.nivelEscolar.get(inst.nivelEscolarId)) : of(<NivelEscolar>{})),
-      map(nivel => { instituicao.nivelEscolar = nivel; return instituicao }),
-      take(1)
-    );
+    if (this.apiEnabled) {
+      return this.http.get<Instituicao>(`${this.api}/${id}`);
+    } else {
+      let instituicao: Instituicao;
+      return from(db.instituicao.get(parseInt(`${id}`))).pipe(
+        map(inst => instituicao = inst ? <Instituicao>inst : <Instituicao>{}),
+        switchMap(inst => inst.nivelEscolarId ? from(db.nivelEscolar.get(inst.nivelEscolarId)) : of(<NivelEscolar>{})),
+        map(nivel => { instituicao.nivelEscolar = nivel; return instituicao }),
+        take(1)
+      );
+    }
   }
 
   private transformToSave(entity: Instituicao): Instituicao {
@@ -56,7 +60,6 @@ export class InstituicaoService {
   store(entity: Instituicao): Observable<number> {
     entity = this.transformToSave(entity);
     if (this.apiEnabled) {
-      console.log(entity);
       return this.http.post<number>(`${this.api}`, entity);
     } else {
       delete entity.nivelEscolar;
@@ -68,31 +71,41 @@ export class InstituicaoService {
 
   update(entity: Instituicao): Observable<number> {
     entity = this.transformToSave(entity);
-    delete entity.nivelEscolar;
-    entity.updatedAt = new Date();
-    return from(db.instituicao.put(entity)).pipe(take(1));
+    if (this.apiEnabled) {
+      return this.http.patch<number>(`${this.api}`, entity);
+    } else {
+      delete entity.nivelEscolar;
+      entity.updatedAt = new Date();
+      return from(db.instituicao.put(entity)).pipe(take(1));
+    }
   }
 
   destroy(id: number): Observable<void> {
-
-    const promise = db.processo.toArray()
-      .then(procs => procs.map(proc => proc.instituicaoId))
-      .then(arr => arr.includes(id))
-    return from(promise).pipe(
-      map(constraint => { if (constraint) throw new Error('Cannot remove.') }),
-      switchMap(() => from(db.instituicao.delete(id))),
-      take(1)
-    );
-
+    if (this.apiEnabled) {
+      return this.http.delete<void>(`${this.api}/${id}`);
+    } else {
+      const promise = db.processo.toArray()
+        .then(procs => procs.map(proc => proc.instituicaoId))
+        .then(arr => arr.includes(id))
+      return from(promise).pipe(
+        map(constraint => { if (constraint) throw new Error('Cannot remove.') }),
+        switchMap(() => from(db.instituicao.delete(id))),
+        take(1)
+      );
+    }
   }
 
   filter(query: string): Observable<Instituicao[]> {
-    const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
-    // db.nivelEscolar.where('instituicao').startsWithIgnoreCase(text).limit(10).toArray();
-    const queryPromise = db.instituicao.limit(5).filter(
-      x => new RegExp(text).test(x.instituicao.toLowerCase())
-    ).toArray();
-    return from(queryPromise).pipe(delay(1), take(1));
+    if (this.apiEnabled) {
+      return this.http.get<Instituicao[]>(`${this.api}?q=${query}`);
+    } else {
+      const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
+      // db.nivelEscolar.where('instituicao').startsWithIgnoreCase(text).limit(10).toArray();
+      const queryPromise = db.instituicao.limit(5).filter(
+        x => new RegExp(text).test(x.instituicao.toLowerCase())
+      ).toArray();
+      return from(queryPromise).pipe(delay(1), take(1));
+    }
   }
 
 }
