@@ -167,4 +167,20 @@ export class HelperService {
     return this.fileReader(file);
   }
 
+  /*
+   * Filters utils
+   */
+
+  /*
+   * Generic filters for help conversions
+   */
+
+  static isoDateToBrazil(val: string) {
+    if (val) return new Date(`${val}T00:00:00`).toLocaleDateString('pt-BR')
+    return val
+  }
+  
+
+  
+
 }

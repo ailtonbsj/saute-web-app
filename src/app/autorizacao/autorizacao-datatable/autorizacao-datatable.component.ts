@@ -160,9 +160,10 @@ export class AutorizacaoDatatableComponent implements OnInit {
         data["Dependência"] = instituicao.dependencia;
         data["Entidade"] = instituicao.entidade;
         data["Credenciamento"] = instituicao.credenciamento;
-        data["Validade do Credenciamento"] = instituicao.valorCredenciamento;
+        
+        data["Validade do Credenciamento"] = HelperService.isoDateToBrazil(<any>instituicao.validadeCredenciamento);
         data["Recredenciamento"] = instituicao.recredenciamento;
-        data["Validade do Recredenciamento"] = instituicao.valorRecredenciamento;
+        data["Validade do Recredenciamento"] = HelperService.isoDateToBrazil(<any>instituicao.validadeRecredenciamento);
 
         doc.setFont('times', 'normal');
         doc.setFontSize(12);

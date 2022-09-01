@@ -17,9 +17,9 @@ export interface Instituicao {
   dependencia: string
   entidade: string
   credenciamento: string
-  valorCredenciamento: number
+  validadeCredenciamento: Date
   recredenciamento?: string
-  valorRecredenciamento?: number
+  validadeRecredenciamento?: Date
   createdAt: Date
   updatedAt: Date
 }
