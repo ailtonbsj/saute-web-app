@@ -65,13 +65,13 @@
             <span>{{ instituicao.credenciamento }}</span>
         </div>
         <div>Validade do Credenciamento
-            <span>{{ instituicao.validadeCredenciamento }}</span>
+            <span>{{ instituicao.validadeCredenciamento | date : 'shortDate' : '' : 'pt-BR' }}</span>
         </div>
         <div>Recredenciamento
             <span>{{ instituicao.recredenciamento }}</span>
         </div>
         <div>Validade do Recredenciamento
-            <span>{{ instituicao.validadeRecredenciamento }}</span>
+            <span>{{ instituicao.validadeRecredenciamento | date : 'shortDate' : '' : 'pt-BR' }}</span>
         </div>
     </article>
     <article class="autorizacoes">

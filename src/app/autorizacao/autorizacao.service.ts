@@ -104,11 +104,15 @@ export class AutorizacaoService {
     return auth;
   }
 
-  getByProcess(id: number) {
-    const promise = this.table.filter(auth => auth.processoId === id).toArray()
-      .then(auths => auths.map(this.fillAutorizacaoWithProfessor))
-      .then(auths => Promise.all(auths));
-    return from(promise);
+  getByProcess(id: number): Observable<Autorizacao[]> {
+    if (this.apiEnabled) {
+      return this.http.get<Autorizacao[]>(`${this.api}/proc/${id}`);
+    } else {
+      const promise = this.table.filter(auth => auth.processoId === id).toArray()
+        .then(auths => auths.map(this.fillAutorizacaoWithProfessor))
+        .then(auths => Promise.all(auths));
+      return from(promise);
+    }
   }
 
 }
