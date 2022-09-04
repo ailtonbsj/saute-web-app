@@ -1,6 +1,7 @@
 <mat-drawer-container class="main-menu" autosize>
 
-  <mat-drawer #sideNav class="sidenav" mode="side" [opened]="true">
+  <mat-drawer #sideNav class="sidenav" mode="side" [opened]="true"
+    [style.display]="(isAuth$ | async) ? 'block' : 'none'">
 
     <mat-nav-list>
       <div mat-subheader>Menu Principal</div>
@@ -29,6 +30,10 @@
         <mat-icon mat-list-icon>settings</mat-icon>
         <span mat-line>Configurações</span>
       </a>
+      <a mat-list-item (click)="doLogout()" *ngIf="hasApi$ | async">
+        <mat-icon mat-list-icon>logout</mat-icon>
+        <span mat-line>Sair</span>
+      </a>
 
     </mat-nav-list>
 
@@ -36,7 +41,7 @@
 
   <div class="sidenav-content">
 
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" *ngIf="isAuth$ | async">
       <button mat-icon-button aria-label="Botão Menu" (click)="sideNav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
@@ -48,13 +53,15 @@
     </mat-toolbar>
 
     <div class="content">
-      <mat-card class="card-router-outlet">
+      <mat-card [ngClass]="{
+        'card-router-outlet' : (isAuth$ | async)
+      }" [style.padding]="(isAuth$ | async) ? '16px' : '0'">
         <router-outlet></router-outlet>
       </mat-card>
 
       <div class="toolbar-spacer"></div>
 
-      <div class="footer">
+      <div class="footer" *ngIf="isAuth$ | async">
         &copy; {{ 2022 }} — <strong>SAUTE</strong>. Developed by <a href="https://ailtonbsj.github.io"
           target="_blank">ailton bsj</a>
       </div>

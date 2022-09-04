@@ -11,6 +11,9 @@ import { ConfiguracoesService } from '../configuracoes.service';
 })
 export class ConfiguracoesComponent implements OnInit {
 
+  api = localStorage.getItem('api') || 'local';
+  apiEnabled = false;
+
   fileBackup: any;
 
   form = this.fb.group({
@@ -29,7 +32,9 @@ export class ConfiguracoesComponent implements OnInit {
     private service: ConfiguracoesService,
     private helper: HelperService,
     private fb: FormBuilder
-  ) { }
+  ) {
+    this.apiEnabled = this.api !== 'local';
+  }
 
   ngOnInit(): void {
     this.form.controls.api.setValue(localStorage.getItem('api') || '');

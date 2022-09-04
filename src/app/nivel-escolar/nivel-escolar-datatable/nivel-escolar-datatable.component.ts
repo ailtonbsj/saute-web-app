@@ -64,9 +64,7 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
         this.helper.alertSnack('Removido com sucesso!');
         this.refreshComponent();
       },
-      error: e => {
-        this.helper.alertSnack(e);
-      }
+      error: e => this.defaultError(e)
     });
   }
 
@@ -78,6 +76,11 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
     this.router.navigateByUrl('instituicao', { skipLocationChange: true }).then(() => {
       this.router.navigate(['nivelescolar']);
     });
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

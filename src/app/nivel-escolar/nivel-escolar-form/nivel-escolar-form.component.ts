@@ -55,14 +55,16 @@ export class NivelEscolarFormComponent implements OnInit {
           next: _ => {
             this.snack.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       } else {
         this.service.update({ ...this.entity }).subscribe({
           next: _ => {
             this.snack.alertSnack('Atualizado com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       }
     } else this.form.markAllAsTouched();
@@ -70,6 +72,11 @@ export class NivelEscolarFormComponent implements OnInit {
 
   navigateToTable() {
     this.router.navigate(['nivelescolar']);
+  }
+
+  defaultError(e: any) {
+    this.snack.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

@@ -1,32 +1,4 @@
 <div class="mb-2">
-  <span class="mat-h1">Backup e Restore</span>
-</div>
-
-<div class="mb-2">
-  <span class="mat-h2">Backup</span>
-</div>
-<button mat-raised-button color="primary" class="mb-2" (click)="onBackup()">Clique para realizar o backup</button>
-
-<div class="mb-2">
-  <span class="mat-h2">Limpar Banco de dados</span>
-</div>
-<button mat-raised-button color="warn" class="mb-2" (click)="onClear()">Clique para LIMPAR o banco
-  completamente</button>
-
-<div class="mb-2">
-  <span class="mat-h2">Restauração</span>
-</div>
-
-<div>
-  <mat-form-field style="width: 200px;">
-    <mat-label>Arquivo</mat-label>
-    <input matInput type="text" placeholder="Arquivo" readonly [value]="file.files?.item(0)?.name" (click)="file.click()">
-  </mat-form-field>
-  <button type="button" mat-flat-button color="accent" class="ml-2" (click)="onRestore()">Restaurar</button>
-  <input hidden type="file" accept="application/JSON" #file (change)="onChooseFile($event)">
-</div>
-
-<div class="mb-2">
   <span class="mat-h1">Relatório</span>
 </div>
 
@@ -85,4 +57,35 @@
 <div class="bottom-form">
   <span class="toolbar-spacer"></span>
   <button mat-raised-button color="primary" (click)="saveDataReport()">Salvar</button>
+</div>
+
+<div *ngIf="!apiEnabled">
+  <div class="mb-2">
+    <span class="mat-h1">Backup e Restore</span>
+  </div>
+
+  <div class="mb-2">
+    <span class="mat-h2">Backup</span>
+  </div>
+  <button mat-raised-button color="primary" class="mb-2" (click)="onBackup()">Clique para realizar o backup</button>
+
+  <div class="mb-2">
+    <span class="mat-h2">Limpar Banco de dados</span>
+  </div>
+  <button mat-raised-button color="warn" class="mb-2" (click)="onClear()">Clique para LIMPAR o banco
+    completamente</button>
+
+  <div class="mb-2">
+    <span class="mat-h2">Restauração</span>
+  </div>
+
+  <div>
+    <mat-form-field style="width: 200px;">
+      <mat-label>Arquivo</mat-label>
+      <input matInput type="text" placeholder="Arquivo" readonly [value]="file.files?.item(0)?.name"
+        (click)="file.click()">
+    </mat-form-field>
+    <button type="button" mat-flat-button color="accent" class="ml-2" (click)="onRestore()">Restaurar</button>
+    <input hidden type="file" accept="application/JSON" #file (change)="onChooseFile($event)">
+  </div>
 </div>

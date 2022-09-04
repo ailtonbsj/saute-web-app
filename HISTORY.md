@@ -39,4 +39,11 @@ ng g c processo/processo-form
 ng g s processo/processo
 
 npm install jspdf --save
+
+# Module Security
+ng g m security --routing
+ng g s security/auth
+ng g interceptor security/auth
+ng g c security/login
+ng g g security/auth
 ```

@@ -1,0 +1,22 @@
+<div class="login-container">
+    <div class="login-form">
+        <h1 class="mat-h1">Login</h1>
+
+        <mat-form-field appearance="fill">
+            <mat-icon matPrefix fontIcon="person_outline"></mat-icon>
+            <mat-label>Login</mat-label>
+            <input matInput placeholder="nome de usuário" [(ngModel)]="username">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-icon matPrefix fontIcon="lock_outline"></mat-icon>
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput placeholder="senha" [(ngModel)]="password" #pass>
+            <mat-icon matSuffix #eye (click)="pass.type = pass.type == 'password' ? '' : 'password'"
+                (click)="iconEye = iconEye == 'visibility_on' ? 'visibility_off' : 'visibility_on'">
+                {{iconEye}}</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="doLogin()">Entrar</button>
+    </div>
+</div>

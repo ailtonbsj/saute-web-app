@@ -12,7 +12,10 @@ registerLocaleData(localePT);
 
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 import { MaterialModule } from './material.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './security/auth.interceptor';
+import { LoginComponent } from './security/login/login.component';
+import { AuthService } from './security/auth.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,13 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
