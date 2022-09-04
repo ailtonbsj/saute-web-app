@@ -38,6 +38,7 @@ ng g c processo/processo-datatable
 ng g c processo/processo-form
 ng g s processo/processo
 
+# Reports
 npm install jspdf --save
 
 # Module Security
@@ -46,4 +47,10 @@ ng g s security/auth
 ng g interceptor security/auth
 ng g c security/login
 ng g g security/auth
+
+# Offline first
+ng add @angular/pwa
+ng build --configuration production --aot
+sudo npm i -g http-server
+http-server ./dist/saute-web/ -c-1 -o
 ```
