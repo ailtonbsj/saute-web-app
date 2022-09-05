@@ -41,7 +41,8 @@ export class InstituicaoDatatableComponent {
         if (this.sort.sortables) this.dataSource.sort = this.sort;
         if (this.paginator.page) this.dataSource.paginator = this.paginator;
         this.isLoadingData = false;
-      }
+      },
+      error: e => this.defaultError(e)
     });
   }
 
@@ -69,9 +70,7 @@ export class InstituicaoDatatableComponent {
         this.helper.alertSnack('Removido com sucesso!');
         this.refreshComponent();
       },
-      error: e => {
-        this.helper.alertSnack(e);
-      }
+      error: e => this.defaultError(e)
     });
   }
 
@@ -79,6 +78,11 @@ export class InstituicaoDatatableComponent {
     this.router.navigateByUrl('nivelescolar', { skipLocationChange: true }).then(() => {
       this.router.navigate(['instituicao']);
     });
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

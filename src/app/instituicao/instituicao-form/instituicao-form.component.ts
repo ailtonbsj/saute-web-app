@@ -163,14 +163,16 @@ export class InstituicaoFormComponent implements OnInit {
           next: _ => {
             this.helper.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       } else {
         this.instituicaoService.update(this.entity).subscribe({
           next: _ => {
             this.helper.alertSnack('Atualizado com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       }
     } else this.form.markAllAsTouched();
@@ -178,6 +180,11 @@ export class InstituicaoFormComponent implements OnInit {
 
   navigateToTable() {
     this.router.navigate(['instituicao']);
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

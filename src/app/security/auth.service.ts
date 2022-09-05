@@ -14,7 +14,7 @@ export class AuthService {
     (localStorage.getItem('api') || 'local') == 'local' ? false : true
   );
 
-  api = localStorage.getItem('api') || 'local';
+  public api = localStorage.getItem('api') || 'local';
 
   constructor(
     private http: HttpClient,
