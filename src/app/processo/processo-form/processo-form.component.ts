@@ -96,14 +96,15 @@ export class ProcessoFormComponent implements OnInit {
           next: () => {
             this.helper.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
-          }
+          },
         });
       } else {
         this.processoService.update(this.entity).subscribe({
           next: () => {
             this.helper.alertSnack('Atualizado com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       }
     } else this.form.markAllAsTouched();
@@ -111,6 +112,11 @@ export class ProcessoFormComponent implements OnInit {
 
   navigateToTable() {
     this.router.navigate(['processo']);
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

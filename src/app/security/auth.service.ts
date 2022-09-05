@@ -25,8 +25,9 @@ export class AuthService {
   login(username: string, password: string) {
     const credentials = { username, password };
     this.http.post(`${this.api}/users/login`, credentials).subscribe({
-      next: () => {
+      next: (v: any) => {
         localStorage.setItem('credentials', JSON.stringify(credentials));
+        localStorage.setItem('roles', JSON.stringify(v.roles.map((role: any) => role.name)));
         AuthService.authSubject.next(true);
         this.router.navigate(['/processo']);
       },

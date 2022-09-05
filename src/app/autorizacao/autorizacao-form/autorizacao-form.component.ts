@@ -119,14 +119,16 @@ export class AutorizacaoFormComponent implements OnInit {
           next: () => {
             this.helper.alertSnack('Inserido com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       } else {
         this.autorizacaoService.update(this.entity).subscribe({
           next: () => {
             this.helper.alertSnack('Atualizado com sucesso.');
             this.navigateToTable();
-          }
+          },
+          error: e => this.defaultError(e)
         });
       }
     } else this.form.markAllAsTouched();
@@ -134,6 +136,11 @@ export class AutorizacaoFormComponent implements OnInit {
 
   navigateToTable() {
     this.router.navigate(['autorizacao']);
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

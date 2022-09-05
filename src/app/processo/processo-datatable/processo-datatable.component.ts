@@ -72,9 +72,7 @@ export class ProcessoDatatableComponent implements OnInit {
         this.helper.alertSnack('Removido com sucesso!');
         this.refreshComponent();
       },
-      error: e => {
-        this.helper.alertSnack(e);
-      }
+      error: e => this.defaultError(e)
     });
   }
 
@@ -86,6 +84,11 @@ export class ProcessoDatatableComponent implements OnInit {
     this.router.navigateByUrl('nivelescolar', { skipLocationChange: true }).then(() => {
       this.router.navigate(['processo']);
     });
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }

@@ -77,7 +77,8 @@ export class AutorizacaoDatatableComponent implements OnInit {
       next: _ => {
         this.helper.alertSnack('Removido com sucesso!');
         this.refreshComponent();
-      }
+      },
+      error: e => this.defaultError(e)
     });
   }
 
@@ -160,7 +161,7 @@ export class AutorizacaoDatatableComponent implements OnInit {
         data["Dependência"] = instituicao.dependencia;
         data["Entidade"] = instituicao.entidade;
         data["Credenciamento"] = instituicao.credenciamento;
-        
+
         data["Validade do Credenciamento"] = HelperService.isoDateToBrazil(<any>instituicao.validadeCredenciamento);
         data["Recredenciamento"] = instituicao.recredenciamento;
         data["Validade do Recredenciamento"] = HelperService.isoDateToBrazil(<any>instituicao.validadeRecredenciamento);
@@ -230,6 +231,11 @@ export class AutorizacaoDatatableComponent implements OnInit {
     this.router.navigateByUrl('nivelescolar', { skipLocationChange: true }).then(() => {
       this.router.navigate(['autorizacao']);
     });
+  }
+
+  defaultError(e: any) {
+    this.helper.alertSnack(
+      e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }
 
 }
