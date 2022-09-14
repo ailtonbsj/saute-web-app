@@ -24,14 +24,18 @@ export class AuthService {
 
   login(username: string, password: string) {
     const credentials = { username, password };
-    this.http.post(`${this.api}/users/login`, credentials).subscribe({
+    this.http.post(`${this.api}/login`, credentials).subscribe({
       next: (v: any) => {
-        localStorage.setItem('credentials', JSON.stringify(credentials));
-        localStorage.setItem('roles', JSON.stringify(v.roles.map((role: any) => role.name)));
+        localStorage.setItem('credentials', JSON.stringify(v));
+        const data = (<string>v.token).split('.')[1];
+        const info = JSON.parse(window.atob(data));
+        // JSON.stringify(v.roles.map((role: any) => role.name))
+        localStorage.setItem('roles', info.roles);
         AuthService.authSubject.next(true);
         this.router.navigate(['/processo']);
       },
-      error: () => {
+      error: (e) => {
+        console.log(e);
         this.helper.alertSnack("Credenciais inválidas!");
         AuthService.authSubject.next(false);
       }
@@ -50,10 +54,8 @@ export class AuthService {
 
   private basicAuth(): string {
     if (localStorage.getItem('credentials')) {
-      let credentials: any = JSON.parse(<string>localStorage.getItem('credentials'));
-      let token = window.btoa(
-        `${credentials.username}:${credentials.password}`);
-      return `Basic ${token}`;
+      const credentials: any = JSON.parse(<string>localStorage.getItem('credentials')).token;
+      return `Bearer ${credentials}`;
     } else return '';
   }
 

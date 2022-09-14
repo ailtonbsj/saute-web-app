@@ -146,7 +146,7 @@ export class ProfessorFormComponent implements OnInit {
     if (file) {
       this.helper.fileReader(file)
         .then(blob => this.helper.image(blob))
-        .then(image => this.imageBlob = this.helper.resizePicute(image, 512));
+        .then(image => this.imageBlob = this.helper.resizePicute(image, 420));
     }
   }
 

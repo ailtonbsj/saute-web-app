@@ -79,6 +79,8 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
   }
 
   defaultError(e: any) {
+    console.log(e.status);
+    
     this.helper.alertSnack(
       e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }

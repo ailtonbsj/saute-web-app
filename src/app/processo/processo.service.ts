@@ -95,8 +95,8 @@ export class ProcessoService {
     }
   }
 
-  filter(query: string): Observable<Processo[]> {
-    if (this.api) {
+  filter(query: string): Observable<Processo[]> {    
+    if (this.apiEnabled) {
       return this.http.get<Processo[]>(`${this.api}?q=${query}`);
     } else {
       const text = query.toLowerCase().replace(/[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/g, '');
