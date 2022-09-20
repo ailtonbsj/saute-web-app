@@ -12,6 +12,12 @@
     flex-direction: column;
 }
 
+.google-btn {
+    display: flex;
+    margin: 20px 0;
+    justify-content: center;
+}
+
 .login-form h1 {
     text-align: center;
 }

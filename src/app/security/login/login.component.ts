@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
+declare let google: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +21,16 @@ export class LoginComponent implements OnInit {
     AuthService.authAsObservable().subscribe(b => {
       if (b) this.router.navigate(['processo']);
     });
+
+    google.accounts.id.initialize({
+      client_id: "CLIENT_ID",
+      callback: this.doLoginWithGoogle
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("btn-google"),
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
   }
 
   doLogin() {
@@ -27,6 +39,10 @@ export class LoginComponent implements OnInit {
 
   doLogout() {
     this.auth.logout();
+  }
+
+  doLoginWithGoogle(data: any) {
+    console.log(data);
   }
 
 }
