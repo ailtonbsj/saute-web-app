@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 
 declare let google: any;
@@ -15,16 +16,18 @@ export class LoginComponent implements OnInit {
   password = '';
   iconEye = 'visibility_off';
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router, private zone: NgZone) { }
 
   ngOnInit(): void {
     AuthService.authAsObservable().subscribe(b => {
       if (b) this.router.navigate(['processo']);
     });
-
+    
     google.accounts.id.initialize({
-      client_id: "CLIENT_ID",
-      callback: this.doLoginWithGoogle
+      client_id: environment.GOOGLE_CLIENT_ID,
+      callback: (v: any) => {
+        this.zone.run(() => this.doLoginWithGoogle(v));
+      }
     });
     google.accounts.id.renderButton(
       document.getElementById("btn-google"),
@@ -41,8 +44,8 @@ export class LoginComponent implements OnInit {
     this.auth.logout();
   }
 
-  doLoginWithGoogle(data: any) {
-    console.log(data);
+  doLoginWithGoogle(data: any) {    
+    this.auth.loginWithGoogle(<string> data.credential);
   }
 
 }

@@ -22,6 +22,26 @@ export class AuthService {
     private router: Router
   ) { }
 
+  loginWithGoogle(token: string) {
+    this.http.post(`${this.api}/users/with-google`, token).subscribe({
+      next: (v: any) => {
+        localStorage.setItem('credentials', JSON.stringify(v));
+        const data = (<string>v.token).split('.')[1];
+        const info = JSON.parse(window.atob(data));
+        // JSON.stringify(v.roles.map((role: any) => role.name))
+        localStorage.setItem('roles', info.roles);
+        AuthService.authSubject.next(true);
+        console.log(localStorage.getItem('roles'));
+        this.router.navigate(['/processo']);
+      },
+      error: (e) => {
+        console.log(e);
+        this.helper.alertSnack("Credenciais inválidas!");
+        AuthService.authSubject.next(false);
+      }
+    });
+  }
+
   login(username: string, password: string) {
     const credentials = { username, password };
     this.http.post(`${this.api}/login`, credentials).subscribe({
