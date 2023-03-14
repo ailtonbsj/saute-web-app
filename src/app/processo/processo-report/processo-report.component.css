@@ -113,5 +113,9 @@
     .header-view {
         display: none !important;
     }
-  
+
+    section {
+      break-inside: avoid;
+    }
+
   }

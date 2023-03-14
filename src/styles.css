@@ -129,15 +129,50 @@ td.mat-cell, th.mat-header-cell {
       display: none !important;
   }
 
+  .mat-drawer-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+  }
+
   .mat-drawer-content {
     margin: 0 !important;
     padding: 0 !important;
+    border: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+  }
+  .sidenav-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+  }
+
+  .content {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
   }
 
   .mat-card {
     margin: 0 !important;
     padding: 0 !important;
     border: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+  }
+
+  .mat-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    height: auto !important;
     box-shadow: none !important;
   }
 
