@@ -43,7 +43,7 @@
 
     <mat-form-field>
       <mat-label>CPF</mat-label>
-      <input matInput type="number" placeholder="CPF" formControlName="cpf">
+      <input matInput type="text" placeholder="CPF" formControlName="cpf" mask="000.000.000-00">
       <mat-error *ngIf="form.controls.cpf.hasError('required')">
         Campo é requerido.
       </mat-error>

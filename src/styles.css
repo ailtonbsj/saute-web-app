@@ -107,7 +107,7 @@ table[mat-table] {
 
 .datatable-panel {
   overflow-x: auto;
-  scrollbar-width: none;
+  scrollbar-width: 6px;
 }
 
 .datatable-panel::-webkit-scrollbar-thumb {
@@ -176,4 +176,10 @@ td.mat-cell, th.mat-header-cell {
     box-shadow: none !important;
   }
 
+}
+
+/* Native datetime */
+
+input[type="date"]::after {
+  display: none !important;
 }
