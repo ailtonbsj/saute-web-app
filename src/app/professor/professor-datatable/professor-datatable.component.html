@@ -54,7 +54,7 @@
     <!-- cpf Column -->
     <ng-container matColumnDef="cpf">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>CPF</th>
-      <td mat-cell *matCellDef="let element">{{element.cpf}}</td>
+      <td mat-cell *matCellDef="let element" class="col-cpf">{{ element.cpf | mask: '000.000.000-00' }}</td>
     </ng-container>
 
     <!-- rg Column -->

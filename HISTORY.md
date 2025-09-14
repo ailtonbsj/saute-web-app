@@ -53,4 +53,7 @@ ng add @angular/pwa
 ng build --configuration production --aot
 sudo npm i -g http-server
 http-server ./dist/saute-web/ -c-1 -o
+
+# Ngx Mask 14
+npm i ngx-mask@14.3.3
 ```

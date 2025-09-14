@@ -18,6 +18,7 @@ import { LoginComponent } from './security/login/login.component';
 import { AuthService } from './security/auth.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { environment } from '../environments/environment';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NgxMaskModule.forRoot()
   ],
   providers: [
     AuthService,
