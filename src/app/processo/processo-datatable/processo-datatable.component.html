@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<mat-form-field appearance="standard" *ngIf="isEnabledFilter">
+<mat-form-field *ngIf="isEnabledFilter">
   <mat-label>Filtrar por</mat-label>
   <mat-icon matSuffix>filter_alt</mat-icon>
   <input matInput placeholder="" #input (keyup)="applyFilter($event)">
