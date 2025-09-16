@@ -18,7 +18,7 @@ import { LoginComponent } from './security/login/login.component';
 import { AuthService } from './security/auth.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { NgxMaskModule } from 'ngx-mask';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,6 @@ import { NgxMaskModule } from 'ngx-mask';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    NgxMaskModule.forRoot()
   ],
   providers: [
     AuthService,
@@ -47,7 +46,9 @@ import { NgxMaskModule } from 'ngx-mask';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }],
+    },
+    provideEnvironmentNgxMask()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

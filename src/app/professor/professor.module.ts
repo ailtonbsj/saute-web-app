@@ -6,7 +6,7 @@ import { ProfessorDatatableComponent } from './professor-datatable/professor-dat
 import { ProfessorFormComponent } from './professor-form/professor-form.component';
 import { MaterialModule } from '../material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 
 @NgModule({
@@ -19,7 +19,8 @@ import { NgxMaskModule } from 'ngx-mask';
     ProfessorRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    NgxMaskModule.forChild()
+    NgxMaskDirective,
+    NgxMaskPipe
   ]
 })
 export class ProfessorModule { }

@@ -3,7 +3,7 @@
   <mat-drawer #sideNav class="sidenav" mode="side" [opened]="true"
     [style.display]="(isAuth$ | async) ? 'block' : 'none'">
 
-    <mat-nav-list>
+    <mat-nav-list class="mat-nav-list">
       <div mat-subheader>Menu Principal</div>
 
       <a mat-list-item routerLink="processo" routerLinkActive="active">
@@ -53,7 +53,7 @@
     </mat-toolbar>
 
     <div class="content">
-      <mat-card [ngClass]="{
+      <mat-card appearance="outlined" [ngClass]="{
         'card-router-outlet' : (isAuth$ | async)
       }" [style.padding]="(isAuth$ | async) ? '16px' : '0'">
         <router-outlet></router-outlet>

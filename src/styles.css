@@ -32,7 +32,7 @@ input[type=number] {
   --width-field: 180px;
 }
 
-.flex-form .mat-form-field, .flex-form fieldset, .flex-form .flex-upload {
+.flex-form .mat-mdc-form-field, .flex-form fieldset, .flex-form .flex-upload {
   padding: 5px;
   flex: 1 1 var(--width-field);
 }
@@ -101,7 +101,7 @@ table[mat-table] {
   width: 100%;
 }
 
-.mat-form-field {
+.mat-mdc-form-field {
   width: 100%;
 }
 
@@ -119,7 +119,7 @@ table[mat-table] {
   height: 6px;
 }
 
-td.mat-cell, th.mat-header-cell {
+td.mat-mdc-cell, th.mat-mdc-header-cell {
   padding: 0 5px !important;
 }
 
@@ -160,7 +160,7 @@ td.mat-cell, th.mat-header-cell {
     box-shadow: none !important;
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin: 0 !important;
     padding: 0 !important;
     border: 0 !important;
@@ -168,7 +168,7 @@ td.mat-cell, th.mat-header-cell {
     box-shadow: none !important;
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin: 0 !important;
     padding: 0 !important;
     border: 0 !important;
@@ -182,4 +182,26 @@ td.mat-cell, th.mat-header-cell {
 
 input[type="date"]::after {
   display: none !important;
+}
+
+/* Fix migration to Angulatr 15 */
+
+.mdc-list-item__primary-text {
+    display: flex;
+}
+
+.mdc-list-item__primary-text .mat-icon {
+    margin-right: 10px;
+}
+
+button .mat-icon {
+  margin: 0 !important;
+}
+
+input[type="datetime-local"]::-webkit-inner-spin-button,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: block;
+    -webkit-appearance: button;
 }

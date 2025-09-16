@@ -30,7 +30,10 @@
             ],
             "scripts": [],
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "ngswConfigPath": "ngsw-config.json",
+            "allowedCommonJsDependencies": [
+              "core-js", "raf", "rgbcolor", "dompurify", "html2pdf.js", "html2canvas"
+            ]
           },
           "configurations": {
             "production": {
