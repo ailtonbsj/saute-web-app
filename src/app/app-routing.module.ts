@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'nivelescolar',
-    loadChildren: () => import('./nivel-escolar/nivel-escolar.module').then(m => m.NivelEscolarModule),
+    loadChildren: () => import('./nivel-escolar/nivel-escolar.routes').then(r => r.routes),
     canActivate: [AuthGuard]
   },
   {

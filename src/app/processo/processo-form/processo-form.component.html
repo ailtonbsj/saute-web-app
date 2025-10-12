@@ -9,9 +9,11 @@
     <mat-form-field class="">
       <mat-label>Número</mat-label>
       <input matInput type="number" placeholder="Número" formControlName="numero">
-      <mat-error *ngIf="form.controls.numero.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.numero.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="">
@@ -20,17 +22,23 @@
 
       <mat-autocomplete autoActiveFirstOption #autoInstituicao="matAutocomplete"
         [displayWith]="displayAuto('instituicao')">
-        <mat-option *ngFor="let option of instituicao$ | async" [value]="option">
-          {{ option.instituicao }}
-        </mat-option>
+        @for (option of instituicao$ | async; track option) {
+          <mat-option [value]="option">
+            {{ option.instituicao }}
+          </mat-option>
+        }
       </mat-autocomplete>
-      <mat-error
-        *ngIf="!form.controls.instituicao.hasError('required') && form.controls.instituicao.hasError('invalidAutocomplete')">
-        Valor selecionado é inválido.
-      </mat-error>
-      <mat-error *ngIf="form.controls.instituicao.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (!form.controls.instituicao.hasError('required') && form.controls.instituicao.hasError('invalidAutocomplete')) {
+        <mat-error
+          >
+          Valor selecionado é inválido.
+        </mat-error>
+      }
+      @if (form.controls.instituicao.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
   </form>

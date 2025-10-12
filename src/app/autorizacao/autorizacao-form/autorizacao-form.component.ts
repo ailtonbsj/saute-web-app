@@ -13,9 +13,10 @@ import { Autorizacao } from '../autorizacao.model';
 import { AutorizacaoService } from '../autorizacao.service';
 
 @Component({
-  selector: 'app-autorizacao-form',
-  templateUrl: './autorizacao-form.component.html',
-  styleUrls: ['./autorizacao-form.component.css']
+    selector: 'app-autorizacao-form',
+    templateUrl: './autorizacao-form.component.html',
+    styleUrls: ['./autorizacao-form.component.css'],
+    standalone: false
 })
 export class AutorizacaoFormComponent implements OnInit {
 

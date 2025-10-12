@@ -9,20 +9,26 @@
     <mat-form-field class="ocupy3">
       <mat-label>Nome</mat-label>
       <input matInput type="text" placeholder="Nome" formControlName="nome">
-      <mat-error *ngIf="form.controls.nome.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.nome.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Nascimento</mat-label>
       <input matInput type="date" placeholder="Nascimento" formControlName="nascimento">
-      <mat-error *ngIf="form.controls.nascimento.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-      <mat-error *ngIf="form.controls.nascimento.hasError('pattern')">
-        Formato inválido.
-      </mat-error>
+      @if (form.controls.nascimento.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
+      @if (form.controls.nascimento.hasError('pattern')) {
+        <mat-error>
+          Formato inválido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
@@ -30,39 +36,49 @@
       <input matInput type="text" placeholder="Naturalidade" formControlName="naturalidade"
         [matAutocomplete]="autoNaturalidade">
       <mat-autocomplete autoActiveFirstOption #autoNaturalidade="matAutocomplete" [displayWith]="displayAuto('nome')">
-        <mat-option *ngFor="let option of naturalidade$ | async" [value]="option">
-          {{ option.nome }}
-        </mat-option>
+        @for (option of naturalidade$ | async; track option) {
+          <mat-option [value]="option">
+            {{ option.nome }}
+          </mat-option>
+        }
       </mat-autocomplete>
 
 
-      <mat-error *ngIf="form.controls.naturalidade.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.naturalidade.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>CPF</mat-label>
       <input matInput type="text" placeholder="CPF" formControlName="cpf" mask="000.000.000-00">
-      <mat-error *ngIf="form.controls.cpf.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.cpf.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>RG</mat-label>
       <input matInput type="number" placeholder="RG" formControlName="rg">
-      <mat-error *ngIf="form.controls.rg.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.rg.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Orgão Emissor</mat-label>
       <input matInput type="text" placeholder="Orgão Emissor" formControlName="orgaoEmissor">
-      <mat-error *ngIf="form.controls.orgaoEmissor.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.orgaoEmissor.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <fieldset class="ocupy flex-form" formGroupName="endereco">
@@ -75,9 +91,11 @@
       <mat-form-field class="ocupy3">
         <mat-label>Rua</mat-label>
         <input matInput type="text" placeholder="Rua, avenida, logradouro, etc." formControlName="rua">
-        <mat-error *ngIf="form.controls.endereco.controls.rua.hasError('required')">
-          Campo é requerido.
-        </mat-error>
+        @if (form.controls.endereco.controls.rua.hasError('required')) {
+          <mat-error>
+            Campo é requerido.
+          </mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field>
@@ -88,9 +106,11 @@
       <mat-form-field>
         <mat-label>Bairro</mat-label>
         <input matInput type="text" placeholder="Bairro" formControlName="bairro">
-        <mat-error *ngIf="form.controls.endereco.controls.bairro.hasError('required')">
-          Campo é requerido.
-        </mat-error>
+        @if (form.controls.endereco.controls.bairro.hasError('required')) {
+          <mat-error>
+            Campo é requerido.
+          </mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field>
@@ -98,18 +118,24 @@
 
         <input matInput type="text" placeholder="Estado" formControlName="uf" [matAutocomplete]="autoUf">
         <mat-autocomplete autoActiveFirstOption #autoUf="matAutocomplete" [displayWith]="displayAuto('nome')">
-          <mat-option *ngFor="let option of ufs$ | async" [value]="option">
-            {{ option.nome }}
-          </mat-option>
+          @for (option of ufs$ | async; track option) {
+            <mat-option [value]="option">
+              {{ option.nome }}
+            </mat-option>
+          }
         </mat-autocomplete>
 
-        <mat-error *ngIf="form.controls.endereco.controls.uf.hasError('required')">
-          Campo é requerido.
-        </mat-error>
-        <mat-error
-          *ngIf="!form.controls.endereco.controls.uf.hasError('required') && form.controls.endereco.controls.uf.hasError('invalidAutocomplete')">
-          Valor selecionado é inválido.
-        </mat-error>
+        @if (form.controls.endereco.controls.uf.hasError('required')) {
+          <mat-error>
+            Campo é requerido.
+          </mat-error>
+        }
+        @if (!form.controls.endereco.controls.uf.hasError('required') && form.controls.endereco.controls.uf.hasError('invalidAutocomplete')) {
+          <mat-error
+            >
+            Valor selecionado é inválido.
+          </mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field>
@@ -117,18 +143,24 @@
         <input matInput type="text" placeholder="Município" formControlName="municipio"
           [matAutocomplete]="autoMunicipio">
         <mat-autocomplete autoActiveFirstOption #autoMunicipio="matAutocomplete" [displayWith]="displayAuto('nome')">
-          <mat-option *ngFor="let option of municipios$ | async" [value]="option">
-            {{ option.nome }}
-          </mat-option>
+          @for (option of municipios$ | async; track option) {
+            <mat-option [value]="option">
+              {{ option.nome }}
+            </mat-option>
+          }
         </mat-autocomplete>
 
-        <mat-error *ngIf="form.controls.endereco.controls.municipio.hasError('required')">
-          Campo é requerido.
-        </mat-error>
-        <mat-error
-          *ngIf="!form.controls.endereco.controls.municipio.hasError('required') && form.controls.endereco.controls.municipio.hasError('invalidAutocomplete')">
-          Valor selecionado é inválido.
-        </mat-error>
+        @if (form.controls.endereco.controls.municipio.hasError('required')) {
+          <mat-error>
+            Campo é requerido.
+          </mat-error>
+        }
+        @if (!form.controls.endereco.controls.municipio.hasError('required') && form.controls.endereco.controls.municipio.hasError('invalidAutocomplete')) {
+          <mat-error
+            >
+            Valor selecionado é inválido.
+          </mat-error>
+        }
       </mat-form-field>
 
     </fieldset>
@@ -136,44 +168,56 @@
     <mat-form-field>
       <mat-label>Telefone</mat-label>
       <input matInput type="number" placeholder="Telefone" formControlName="telefone" maxlength="11">
-      <mat-error *ngIf="form.controls.telefone.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.telefone.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Celular</mat-label>
       <input matInput type="number" placeholder="Celular" formControlName="celular" maxlength="11">
-      <mat-error *ngIf="form.controls.celular.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.celular.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="ocupy2">
       <mat-label>Pai</mat-label>
       <input matInput type="text" placeholder="Pai" formControlName="pai">
-      <mat-error *ngIf="form.controls.pai.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.pai.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="ocupy2">
       <mat-label>Mãe</mat-label>
       <input matInput type="text" placeholder="Mãe" formControlName="mae">
-      <mat-error *ngIf="form.controls.mae.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.controls.mae.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="ocupy2">
       <mat-label>E-mail</mat-label>
       <input matInput type="text" placeholder="E-mail" formControlName="email">
-      <mat-error *ngIf="form.get('email')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
-      <mat-error *ngIf="form.get('email')!.hasError('email')">
-        E-mail inválido.
-      </mat-error>
+      @if (form.get('email')!.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
+      @if (form.get('email')!.hasError('email')) {
+        <mat-error>
+          E-mail inválido.
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
@@ -186,12 +230,16 @@
       <mat-select formControlName="categoriaCNH" multiple>
         <mat-select-trigger>
           {{ form.controls.categoriaCNH.value?.[0] || '' }}
-          <span *ngIf="(form.controls.categoriaCNH.value?.length || 0) > 1" class="select-additional-selection">
-            (+{{(form.controls.categoriaCNH.value?.length || 0) - 1}} {{form.controls.categoriaCNH.value?.length === 2 ?
-            'outro' : 'outros'}})
-          </span>
+          @if ((form.controls.categoriaCNH.value?.length || 0) > 1) {
+            <span class="select-additional-selection">
+              (+{{(form.controls.categoriaCNH.value?.length || 0) - 1}} {{form.controls.categoriaCNH.value?.length === 2 ?
+              'outro' : 'outros'}})
+            </span>
+          }
         </mat-select-trigger>
-        <mat-option *ngFor="let categoria of categoriasCNH" [value]="categoria">{{categoria}}</mat-option>
+        @for (categoria of categoriasCNH; track categoria) {
+          <mat-option [value]="categoria">{{categoria}}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 

@@ -18,11 +18,13 @@
   </div>
 </div>
 
-<mat-form-field *ngIf="isEnabledFilter">
-  <mat-label>Filtrar por</mat-label>
-  <mat-icon matSuffix>filter_alt</mat-icon>
-  <input matInput placeholder="" #input (keyup)="applyFilter($event)">
-</mat-form-field>
+@if (isEnabledFilter) {
+  <mat-form-field>
+    <mat-label>Filtrar por</mat-label>
+    <mat-icon matSuffix>filter_alt</mat-icon>
+    <input matInput placeholder="" #input (keyup)="applyFilter($event)">
+  </mat-form-field>
+}
 
 <div class="datatable-panel">
 
@@ -156,6 +158,8 @@
 
 </div>
 
-<mat-progress-bar mode="indeterminate" *ngIf="isLoadingData"></mat-progress-bar>
+@if (isLoadingData) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10"></mat-paginator>

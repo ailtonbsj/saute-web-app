@@ -13,9 +13,10 @@ import { Instituicao } from 'src/app/instituicao/instituicao.model';
 import { ConfiguracoesService } from 'src/app/configuracoes/configuracoes.service';
 
 @Component({
-  selector: 'app-autorizacao-datatable',
-  templateUrl: './autorizacao-datatable.component.html',
-  styleUrls: ['./autorizacao-datatable.component.css']
+    selector: 'app-autorizacao-datatable',
+    templateUrl: './autorizacao-datatable.component.html',
+    styleUrls: ['./autorizacao-datatable.component.css'],
+    standalone: false
 })
 export class AutorizacaoDatatableComponent implements OnInit {
 

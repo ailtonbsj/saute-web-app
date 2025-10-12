@@ -1,110 +1,112 @@
 <div class="header-view">
-    <div>
-        <span class="mat-h1">Relatório do Processo</span>
-    </div>
-    <mat-divider vertical></mat-divider>
-    <span class="toolbar-spacer"></span>
-    <div>
-        <button mat-raised-button color="primary" (click)="onPrint()">Imprimir</button>
-        <button mat-raised-button color="accent" class="ml-2" [matMenuTriggerFor]="optMenu">
-            <mat-icon>tune</mat-icon>
-        </button>
-        <mat-menu #optMenu="matMenu">
-            <button mat-menu-item (click)="saveToPDF()">
-                <mat-icon>picture_as_pdf</mat-icon>
-                <span>Salvar em PDF</span>
-            </button>
-        </mat-menu>
-    </div>
+  <div>
+    <span class="mat-h1">Relatório do Processo</span>
+  </div>
+  <mat-divider vertical></mat-divider>
+  <span class="toolbar-spacer"></span>
+  <div>
+    <button mat-raised-button color="primary" (click)="onPrint()">Imprimir</button>
+    <button mat-raised-button color="accent" class="ml-2" [matMenuTriggerFor]="optMenu">
+      <mat-icon>tune</mat-icon>
+    </button>
+    <mat-menu #optMenu="matMenu">
+      <button mat-menu-item (click)="saveToPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Salvar em PDF</span>
+      </button>
+    </mat-menu>
+  </div>
 </div>
 
 <main class="page">
-    <header>
-        <img src="{{ confs.logo1 }}">
-        <img src="{{ confs.logo2 }}">
-    </header>
-    <h1>Sistema de Autorização Temporária - SAUTE</h1>
-    <h2>Processo Nº {{ processo.numero }}</h2>
-    <p>{{ confs.text }}</p>
-    <article class="instituicao">
-        <div>
-            Instituição
-            <span>{{ instituicao.instituicao }}</span>
+  <header>
+    <img src="{{ confs.logo1 }}">
+    <img src="{{ confs.logo2 }}">
+  </header>
+  <h1>Sistema de Autorização Temporária - SAUTE</h1>
+  <h2>Processo Nº {{ processo.numero }}</h2>
+  <p>{{ confs.text }}</p>
+  <article class="instituicao">
+    <div>
+      Instituição
+      <span>{{ instituicao.instituicao }}</span>
+    </div>
+    <div>
+      Nível
+      <span>{{ instituicao.nivelEscolar?.nivelEscolar }}</span>
+    </div>
+    <div>
+      Endereço
+      <span>{{ instituicao.endereco.rua }}</span>
+    </div>
+    <div>Número
+      <span>{{ instituicao.endereco.numero || ' ' }}</span>
+    </div>
+    <div>Bairro
+      <span>{{ instituicao.endereco.bairro }}</span>
+    </div>
+    <div>Município
+      <span>{{ instituicao.endereco.municipio }}</span>
+    </div>
+    <div>CEP
+      <span>{{ instituicao.endereco.cep || ' ' }}</span>
+    </div>
+    <div>E-mail
+      <span>{{ instituicao.email }}</span>
+    </div>
+    <div>Dependência
+      <span>{{ instituicao.dependencia }}</span>
+    </div>
+    <div>
+      Entidade
+      <span>{{ instituicao.entidade }}</span>
+    </div>
+    <div>Credenciamento
+      <span>{{ instituicao.credenciamento }}</span>
+    </div>
+    <div>Validade do Credenciamento
+      <span>{{ instituicao.validadeCredenciamento | date : 'shortDate' : '' : 'pt-BR' }}</span>
+    </div>
+    <div>Recredenciamento
+      <span>{{ instituicao.recredenciamento }}</span>
+    </div>
+    <div>Validade do Recredenciamento
+      <span>{{ instituicao.validadeRecredenciamento | date : 'shortDate' : '' : 'pt-BR' }}</span>
+    </div>
+  </article>
+  <article class="autorizacoes">
+    @for (auth of autorizacoes$ | async; track auth) {
+      <section>
+        <div class="campos">
+          <div>Autorização Nº <span>{{ auth.numero }}</span></div>
+          <div>{{ auth.professor?.nome }}</div>
+          <div>CPF <span>{{ auth.professor?.cpf }}</span></div>
+          <div>RG <span>{{ auth.professor?.rg }} {{ auth.professor?.orgaoEmissor }}</span></div>
+          <div>Telefone <span>{{ auth.professor?.telefone }}</span></div>
+          <div>Celular <span>{{ auth.professor?.celular }}</span></div>
+          <div>Habilitação <span>{{ auth.professor?.habilitacao }}</span></div>
+        </div>
+        <div class="referendum">
+          <div>Referendum</div>
+          <p>{{ auth.referendum }}</p>
         </div>
         <div>
-            Nível
-            <span>{{ instituicao.nivelEscolar?.nivelEscolar }}</span>
+          <img src="{{ auth.professor?.foto }}">
         </div>
-        <div>
-            Endereço
-            <span>{{ instituicao.endereco.rua }}</span>
-        </div>
-        <div>Número
-            <span>{{ instituicao.endereco.numero || ' ' }}</span>
-        </div>
-        <div>Bairro
-            <span>{{ instituicao.endereco.bairro }}</span>
-        </div>
-        <div>Município
-            <span>{{ instituicao.endereco.municipio }}</span>
-        </div>
-        <div>CEP
-            <span>{{ instituicao.endereco.cep || ' ' }}</span>
-        </div>
-        <div>E-mail
-            <span>{{ instituicao.email }}</span>
-        </div>
-        <div>Dependência
-            <span>{{ instituicao.dependencia }}</span>
-        </div>
-        <div>
-            Entidade
-            <span>{{ instituicao.entidade }}</span>
-        </div>
-        <div>Credenciamento
-            <span>{{ instituicao.credenciamento }}</span>
-        </div>
-        <div>Validade do Credenciamento
-            <span>{{ instituicao.validadeCredenciamento | date : 'shortDate' : '' : 'pt-BR' }}</span>
-        </div>
-        <div>Recredenciamento
-            <span>{{ instituicao.recredenciamento }}</span>
-        </div>
-        <div>Validade do Recredenciamento
-            <span>{{ instituicao.validadeRecredenciamento | date : 'shortDate' : '' : 'pt-BR' }}</span>
-        </div>
-    </article>
-    <article class="autorizacoes">
-        <section *ngFor="let auth of autorizacoes$ | async">
-            <div class="campos">
-                <div>Autorização Nº <span>{{ auth.numero }}</span></div>
-                <div>{{ auth.professor?.nome }}</div>
-                <div>CPF <span>{{ auth.professor?.cpf }}</span></div>
-                <div>RG <span>{{ auth.professor?.rg }} {{ auth.professor?.orgaoEmissor }}</span></div>
-                <div>Telefone <span>{{ auth.professor?.telefone }}</span></div>
-                <div>Celular <span>{{ auth.professor?.celular }}</span></div>
-                <div>Habilitação <span>{{ auth.professor?.habilitacao }}</span></div>
-            </div>
-            <div class="referendum">
-                <div>Referendum</div>
-                <p>{{ auth.referendum }}</p>
-            </div>
-            <div>
-                <img src="{{ auth.professor?.foto }}">
-            </div>
-        </section>
-    </article>
-    <footer>
-        <div>{{ dataAtual | date : 'fullDate' : '' : 'pt-BR' }}.</div>
-        <div class="assinaturas">
-            <div>
-                <p>________________________________</p>
-                <p>{{ confs.sign1 }}</p>
-            </div>
-            <div>
-                <p>________________________________</p>
-                <p>{{ confs.sign2 }}</p>
-            </div>
-        </div>
-    </footer>
+      </section>
+    }
+  </article>
+  <footer>
+    <div>{{ dataAtual | date : 'fullDate' : '' : 'pt-BR' }}.</div>
+    <div class="assinaturas">
+      <div>
+        <p>________________________________</p>
+        <p>{{ confs.sign1 }}</p>
+      </div>
+      <div>
+        <p>________________________________</p>
+        <p>{{ confs.sign2 }}</p>
+      </div>
+    </div>
+  </footer>
 </main>

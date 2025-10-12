@@ -14,9 +14,10 @@ import { Instituicao } from '../instituicao.model';
 import { InstituicaoService } from '../instituicao.service';
 
 @Component({
-  selector: 'app-instituicao-form',
-  templateUrl: './instituicao-form.component.html',
-  styleUrls: ['./instituicao-form.component.css']
+    selector: 'app-instituicao-form',
+    templateUrl: './instituicao-form.component.html',
+    styleUrls: ['./instituicao-form.component.css'],
+    standalone: false
 })
 export class InstituicaoFormComponent implements OnInit {
 

@@ -2,16 +2,21 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { filter, of, switchMap } from 'rxjs';
 import { HelperService } from 'src/app/shared/helper.service';
 import { NivelEscolar } from '../nivel-escolar.model';
 import { NivelEscolarService } from '../nivel-escolar.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-nivel-escolar-datatable',
-  templateUrl: './nivel-escolar-datatable.component.html',
-  styleUrls: ['./nivel-escolar-datatable.component.css']
+    selector: 'app-nivel-escolar-datatable',
+    templateUrl: './nivel-escolar-datatable.component.html',
+    styleUrls: ['./nivel-escolar-datatable.component.css'],
+    standalone: true,
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule,  RouterModule]
 })
 export class NivelEscolarDatatableComponent implements AfterViewInit {
 
@@ -80,7 +85,7 @@ export class NivelEscolarDatatableComponent implements AfterViewInit {
 
   defaultError(e: any) {
     console.log(e.status);
-    
+
     this.helper.alertSnack(
       e.status == 403 ? 'Sem permissão para esta operação' : 'Ocorreu um erro');
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as html2pdf from 'html2pdf.js';
+import html2pdf from 'html2pdf.js';
 import { EMPTY, map, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { Autorizacao } from 'src/app/autorizacao/autorizacao.model';
 import { AutorizacaoService } from 'src/app/autorizacao/autorizacao.service';
@@ -11,9 +11,10 @@ import { Processo } from '../processo.model';
 import { ProcessoService } from '../processo.service';
 
 @Component({
-  selector: 'app-processo-report',
-  templateUrl: './processo-report.component.html',
-  styleUrls: ['./processo-report.component.css']
+    selector: 'app-processo-report',
+    templateUrl: './processo-report.component.html',
+    styleUrls: ['./processo-report.component.css'],
+    standalone: false
 })
 export class ProcessoReportComponent implements OnInit {
 
@@ -69,7 +70,7 @@ export class ProcessoReportComponent implements OnInit {
     };
 
     // html2pdf().set(opt).from(element).save();
-    html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf: any) {
+    html2pdf().set(<any>opt).from(<HTMLElement>element).toPdf().get('pdf').then(function (pdf: any) {
       window.open(pdf.output('bloburl'), '_blank');
     });
   }
