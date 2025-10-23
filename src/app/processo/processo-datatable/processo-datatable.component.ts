@@ -9,9 +9,10 @@ import { Processo } from '../processo.model';
 import { ProcessoService } from '../processo.service';
 
 @Component({
-  selector: 'app-processo-datatable',
-  templateUrl: './processo-datatable.component.html',
-  styleUrls: ['./processo-datatable.component.css']
+    selector: 'app-processo-datatable',
+    templateUrl: './processo-datatable.component.html',
+    styleUrls: ['./processo-datatable.component.css'],
+    standalone: false
 })
 export class ProcessoDatatableComponent implements OnInit {
 

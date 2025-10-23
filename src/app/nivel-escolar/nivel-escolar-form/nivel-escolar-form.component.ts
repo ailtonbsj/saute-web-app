@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormMode } from 'src/app/shared/form-mode';
 import { HelperService } from 'src/app/shared/helper.service';
 import { NivelEscolar } from '../nivel-escolar.model';
 import { NivelEscolarService } from '../nivel-escolar.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-nivel-escolar-form',
-  templateUrl: './nivel-escolar-form.component.html',
-  styleUrls: ['./nivel-escolar-form.component.css']
+    selector: 'app-nivel-escolar-form',
+    templateUrl: './nivel-escolar-form.component.html',
+    styleUrls: ['./nivel-escolar-form.component.css'],
+    standalone: true,
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule,  RouterModule]
 })
 export class NivelEscolarFormComponent implements OnInit {
 

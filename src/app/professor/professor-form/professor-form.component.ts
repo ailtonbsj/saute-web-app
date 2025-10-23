@@ -12,9 +12,10 @@ import { Professor } from '../professor.model';
 import { ProfessorService } from '../professor.service';
 
 @Component({
-  selector: 'app-professor-form',
-  templateUrl: './professor-form.component.html',
-  styleUrls: ['./professor-form.component.css']
+    selector: 'app-professor-form',
+    templateUrl: './professor-form.component.html',
+    styleUrls: ['./professor-form.component.css'],
+    standalone: false
 })
 export class ProfessorFormComponent implements OnInit {
 

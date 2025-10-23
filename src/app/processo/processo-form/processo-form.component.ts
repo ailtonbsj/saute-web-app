@@ -11,9 +11,10 @@ import { Processo } from '../processo.model';
 import { ProcessoService } from '../processo.service';
 
 @Component({
-  selector: 'app-processo-form',
-  templateUrl: './processo-form.component.html',
-  styleUrls: ['./processo-form.component.css']
+    selector: 'app-processo-form',
+    templateUrl: './processo-form.component.html',
+    styleUrls: ['./processo-form.component.css'],
+    standalone: false
 })
 export class ProcessoFormComponent implements OnInit {
 

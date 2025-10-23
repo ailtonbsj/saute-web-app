@@ -9,9 +9,11 @@
     <mat-form-field>
       <mat-label>Nível Escolar</mat-label>
       <input matInput type="text" placeholder="Nível Escolar" formControlName="nivelEscolar">
-      <mat-error *ngIf="form.get('nivelEscolar')!.hasError('required')">
-        Campo é requerido.
-      </mat-error>
+      @if (form.get('nivelEscolar')!.hasError('required')) {
+        <mat-error>
+          Campo é requerido.
+        </mat-error>
+      }
     </mat-form-field>
 
   </form>

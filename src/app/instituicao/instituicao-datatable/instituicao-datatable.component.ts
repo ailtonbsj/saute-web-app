@@ -9,9 +9,10 @@ import { Instituicao } from '../instituicao.model';
 import { InstituicaoService } from '../instituicao.service';
 
 @Component({
-  selector: 'app-instituicao-datatable',
-  templateUrl: './instituicao-datatable.component.html',
-  styleUrls: ['./instituicao-datatable.component.css']
+    selector: 'app-instituicao-datatable',
+    templateUrl: './instituicao-datatable.component.html',
+    styleUrls: ['./instituicao-datatable.component.css'],
+    standalone: false
 })
 export class InstituicaoDatatableComponent {
 

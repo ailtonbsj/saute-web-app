@@ -9,9 +9,10 @@ import { Professor } from '../professor.model';
 import { ProfessorService } from '../professor.service';
 
 @Component({
-  selector: 'app-professor-datatable',
-  templateUrl: './professor-datatable.component.html',
-  styleUrls: ['./professor-datatable.component.css']
+    selector: 'app-professor-datatable',
+    templateUrl: './professor-datatable.component.html',
+    styleUrls: ['./professor-datatable.component.css'],
+    standalone: false
 })
 export class ProfessorDatatableComponent implements OnInit {
 
