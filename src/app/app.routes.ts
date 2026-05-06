@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AuthGuard } from './security/auth.guard';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./security/security.module').then(m => m.SecurityModule)
@@ -39,9 +38,3 @@ const routes: Routes = [
   },
   { path: '**', redirectTo: 'processo' }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

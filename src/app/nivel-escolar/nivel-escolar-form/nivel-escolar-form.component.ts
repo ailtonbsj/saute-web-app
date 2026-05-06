@@ -5,7 +5,7 @@ import { FormMode } from 'src/app/shared/form-mode';
 import { HelperService } from 'src/app/shared/helper.service';
 import { NivelEscolar } from '../nivel-escolar.model';
 import { NivelEscolarService } from '../nivel-escolar.service';
-import { CommonModule } from '@angular/common';
+
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
@@ -13,7 +13,7 @@ import { MaterialModule } from 'src/app/material.module';
     templateUrl: './nivel-escolar-form.component.html',
     styleUrls: ['./nivel-escolar-form.component.css'],
     standalone: true,
-    imports: [CommonModule, MaterialModule, ReactiveFormsModule,  RouterModule]
+    imports: [MaterialModule, ReactiveFormsModule, RouterModule]
 })
 export class NivelEscolarFormComponent implements OnInit {
 

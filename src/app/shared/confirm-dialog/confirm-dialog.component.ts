@@ -1,11 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
     selector: 'app-confirm-dialog',
     templateUrl: './confirm-dialog.component.html',
     styleUrls: ['./confirm-dialog.component.css'],
-    standalone: false
+    imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, MaterialModule]
 })
 export class ConfirmDialogComponent implements OnInit {
 

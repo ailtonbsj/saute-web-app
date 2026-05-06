@@ -27,6 +27,11 @@ ng update @angular/material@20 --allow-dirty
 ng update ngx-mask@20 --allow-dirty
 npm update
 
+ng update @angular/core@21 @angular/cli@21 --allow-dirty
+ng update @angular/material@21 --allow-dirty
+ng update ngx-mask@21 --allow-dirty
+npm update
+
 ng update dexie --allow-dirty
 ng update html2pdf.js --allow-dirty
 ng update jspdf --allow-dirty

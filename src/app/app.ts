@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 import { delay, EMPTY, Subscription } from 'rxjs';
 import { AuthService } from './security/auth.service';
+import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from './material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: false
+    templateUrl: './app.html',
+    styleUrls: ['./app.css'],
+    imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, MaterialModule]
 })
-export class AppComponent {
+export class App {
   title = 'saute-web';
   isAuth$ = AuthService.authAsObservable();
   hasApi$ = AuthService.apiAsObservable();
