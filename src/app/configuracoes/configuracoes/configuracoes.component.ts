@@ -1,14 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { filter, switchMap } from 'rxjs';
 import { FileReaderFormat, HelperService } from 'src/app/shared/helper.service';
 import { ConfiguracoesService } from '../configuracoes.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
 
 @Component({
     selector: 'app-configuracoes',
     templateUrl: './configuracoes.component.html',
     styleUrls: ['./configuracoes.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [
+        CommonModule,
+        MaterialModule,
+        ReactiveFormsModule
+    ]
 })
 export class ConfiguracoesComponent implements OnInit {
 

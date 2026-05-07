@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EMPTY, filter, merge, Observable, Subject, switchMap, tap } from 'rxjs';
 import { Processo } from 'src/app/processo/processo.model';
 import { ProcessoService } from 'src/app/processo/processo.service';
@@ -11,12 +11,14 @@ import { FormMode } from 'src/app/shared/form-mode';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Autorizacao } from '../autorizacao.model';
 import { AutorizacaoService } from '../autorizacao.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
     selector: 'app-autorizacao-form',
     templateUrl: './autorizacao-form.component.html',
     styleUrls: ['./autorizacao-form.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule, RouterModule]
 })
 export class AutorizacaoFormComponent implements OnInit {
 

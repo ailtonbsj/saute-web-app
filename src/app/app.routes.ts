@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'autorizacao',
-    loadChildren: () => import('./autorizacao/autorizacao.module').then(m => m.AutorizacaoModule),
+    loadChildren: () => import('./autorizacao/autorizacao.routes').then(r => r.routes),
     canActivate: [AuthGuard]
   },
   {
@@ -33,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: 'configuracoes',
-    loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
+    loadChildren: () => import('./configuracoes/configuracoes.routes').then(r => r.routes),
     canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: 'processo' }

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { filter, map, max, of, switchMap, tap } from 'rxjs';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Autorizacao } from '../autorizacao.model';
@@ -11,12 +11,15 @@ import { jsPDF } from 'jspdf';
 import { InstituicaoService } from 'src/app/instituicao/instituicao.service';
 import { Instituicao } from 'src/app/instituicao/instituicao.model';
 import { ConfiguracoesService } from 'src/app/configuracoes/configuracoes.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-autorizacao-datatable',
     templateUrl: './autorizacao-datatable.component.html',
     styleUrls: ['./autorizacao-datatable.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule, RouterModule]
 })
 export class AutorizacaoDatatableComponent implements OnInit {
 
