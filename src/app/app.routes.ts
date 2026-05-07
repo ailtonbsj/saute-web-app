@@ -4,7 +4,7 @@ import { AuthGuard } from './security/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./security/security.module').then(m => m.SecurityModule)
+    loadChildren: () => import('./security/security.routes').then(r => r.routes)
   },
   {
     path: 'autorizacao',
@@ -13,17 +13,17 @@ export const routes: Routes = [
   },
   {
     path: 'processo',
-    loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule),
+    loadChildren: () => import('./processo/processo.routes').then(r => r.routes),
     canActivate: [AuthGuard]
   },
   {
     path: 'instituicao',
-    loadChildren: () => import('./instituicao/instituicao.module').then(m => m.InstituicaoModule),
+    loadChildren: () => import('./instituicao/instituicao.routes').then(r => r.routes),
     canActivate: [AuthGuard]
   },
   {
     path: 'professor',
-    loadChildren: () => import('./professor/professor.module').then(m => m.ProfessorModule),
+    loadChildren: () => import('./professor/professor.routes').then(r => r.routes),
     canActivate: [AuthGuard]
   },
   {

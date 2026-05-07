@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskDirective } from 'ngx-mask';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { delay, EMPTY, filter, forkJoin, map, Observable, switchMap, take, tap } from 'rxjs';
 import { BrazilCity, BrazilState } from 'src/app/shared/brazil-info';
 import { BrazilInfoService } from 'src/app/shared/brazil-info.service';
@@ -15,7 +19,8 @@ import { ProfessorService } from '../professor.service';
     selector: 'app-professor-form',
     templateUrl: './professor-form.component.html',
     styleUrls: ['./professor-form.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule, NgxMaskDirective, RouterModule],
+    standalone: true
 })
 export class ProfessorFormComponent implements OnInit {
 

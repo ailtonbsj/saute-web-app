@@ -1,8 +1,10 @@
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { filter, switchMap } from 'rxjs';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Processo } from '../processo.model';
@@ -12,7 +14,8 @@ import { ProcessoService } from '../processo.service';
     selector: 'app-processo-datatable',
     templateUrl: './processo-datatable.component.html',
     styleUrls: ['./processo-datatable.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, RouterModule],
+    standalone: true
 })
 export class ProcessoDatatableComponent implements OnInit {
 

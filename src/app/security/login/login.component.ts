@@ -2,6 +2,9 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
+import { FormsModule } from '@angular/forms';
 
 declare let google: any;
 
@@ -9,7 +12,8 @@ declare let google: any;
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, FormsModule],
+    standalone: true
 })
 export class LoginComponent implements OnInit {
 
@@ -23,7 +27,7 @@ export class LoginComponent implements OnInit {
     AuthService.authAsObservable().subscribe(b => {
       if (b) this.router.navigate(['processo']);
     });
-    
+
     google.accounts.id.initialize({
       client_id: environment.GOOGLE_CLIENT_ID,
       callback: (v: any) => {
@@ -45,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.auth.logout();
   }
 
-  doLoginWithGoogle(data: any) {    
+  doLoginWithGoogle(data: any) {
     this.auth.loginWithGoogle(<string> data.credential);
   }
 

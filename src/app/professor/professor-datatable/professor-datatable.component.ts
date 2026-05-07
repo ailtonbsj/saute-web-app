@@ -2,17 +2,21 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { filter, switchMap } from 'rxjs';
 import { HelperService } from 'src/app/shared/helper.service';
 import { Professor } from '../professor.model';
 import { ProfessorService } from '../professor.service';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from 'src/app/material.module';
+import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
     selector: 'app-professor-datatable',
     templateUrl: './professor-datatable.component.html',
     styleUrls: ['./professor-datatable.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, NgxMaskPipe, RouterModule],
+    standalone: true
 })
 export class ProfessorDatatableComponent implements OnInit {
 

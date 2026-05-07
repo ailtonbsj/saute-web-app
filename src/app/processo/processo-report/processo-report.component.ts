@@ -1,5 +1,7 @@
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import html2pdf from 'html2pdf.js';
 import { EMPTY, map, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { Autorizacao } from 'src/app/autorizacao/autorizacao.model';
@@ -14,7 +16,8 @@ import { ProcessoService } from '../processo.service';
     selector: 'app-processo-report',
     templateUrl: './processo-report.component.html',
     styleUrls: ['./processo-report.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, RouterModule],
+    standalone: true
 })
 export class ProcessoReportComponent implements OnInit {
 

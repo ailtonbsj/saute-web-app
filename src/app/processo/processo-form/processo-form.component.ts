@@ -1,6 +1,9 @@
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EMPTY, filter, merge, Observable, Subject, switchMap, tap } from 'rxjs';
 import { Instituicao } from 'src/app/instituicao/instituicao.model';
 import { InstituicaoService } from 'src/app/instituicao/instituicao.service';
@@ -14,7 +17,8 @@ import { ProcessoService } from '../processo.service';
     selector: 'app-processo-form',
     templateUrl: './processo-form.component.html',
     styleUrls: ['./processo-form.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule, RouterModule],
+    standalone: true
 })
 export class ProcessoFormComponent implements OnInit {
 

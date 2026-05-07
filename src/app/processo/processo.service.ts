@@ -72,7 +72,7 @@ export class ProcessoService {
   }
 
   update(entity: Processo): Observable<number> {
-    if (this.api) {
+    if (this.apiEnabled) {
       return this.http.patch<number>(`${this.api}`, entity);
     } else {
       entity = this.transformToSave(entity);
@@ -81,7 +81,7 @@ export class ProcessoService {
   }
 
   destroy(id: number): Observable<void> {
-    if (this.api) {
+    if (this.apiEnabled) {
       return this.http.delete<void>(`${this.api}/${id}`);
     } else {
       const promise = db.autorizacao.toArray()
@@ -95,7 +95,7 @@ export class ProcessoService {
     }
   }
 
-  filter(query: string): Observable<Processo[]> {    
+  filter(query: string): Observable<Processo[]> {
     if (this.apiEnabled) {
       return this.http.get<Processo[]>(`${this.api}?q=${query}`);
     } else {

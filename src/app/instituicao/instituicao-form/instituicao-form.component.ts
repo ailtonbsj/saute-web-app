@@ -1,7 +1,10 @@
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EMPTY, merge, filter, Observable, Subject, switchMap, tap, of, map } from 'rxjs';
 import { NivelEscolar } from 'src/app/nivel-escolar/nivel-escolar.model';
 import { NivelEscolarService } from 'src/app/nivel-escolar/nivel-escolar.service';
@@ -17,7 +20,8 @@ import { InstituicaoService } from '../instituicao.service';
     selector: 'app-instituicao-form',
     templateUrl: './instituicao-form.component.html',
     styleUrls: ['./instituicao-form.component.css'],
-    standalone: false
+    imports: [CommonModule, MaterialModule, ReactiveFormsModule, RouterModule],
+    standalone: true
 })
 export class InstituicaoFormComponent implements OnInit {
 
